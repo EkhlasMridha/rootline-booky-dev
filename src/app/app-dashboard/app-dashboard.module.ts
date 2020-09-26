@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SharedMaterialModule } from '../shared-modules/shared-materials/shared-material/shared-material.module';
 import { ConfirmationStatusModalModule } from '../shared-modules/confirmation-status-modal/confirmation-status-modal.module';
 import { HttpClientModule } from '@angular/common/http';
+import { AppCalenderModule } from '../app-calender/app-calender.module';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
     ConfirmationStatusModalModule.forChild({
       modalWidth: '500px',
     }),
+    AppCalenderModule,
     RouterModule.forChild(routes),
   ],
 })

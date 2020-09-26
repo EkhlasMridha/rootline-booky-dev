@@ -10,9 +10,12 @@ import { formatDate } from '@angular/common';
 export class HomeComponent implements OnInit {
   modalRef: any;
   currentDate: any = new Date();
+  month: any = 7;
+  year = 2020;
+  date = 1;
   constructor(private iconService: IconService) {
-    let date = formatDate(new Date(), 'dd-MM-yyyy', 'en');
-    console.log(date);
+    // let date = formatDate(new Date(), 'dd-MM-yyyy', 'en');
+    // console.log(date);
   }
 
   ngOnInit(): void {}

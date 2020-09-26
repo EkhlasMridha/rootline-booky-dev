@@ -1,0 +1,16 @@
+<div class="calendar-body">
+  <div class="calendar-row"></div>
+  <div class="calendar-container" fxLayout="row">
+    <div
+      class="calendar-header-cell"
+      *ngFor="let name of weekDayName; let i = index"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+    >
+      <span class="week selected"> {{ name }}</span>
+      <span class="selected-date" *ngIf="substituteDate[i]">{{
+        substituteDate[i].Day
+      }}</span>
+    </div>
+  </div>
+</div>
