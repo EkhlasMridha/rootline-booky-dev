@@ -1,0 +1,38 @@
+<div class="page-theme primary-background" fxLayoutAlign="center center">
+  <div
+    class="sigin-card"
+    fxLayoutAlign="space-between center"
+    fxLayout="column"
+  >
+    <div
+      color="accent"
+      class="sigin-header full-width"
+      fxLayoutAlign="center center"
+    >
+      <span>Booky</span>
+    </div>
+    <div class="signin-body full-width" fxLayout="column">
+      <span class="signin-title">Login</span>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayout="column">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="userName" placeholder="username" />
+          <mat-error>{{ errorObserver$.userName | async }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            placeholder="username"
+            type="password"
+          />
+          <mat-error>{{ errorObserver$.password | async }}</mat-error>
+        </mat-form-field>
+        <div fxLayoutAlign="center center" class="sign-button">
+          <button mat-raised-button color="accent" type="submit">LOGIN</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

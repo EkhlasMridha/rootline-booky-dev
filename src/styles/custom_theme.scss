@@ -1,0 +1,16 @@
+@import "~@angular/material/theming";
+@import "theme_pallets.scss";
+
+@include mat-core();
+
+$mat-theme-primary: mat-palette($mat-arc-primary, 400);
+$mat-theme-accent: mat-palette($mat-arc-accent);
+$mat-theme-warn: mat-palette($mat-arc-warn);
+
+$custom-theme: mat-light-theme(
+  $mat-theme-primary,
+  $mat-theme-accent,
+  $mat-theme-warn
+);
+
+@include angular-material-theme($custom-theme);

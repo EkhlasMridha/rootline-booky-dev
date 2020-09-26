@@ -1,0 +1,48 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./color_variables.scss";
+
+// $accent: mat-palette($mat-arc-accent);
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
+
+.primary-background {
+  background-color: $primary-default;
+}
+
+.primary-color {
+  color: $primary-default;
+}
+
+.secondary-background {
+  // background-color: $secondary-default !important;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.white-button-outline {
+  color: white !important;
+  border-color: white !important;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.page-container {
+  padding: 30px;
+}

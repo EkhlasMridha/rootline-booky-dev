@@ -1,0 +1,29 @@
+@import "../../../../styles/color_variables.scss";
+
+.pages {
+  width: 100%;
+  position: relative;
+  .back-img {
+    background-color: black;
+    display: flex;
+    img {
+      width: 100%;
+      opacity: 0.3;
+      height: 85vh;
+    }
+  }
+
+  .greet-container {
+    position: absolute;
+    top: 200px;
+
+    .greet-info {
+      background-color: #fec807;
+      max-width: 50%;
+      .greet-texts {
+        color: white;
+        padding: 20px;
+      }
+    }
+  }
+}
