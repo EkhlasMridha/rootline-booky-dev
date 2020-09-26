@@ -7,10 +7,20 @@
       fxLayout="column"
       fxLayoutAlign="center center"
     >
-      <span class="week selected"> {{ name }}</span>
-      <span class="selected-date" *ngIf="substituteDate[i]">{{
-        substituteDate[i].Day
-      }}</span>
+      <span
+        class="week"
+        [ngClass]="{
+          selected: substituteDate[i] && isCurrentDate(substituteDate[i].Day)
+        }"
+      >
+        {{ name }}</span
+      >
+      <span
+        class="date"
+        [ngClass]="{ 'selected-date': isCurrentDate(substituteDate[i].Day) }"
+        *ngIf="substituteDate[i]"
+        >{{ substituteDate[i].Day }}</span
+      >
     </div>
   </div>
 </div>

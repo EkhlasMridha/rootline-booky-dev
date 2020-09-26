@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DayModel } from '../../models/day.model';
-import { Dictionary } from '../../models/dictionary.date';
 import { CalendarService } from '../../services/calendar.service';
 
 @Component({
@@ -35,6 +34,19 @@ export class CalendarComponent implements OnInit {
     this.currentWeekData = this.getCurrentWeek(this.date);
     console.log(this.currentWeekData);
     this.mapWeekDayToName(this.currentWeekData);
+  }
+
+  isCurrentDate(substituteDate: any) {
+    let pageDate = new Date(
+      this.currentYear,
+      this.currentMonth,
+      substituteDate
+    );
+    console.log(new Date());
+    if (pageDate.toLocaleDateString() == new Date().toLocaleDateString()) {
+      return true;
+    }
+    return false;
   }
 
   getCurrentWeek(curentDay: any) {
