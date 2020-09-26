@@ -11,7 +11,7 @@ export class UserManagerService {
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
   signout() {
-    return this.http.delete('user/logout').pipe(
+    return this.http.delete('identity/signout').pipe(
       retry(2),
       catchError((err) => {
         return throwError(err);

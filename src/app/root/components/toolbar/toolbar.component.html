@@ -1,6 +1,6 @@
-<mat-toolbar #matToolbar color="primary" fxLayout="row">
+<mat-toolbar #matToolbar fxLayout="row">
   <mat-toolbar-row>
-    <span>Root Line</span>
+    <span>{{ appName }}</span>
     <div class="spacer"></div>
     <div class="nav-items">
       <div
@@ -10,7 +10,6 @@
         fxLayoutAlign="center center"
         (click)="signoutUser()"
       >
-        <span>Signout</span>
         <mat-icon svgIcon="signout" class="color-icon"></mat-icon>
       </div>
     </div>

@@ -4,10 +4,11 @@
 
 export const environment = {
   production: false,
-  AppName: 'Root-Line',
+  AppName: 'Booky',
 
-  apiHost: 'http://localhost:14174/v1/',
+  apiHost: 'http://localhost:32945/v1/',
   RefreshError: 'REFRESH_EXPIRE',
+  Origin: 'http://localhost:4200',
 };
 
 /*

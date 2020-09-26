@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
 import { IconService } from 'src/app/shared-services/utilities/icon.service';
-import { TesService } from '../../services/tes.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +9,10 @@ import { TesService } from '../../services/tes.service';
 })
 export class HomeComponent implements OnInit {
   modalRef: any;
-  constructor(
-    private iconService: IconService,
-    private testService: TesService
-  ) {
-    this.iconService.loadIcons(['like']);
+  currentDate: any = new Date();
+  constructor(private iconService: IconService) {
+    let date = formatDate(new Date(), 'dd-MM-yyyy', 'en');
+    console.log(date);
   }
 
   ngOnInit(): void {}
