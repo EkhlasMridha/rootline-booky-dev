@@ -1,0 +1,14 @@
+.rooms {
+  width: 100%;
+  border-top: 1px solid #dddddd;
+  min-height: 65px;
+  display: table;
+  .romm-cell {
+    display: table-column;
+    width: 100%;
+  }
+
+  .romm-cell:not(:last-of-type) {
+    border-right: 1px solid #dddddd;
+  }
+}

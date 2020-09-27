@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { DayModel } from '../../models/day.model';
 import { CalendarService } from '../../services/calendar.service';
