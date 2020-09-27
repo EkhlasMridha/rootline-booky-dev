@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { DayModel } from '../../models/day.model';
 import { CalendarService } from '../../services/calendar.service';
 
@@ -13,27 +14,93 @@ export class CalendarComponent implements OnInit {
   @Input() date: any;
 
   days: any;
+  NULL = null;
   weekNumber: number;
   weekDayName: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   substituteDate: any[] = [null, null, null, null, null, null, null];
   currentDate: any = new Date().getDate();
   data: any;
 
-  currentWeekData: any;
+  currentWeekData: DayModel[];
+  currenWeekNumber: any;
+  totalWeeeks: number;
 
-  constructor(private calendarService: CalendarService) {}
+  constructor(
+    private calendarService: CalendarService,
+    private caledarControl: CalendarControlService
+  ) {}
 
   ngOnInit(): void {
-    console.log(this.currentMonth);
-    this.data = this.calendarService.generateWeeks(
-      this.currentMonth,
-      this.currentYear
+    this.generateCustomCalendar(this.date, this.currentMonth, this.currentYear);
+    console.log(this.currenWeekNumber);
+    this.previousWeek();
+    this.nextWeek();
+    this.today();
+  }
+
+  generateCustomCalendar(date: number, month: number, year: number) {
+    this.data = this.generateCalender(month, year);
+    this.currentWeekData = this.generateDisplayWeek(date);
+    this.currenWeekNumber = this.currentWeekData[0].weekNumber;
+    this.totalWeeeks = this.data.TotalWeeks;
+  }
+
+  previousWeek() {
+    this.caledarControl.previousObserver.subscribe((res) => {
+      this.goToPreviousWeek();
+    });
+  }
+
+  nextWeek() {
+    this.caledarControl.nextObserver.subscribe((res) => {
+      this.goToNextWeek();
+    });
+  }
+
+  today() {
+    this.caledarControl.todayObserver.subscribe((res) => {
+      this.gotToCurrentDate();
+    });
+  }
+
+  gotToCurrentDate() {
+    this.generateCustomCalendar(
+      new Date().getDate(),
+      new Date().getMonth(),
+      new Date().getFullYear()
     );
-    console.log(this.currentDate);
-    console.log(this.data);
-    this.currentWeekData = this.getCurrentWeek(this.date);
-    console.log(this.currentWeekData);
-    this.mapWeekDayToName(this.currentWeekData);
+  }
+
+  goToPreviousWeek() {
+    if (this.currenWeekNumber > 1) {
+      this.currenWeekNumber = this.currenWeekNumber - 1;
+      this.changeWeek(this.currenWeekNumber);
+    }
+  }
+
+  goToNextWeek() {
+    if (this.currenWeekNumber < this.totalWeeeks) {
+      this.currenWeekNumber += 1;
+      this.changeWeek(this.currenWeekNumber);
+    }
+  }
+
+  changeWeek(weekNumber: number) {
+    let weekData = this.getTotalWeekDataBy(weekNumber);
+    this.substituteDate = this.getNullArray(this.substituteDate.length);
+    this.substituteDate = this.mapWeekDayToName(weekData);
+  }
+
+  generateCalender(month: number, year: number) {
+    let data = this.calendarService.generateWeeks(month, year);
+    console.log(data);
+    return data;
+  }
+
+  generateDisplayWeek(date: number) {
+    let weekData = this.getCurrentWeek(date);
+    this.mapWeekDayToName(weekData);
+    return weekData;
   }
 
   isCurrentDate(substituteDate: any) {
@@ -42,7 +109,6 @@ export class CalendarComponent implements OnInit {
       this.currentMonth,
       substituteDate
     );
-    console.log(new Date());
     if (pageDate.toLocaleDateString() == new Date().toLocaleDateString()) {
       return true;
     }
@@ -51,7 +117,7 @@ export class CalendarComponent implements OnInit {
 
   getCurrentWeek(curentDay: any) {
     let dayMap: DayModel[] = this.data.DayMap;
-    console.log(dayMap);
+
     let item = dayMap.find((item) => {
       if (
         item.Day == curentDay &&
@@ -79,7 +145,15 @@ export class CalendarComponent implements OnInit {
       this.substituteDate[item.WeekDay] = item;
       return this.substituteDate;
     });
-    console.log(date[0]);
+
     return date[0];
+  }
+
+  getNullArray(length: number) {
+    let array: any[] = [];
+    for (let i = 0; i < length; ++i) {
+      array.push(null);
+    }
+    return array;
   }
 }

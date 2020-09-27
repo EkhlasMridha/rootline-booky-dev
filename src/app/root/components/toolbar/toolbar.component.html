@@ -9,12 +9,12 @@
       fxLayout="row"
       fxLayoutAlign="center center"
     >
-      <button mat-raised-button>Today</button>
+      <button mat-raised-button (click)="todayCalendar()">Today</button>
       <div fxLayoutAlign="center center">
-        <button mat-icon-button>
+        <button mat-icon-button (click)="previous()">
           <mat-icon>chevron_left</mat-icon>
         </button>
-        <button mat-icon-button>
+        <button mat-icon-button (click)="nextWeek()">
           <mat-icon>chevron_right</mat-icon>
         </button>
       </div>

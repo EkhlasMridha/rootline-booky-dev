@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IconService } from 'src/app/shared-services/utilities/icon.service';
 import { formatDate } from '@angular/common';
+import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +11,13 @@ import { formatDate } from '@angular/common';
 export class HomeComponent implements OnInit {
   modalRef: any;
   currentDate: any = new Date();
-  month: any = 8;
+  month: any = new Date().getMonth();
   year = new Date().getFullYear();
-  date = 25;
-  constructor(private iconService: IconService) {}
+  date = new Date().getDate();
+  constructor(
+    private iconService: IconService,
+    private calendar: CalendarControlService
+  ) {}
 
   ngOnInit(): void {}
 }
