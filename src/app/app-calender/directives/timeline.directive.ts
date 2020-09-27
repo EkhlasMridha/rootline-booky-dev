@@ -1,4 +1,10 @@
-import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  Renderer2,
+} from '@angular/core';
 
 @Directive({
   selector: '[appTimeline]',
@@ -11,6 +17,10 @@ export class TimelineDirective {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
 
+    this.updateTimeline();
+  }
+
+  updateTimeline() {
     if (this.end && this.start) {
       console.log(this.end);
       console.log(this.start);
@@ -19,5 +29,10 @@ export class TimelineDirective {
       this.renderer.setStyle(dom, 'width', this.end + 'px');
       console.log(this.elm.nativeElement);
     }
+  }
+
+  @HostListener('window:resize', ['event$'])
+  onResize(event) {
+    this.updateTimeline();
   }
 }

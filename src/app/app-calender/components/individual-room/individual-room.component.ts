@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, Renderer2 } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import { DayModel } from '../../models/day.model';
 
 @Component({
@@ -18,6 +24,10 @@ export class IndividualRoomComponent implements OnInit {
 
   ngOnInit(): void {}
   ngAfterContentInit(): void {
+    this.updateTimeline();
+  }
+
+  updateTimeline() {
     if (this.hotelRoom == 15) {
       let elm = this.getView(24, this.from);
       let corX = elm.offsetLeft;
@@ -25,7 +35,15 @@ export class IndividualRoomComponent implements OnInit {
       let start = corX + width;
       this.start = start;
       this.end = start + width;
+      console.log(this.start + '  ' + this.end);
     }
+  }
+
+  @HostListener('window:resize', ['event$'])
+  onResize(event) {
+    console.log('resize event');
+    console.log(event);
+    this.updateTimeline();
   }
 
   getView(room: number, date: number) {
