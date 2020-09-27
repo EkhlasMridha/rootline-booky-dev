@@ -1,0 +1,31 @@
+.room-decorator {
+  position: relative;
+  .room-label {
+    position: absolute;
+    left: -5rem;
+    top: 35%;
+  }
+}
+
+.rooms {
+  width: 100%;
+  border-top: 1px solid #dddddd;
+  min-height: 35px;
+  display: table;
+  .room-cell {
+    display: table-column;
+    width: 100%;
+  }
+
+  .room-cell:not(:last-of-type) {
+    border-right: 1px solid #dddddd;
+  }
+}
+
+.timeline {
+  position: absolute;
+  height: 100%;
+  background-color: green;
+  left: 10px;
+  width: 100px;
+}

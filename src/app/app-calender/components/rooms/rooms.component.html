@@ -1,9 +1,8 @@
 <div fxLayout="column">
-  <div class="rooms room-decorator" fxLayout="row">
-    <span class="room-label">room 24</span>
-    <div
-      class="romm-cell"
-      *ngFor="let name of weekDayName; let i = index"
-    ></div>
-  </div>
+  <individual-room
+    *ngFor="let room of guestRooms"
+    [hotelRoom]="room"
+    [calendarDates]="substituteDate"
+  >
+  </individual-room>
 </div>

@@ -1,0 +1,15 @@
+<div
+  class="rooms room-decorator"
+  fxLayout="row"
+  *ngIf="hotelRoom"
+  id="{{ hotelRoom.toString() }}"
+>
+  <span class="room-label">Room {{ hotelRoom }}</span>
+  <div class="timeline"></div>
+
+  <div
+    class="room-cell"
+    *ngFor="let date of calendarDates; let i = index"
+    id="{{ date ? date.Day.toString() : 'null' }}"
+  ></div>
+</div>
