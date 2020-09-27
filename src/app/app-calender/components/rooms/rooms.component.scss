@@ -12,3 +12,12 @@
     border-right: 1px solid #dddddd;
   }
 }
+
+.room-decorator {
+  position: relative;
+  .room-label {
+    position: absolute;
+    left: -5rem;
+    top: 35%;
+  }
+}

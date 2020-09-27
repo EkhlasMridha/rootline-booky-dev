@@ -64,6 +64,7 @@ export class CalendarComponent implements OnInit {
   }
 
   gotToCurrentDate() {
+    this.substituteDate = this.getNullArray(this.substituteDate.length);
     this.generateCustomCalendar(
       new Date().getDate(),
       new Date().getMonth(),
