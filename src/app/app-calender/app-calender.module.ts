@@ -7,7 +7,12 @@ import { IndividualRoomComponent } from './components/individual-room/individual
 import { TimelineDirective } from './directives/timeline.directive';
 
 @NgModule({
-  declarations: [CalendarComponent, RoomsComponent, IndividualRoomComponent, TimelineDirective],
+  declarations: [
+    CalendarComponent,
+    RoomsComponent,
+    IndividualRoomComponent,
+    TimelineDirective,
+  ],
   imports: [CommonModule, SharedMaterialModule],
   exports: [CalendarComponent],
 })

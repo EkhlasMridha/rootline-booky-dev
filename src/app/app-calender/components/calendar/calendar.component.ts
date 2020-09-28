@@ -36,6 +36,7 @@ export class CalendarComponent implements OnInit {
     this.previousWeek();
     this.nextWeek();
     this.today();
+    this.updateCalendar();
   }
 
   generateCustomCalendar(date: number, month: number, year: number) {
@@ -43,6 +44,20 @@ export class CalendarComponent implements OnInit {
     this.currentWeekData = this.generateDisplayWeek(date);
     this.currenWeekNumber = this.currentWeekData[0].weekNumber;
     this.totalWeeeks = this.data.TotalWeeks;
+  }
+
+  updateCalendar() {
+    this.caledarControl.updateDateObserver$.subscribe((res) => {
+      let dateValue = new Date(res);
+      this.currentMonth = dateValue.getMonth();
+      this.currentYear = dateValue.getFullYear();
+      this.substituteDate = this.getNullArray(this.substituteDate.length);
+      this.generateCustomCalendar(
+        dateValue.getDate(),
+        dateValue.getMonth(),
+        dateValue.getFullYear()
+      );
+    });
   }
 
   previousWeek() {
@@ -64,6 +79,8 @@ export class CalendarComponent implements OnInit {
   }
 
   gotToCurrentDate() {
+    this.currentYear = new Date().getFullYear();
+    this.currentMonth = new Date().getMonth();
     this.substituteDate = this.getNullArray(this.substituteDate.length);
     this.generateCustomCalendar(
       new Date().getDate(),

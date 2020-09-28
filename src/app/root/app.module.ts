@@ -19,6 +19,13 @@ import { interceptorProvider } from '../shared-services/interceptors/interceptor
 import { ApiInterceptorService } from '../shared-services/interceptors/api-interceptor.service';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { CalendarPopupModule } from '../shared-modules/calendar-popup/calendar-popup.module';
 
 export function initializer(domainService: DomainService) {
   return () => {
@@ -50,6 +57,9 @@ export function initializer(domainService: DomainService) {
     MatButtonModule,
     AppLoaderModule,
     MatIconModule,
+    OverlayModule,
+    MatNativeDateModule,
+    CalendarPopupModule,
   ],
   providers: [
     JwtHelperService,

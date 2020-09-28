@@ -6,6 +6,8 @@ import {
   Renderer2,
 } from '@angular/core';
 import { DayModel } from '../../models/day.model';
+import { RoomModel } from '../../models/room.model';
+import { TimelineService } from '../../services/timeline.service';
 
 @Component({
   selector: 'individual-room',
@@ -13,47 +15,40 @@ import { DayModel } from '../../models/day.model';
   styleUrls: ['./individual-room.component.scss'],
 })
 export class IndividualRoomComponent implements OnInit {
-  @Input() hotelRoom: any;
+  @Input() hotelRoom: RoomModel;
   @Input() calendarDates: DayModel[];
   weekDayName: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-  from = 28;
-  to = 30;
   start: number;
   end: number;
-  constructor() {}
+  constructor(private timlineService: TimelineService) {}
 
-  ngOnInit(): void {}
-  ngAfterContentInit(): void {
+  ngOnInit(): void {
+    console.log(this.hotelRoom.bookedRooms);
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
     this.updateTimeline();
   }
 
   updateTimeline() {
-    if (this.hotelRoom == 15) {
-      let elm = this.getView(24, this.from);
-      let corX = elm.offsetLeft;
-      let width = elm.offsetWidth / 2;
-      let start = corX + width;
-      this.start = start;
-      this.end = start + width;
-      console.log(this.start + '  ' + this.end);
-    }
+    // if (this.hotelRoom == 15) {
+    //   let elm = this.getView(24, this.from);
+    //   let corX = elm.offsetLeft;
+    //   let width = elm.offsetWidth / 2;
+    //   let start = corX + width;
+    //   this.start = start;
+    //   this.end = start + width;
+    //   console.log(this.start + '  ' + this.end);
+    // }
+    console.log(this.hotelRoom.id);
+    console.log(this.timlineService.getRoomCell(this.hotelRoom.id, 29));
   }
 
   @HostListener('window:resize', ['event$'])
   onResize(event) {
-    console.log('resize event');
-    console.log(event);
     this.updateTimeline();
-  }
-
-  getView(room: number, date: number) {
-    let view = document.getElementById(room.toString() + '-' + date.toString());
-    return view;
-  }
-
-  getTimeline(id: number) {
-    let view = document.getElementById('timeline' + '-' + id.toString());
-    return view;
   }
 
   test() {

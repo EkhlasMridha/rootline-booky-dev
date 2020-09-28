@@ -6,6 +6,9 @@ import { SharedMaterialModule } from '../shared-modules/shared-materials/shared-
 import { ConfirmationStatusModalModule } from '../shared-modules/confirmation-status-modal/confirmation-status-modal.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AppCalenderModule } from '../app-calender/app-calender.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CalendarPopupModule } from '../shared-modules/calendar-popup/calendar-popup.module';
+import { MatNativeDateModule, NativeDateModule } from '@angular/material/core';
 
 const routes: Routes = [
   {
