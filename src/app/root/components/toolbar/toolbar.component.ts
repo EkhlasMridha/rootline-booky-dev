@@ -20,6 +20,22 @@ import { IconService } from 'src/app/shared-services/utilities/icon.service';
 export class ToolbarComponent implements OnInit {
   appName: string;
   startDate = new Date(1990, 0, 1);
+  currentDateValue: string;
+  popUpRef: OverlayRef;
+  monthNames: string[] = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
   constructor(
     private userManagerService: UserManagerService,
     private router: Router,
@@ -35,7 +51,10 @@ export class ToolbarComponent implements OnInit {
   @ViewChild(CdkConnectedOverlay, { static: true })
   cdkOverlay: CdkConnectedOverlay;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.currentDateValue = this.generateCurrentDate(new Date());
+    this.observeCalendarDateChange();
+  }
 
   ngAfterViewInit(): void {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
@@ -60,17 +79,33 @@ export class ToolbarComponent implements OnInit {
     });
   }
 
+  observeCalendarDateChange() {
+    this.calendarControl.updateDateObserver$.subscribe((res) => {
+      let dateValue = new Date(res);
+      this.currentDateValue = this.generateCurrentDate(dateValue);
+      this.popUpRef.dispose();
+    });
+  }
+
+  generateCurrentDate(date: Date) {
+    let month = date.getMonth();
+    let currentMonth = this.monthNames[month];
+    let currentYear = date.getFullYear().toString();
+    let finalValue = currentMonth + ' ' + currentYear;
+    return finalValue;
+  }
+
   openDatePicker(elm) {
     console.log(elm);
     let ref = elm._elementRef;
-    let popUpRef: OverlayRef = this.datePickerService.open({
+    this.popUpRef = this.datePickerService.open({
       elementRef: ref,
       viewContainerRef: this._viewContainer,
       panelClass: 'date-picker',
     });
 
-    let subscription = popUpRef.backdropClick().subscribe((res) => {
-      popUpRef.dispose();
+    let subscription = this.popUpRef.backdropClick().subscribe((res) => {
+      this.popUpRef.dispose();
       subscription.unsubscribe();
     });
   }
