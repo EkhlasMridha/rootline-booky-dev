@@ -27,11 +27,9 @@ export class CustomTimelineComponent
   constructor(
     private elementRef: ElementRef,
     private rendere: Renderer2,
-    private ch: ChangeDetectorRef,
-    private ngZone: NgZone,
     @Inject(DOCUMENT) doc
   ) {
-    super(elementRef, rendere, doc, ch);
+    super(elementRef, rendere, doc);
   }
 
   ngOnInit(): void {}

@@ -24,8 +24,7 @@ export class TimelineDirective implements OnChanges {
   constructor(
     private elm: ElementRef,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) doc,
-    private chd: ChangeDetectorRef
+    @Inject(DOCUMENT) doc
   ) {
     this.document = doc;
   }
@@ -67,7 +66,6 @@ export class TimelineDirective implements OnChanges {
     let endWidth = Math.abs(endX - startX);
     this.renderer.setStyle(dom, 'left', startX + 'px');
     this.renderer.setStyle(dom, 'width', endWidth + 'px');
-    console.log(this.elm.nativeElement);
   }
 
   getCellId(date: number): string {

@@ -1,8 +1,5 @@
-import { IfStmt } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { debug } from 'console';
 import { BookedModel } from '../models/booked.model';
-import { BookingModel } from '../models/booking.model';
 import { DayModel } from '../models/day.model';
 import { RoomModel } from '../models/room.model';
 import { TimelineModel } from '../models/timeline.model';
@@ -84,7 +81,6 @@ export class TimelineService {
       } else if (fromDate.getTime() < firstDay && toDate.getTime() > firstDay) {
         currentBookings.push(item);
       }
-      console.log(toDate);
     });
 
     return currentBookings;

@@ -8,7 +8,6 @@ export const environment = {
 
   apiHost: 'http://localhost:32945/v1/',
   RefreshError: 'REFRESH_EXPIRE',
-  Origin: 'http://localhost:4200',
 };
 
 /*

@@ -17,10 +17,7 @@ export class HomeComponent implements OnInit {
 
   selectedDate: any;
 
-  constructor(
-    private iconService: IconService,
-    private calendar: CalendarControlService
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
