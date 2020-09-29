@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { DayModel } from '../../models/day.model';
 import { CalendarService } from '../../services/calendar.service';
@@ -28,7 +28,7 @@ export class CalendarComponent implements OnInit {
   constructor(
     private calendarService: CalendarService,
     private caledarControl: CalendarControlService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.generateCustomCalendar(this.date, this.currentMonth, this.currentYear);
@@ -82,6 +82,7 @@ export class CalendarComponent implements OnInit {
     this.currentYear = new Date().getFullYear();
     this.currentMonth = new Date().getMonth();
     this.substituteDate = this.getNullArray(this.substituteDate.length);
+    this.caledarControl.updateToolbardate(new Date());
     this.generateCustomCalendar(
       new Date().getDate(),
       new Date().getMonth(),

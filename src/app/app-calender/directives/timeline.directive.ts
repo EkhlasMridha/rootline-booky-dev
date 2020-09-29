@@ -21,14 +21,14 @@ export class TimelineDirective {
   }
 
   updateTimeline() {
-    if (this.end && this.start) {
-      console.log(this.end);
-      console.log(this.start);
-      let dom = this.elm.nativeElement;
-      this.renderer.setStyle(dom, 'left', this.start + 'px');
-      this.renderer.setStyle(dom, 'width', this.end + 'px');
-      console.log(this.elm.nativeElement);
-    }
+    // if (this.end && this.start) {
+    //   console.log(this.end);
+    //   console.log(this.start);
+    //   let dom = this.elm.nativeElement;
+    //   this.renderer.setStyle(dom, 'left', this.start + 'px');
+    //   this.renderer.setStyle(dom, 'width', this.end + 'px');
+    //   console.log(this.elm.nativeElement);
+    // }
   }
 
   @HostListener('window:resize', ['event$'])

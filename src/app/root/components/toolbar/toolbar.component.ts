@@ -48,17 +48,16 @@ export class ToolbarComponent implements OnInit {
     this.appName = DomainService.domains.AppName;
   }
 
-  @ViewChild(CdkConnectedOverlay, { static: true })
-  cdkOverlay: CdkConnectedOverlay;
-
   ngOnInit(): void {
     this.currentDateValue = this.generateCurrentDate(new Date());
+    this.updateObservertoolbar();
     this.observeCalendarDateChange();
   }
 
-  ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+  updateObservertoolbar() {
+    this.calendarControl.toolbarDateObserver$.subscribe(res => {
+      this.currentDateValue = this.generateCurrentDate(res);
+    })
   }
 
   nextWeek() {
@@ -82,7 +81,7 @@ export class ToolbarComponent implements OnInit {
   observeCalendarDateChange() {
     this.calendarControl.updateDateObserver$.subscribe((res) => {
       let dateValue = new Date(res);
-      this.currentDateValue = this.generateCurrentDate(dateValue);
+      this.calendarControl.updateToolbardate(dateValue);
       this.popUpRef.dispose();
     });
   }
