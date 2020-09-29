@@ -1,17 +1,14 @@
-import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   Input,
-  NgZone,
   OnInit,
-  Renderer2,
-  SimpleChanges,
+  ViewContainerRef,
 } from '@angular/core';
-import { TimelineDirective } from '../../directives/timeline.directive';
+import { element } from 'protractor';
+import { DescriptionService } from 'src/app/app-description/services/DescriptionService';
+
 import { TimelineModel } from '../../models/timeline.model';
 
 @Component({
@@ -20,21 +17,23 @@ import { TimelineModel } from '../../models/timeline.model';
   styleUrls: ['./custom-timeline.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomTimelineComponent
-  extends TimelineDirective
-  implements OnInit {
+export class CustomTimelineComponent implements OnInit {
   @Input() timelines: TimelineModel[];
   constructor(
-    private elementRef: ElementRef,
-    private rendere: Renderer2,
-    @Inject(DOCUMENT) doc
-  ) {
-    super(elementRef, rendere, doc);
-  }
+    private descriptionService: DescriptionService,
+    private viewContainer: ViewContainerRef
+  ) {}
 
   ngOnInit(): void {}
 
-  openDescription(data){
-    console.log(data);
+  openDescription(line, elm) {
+    console.log(elm);
+    let eleRef: ElementRef = elm.elementRef;
+
+    this.descriptionService.open({
+      elementRef: eleRef,
+      viewContainerRef: this.viewContainer,
+      positionX: 50,
+    });
   }
 }

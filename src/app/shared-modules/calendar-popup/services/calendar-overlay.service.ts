@@ -53,7 +53,7 @@ export class CalendarOverlayService {
     },
   ];
 
-  constructor(private overlay: Overlay) {}
+  constructor(public overlay?: Overlay) {}
 
   open(config: FilePreviewDialogConfig = {}) {
     const dialogConfig = { ...DEFAULT_CONFIG, ...config };
@@ -73,7 +73,7 @@ export class CalendarOverlayService {
     return dialogRef;
   }
 
-  private createOverlay(config: FilePreviewDialogConfig) {
+  public createOverlay(config: FilePreviewDialogConfig) {
     // Returns an OverlayConfig
     const overlayConfig = this.getOverlayConfig(config);
 
@@ -81,7 +81,7 @@ export class CalendarOverlayService {
     return this.overlay.create(overlayConfig);
   }
 
-  private getOverlayConfig(config: FilePreviewDialogConfig): OverlayConfig {
+  public getOverlayConfig(config: FilePreviewDialogConfig): OverlayConfig {
     const positionStrategy = this.overlay
       .position()
       .flexibleConnectedTo(config.elementRef)

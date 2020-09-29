@@ -23,9 +23,9 @@ export class TimelineDirective implements OnChanges {
 
   document: Document;
   constructor(
-    private elm: ElementRef,
-    private renderer: Renderer2,
-    @Inject(DOCUMENT) doc
+    private elm?: ElementRef,
+    private renderer?: Renderer2,
+    @Inject(DOCUMENT) doc?
   ) {
     this.document = doc;
   }
