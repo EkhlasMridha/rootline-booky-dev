@@ -4,7 +4,9 @@ import {
   Input,
   OnInit,
   Renderer2,
+  SimpleChanges,
 } from '@angular/core';
+import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { DayModel } from '../../models/day.model';
 import { RoomModel } from '../../models/room.model';
 import { TimelineService } from '../../services/timeline.service';
@@ -20,14 +22,19 @@ export class IndividualRoomComponent implements OnInit {
   weekDayName: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   start: number;
   end: number;
-  constructor(private timlineService: TimelineService) {}
+  constructor(
+    private timlineService: TimelineService,
+    private calendarControl: CalendarControlService
+  ) {}
 
   ngOnInit(): void {
-    console.log(this.hotelRoom);
+    this.updateTimeline();
   }
 
-  ngAfterViewInit(): void {
-    this.updateTimeline();
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    this.timlineService.getTimelineStartEnd(this.hotelRoom, this.calendarDates);
   }
 
   updateTimeline() {

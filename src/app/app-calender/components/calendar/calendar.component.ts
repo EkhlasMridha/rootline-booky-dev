@@ -28,7 +28,7 @@ export class CalendarComponent implements OnInit {
   constructor(
     private calendarService: CalendarService,
     private caledarControl: CalendarControlService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.generateCustomCalendar(this.date, this.currentMonth, this.currentYear);

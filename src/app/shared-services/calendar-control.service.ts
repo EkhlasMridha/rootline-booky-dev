@@ -10,13 +10,15 @@ export class CalendarControlService {
   private todayPage: Subject<any> = new Subject<any>();
   private updateCalenderDate: Subject<any> = new Subject<any>();
   private toolbarDate: Subject<any> = new Subject<any>();
+  private dateChange: Subject<any> = new Subject<any>();
 
   previousObserver = this.previousPage.asObservable();
   nextObserver = this.nextPage.asObservable();
   todayObserver = this.todayPage.asObservable();
   updateDateObserver$ = this.updateCalenderDate.asObservable();
   toolbarDateObserver$ = this.toolbarDate.asObservable();
-  constructor() { }
+  dateChangeObserver$ = this.dateChange.asObservable();
+  constructor() {}
 
   previousWeek() {
     this.previousPage.next();
@@ -36,5 +38,9 @@ export class CalendarControlService {
 
   updateToolbardate(date: any) {
     this.toolbarDate.next(date);
+  }
+
+  changeDate() {
+    this.dateChange.next();
   }
 }
