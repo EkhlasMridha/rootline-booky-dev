@@ -1,0 +1,10 @@
+<ng-container *ngFor="let line of timelines">
+  <div
+    appTimeline
+    [timeline]="line"
+    id="timeline{{
+      line.booked.roomId.toString() + '-' + line.booked.bookingId.toString()
+    }}"
+    class="timeline"
+  ></div>
+</ng-container>

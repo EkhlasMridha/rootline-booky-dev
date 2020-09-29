@@ -12,19 +12,13 @@
   border-top: 1px solid #dddddd;
   min-height: 35px;
   display: table;
-  .room-cell {
-    display: table-column;
-    width: 100%;
-  }
-
-  .room-cell:not(:last-of-type) {
-    border-right: 1px solid #dddddd;
-  }
 }
 
-.timeline {
-  position: absolute;
-  height: 100%;
-  background-color: green;
-  cursor: pointer;
+.room-cell {
+  display: table-column;
+  width: 100%;
+
+  &:not(:last-of-type) {
+    border-right: 1px solid #dddddd;
+  }
 }

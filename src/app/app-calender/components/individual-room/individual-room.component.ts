@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -20,29 +21,24 @@ import { TimelineService } from '../../services/timeline.service';
   selector: 'individual-room',
   templateUrl: './individual-room.component.html',
   styleUrls: ['./individual-room.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IndividualRoomComponent implements OnInit, OnChanges {
   @Input() hotelRoom: RoomModel;
   @Input() calendarDates: DayModel[];
   weekDayName: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-  doc: Document;
 
   timelines: TimelineModel[];
 
-  constructor(
-    private timlineService: TimelineService,
-    @Inject(DOCUMENT) document
-  ) {
-    this.doc = document;
-  }
+  constructor(private timlineService: TimelineService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    this.timelines = this.timlineService.getTimelineStartEnd(
+    let timeline = this.timlineService.getTimelineStartEnd(
       this.hotelRoom,
       this.calendarDates
     );
+
+    this.timelines = Array.from(timeline);
   }
 
   ngOnInit(): void {

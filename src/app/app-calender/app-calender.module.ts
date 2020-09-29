@@ -5,6 +5,7 @@ import { SharedMaterialModule } from '../shared-modules/shared-materials/shared-
 import { RoomsComponent } from './components/rooms/rooms.component';
 import { IndividualRoomComponent } from './components/individual-room/individual-room.component';
 import { TimelineDirective } from './directives/timeline.directive';
+import { CustomTimelineComponent } from './components/custom-timeline/custom-timeline.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { TimelineDirective } from './directives/timeline.directive';
     RoomsComponent,
     IndividualRoomComponent,
     TimelineDirective,
+    CustomTimelineComponent,
   ],
   imports: [CommonModule, SharedMaterialModule],
   exports: [CalendarComponent],

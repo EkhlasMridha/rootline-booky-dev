@@ -67,14 +67,20 @@ export class TimelineService {
   getBookingsByWeek(booked: BookedModel[], dateArray: string[]) {
     let currentBookings: BookedModel[] = [];
     booked.forEach((item) => {
-      let fromDate = new Date(item.booking.book_From).toLocaleDateString('en');
-      let toDate = new Date(item.booking.leave_At).toLocaleDateString('en');
+      let fromDate = new Date(item.booking.book_From);
+      let toDate = new Date(item.booking.leave_At);
 
-      if (dateArray.includes(fromDate) || dateArray.includes(toDate)) {
+      let localFrom = fromDate.toLocaleDateString('en');
+      let localTo = fromDate.toLocaleDateString('en');
+
+      let firstDay = new Date(dateArray[0]).getTime();
+
+      if (dateArray.includes(localFrom) || dateArray.includes(localTo)) {
         currentBookings.push(item);
-      } else if (fromDate < dateArray[0] && toDate > dateArray[0]) {
+      } else if (fromDate.getTime() < firstDay && toDate.getTime() > firstDay) {
         currentBookings.push(item);
       }
+      console.log(toDate);
     });
 
     return currentBookings;

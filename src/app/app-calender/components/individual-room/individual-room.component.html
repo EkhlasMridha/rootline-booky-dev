@@ -1,22 +1,14 @@
 <div class="rooms room-decorator" fxLayout="row" *ngIf="hotelRoom">
   <span class="room-label">{{ hotelRoom.roomname }}</span>
-  <ng-container *ngFor="let line of timelines">
-    <div
-      appTimeline
-      [timeline]="line"
-      [document]="doc"
-      id="{{
-        hotelRoom.id.toString() + '-' + line.booked.bookingId.toString()
-      }}"
-      class="timeline"
-    ></div>
-  </ng-container>
 
-  <div
-    class="room-cell"
-    *ngFor="let date of calendarDates; let i = index"
-    id="{{
-      date ? hotelRoom.id.toString() + '-' + date.Day.toString() : 'null'
-    }}"
-  ></div>
+  <div style="display: flex; width: 100%">
+    <div
+      class="room-cell"
+      *ngFor="let date of calendarDates; let i = index"
+      id="{{
+        date ? hotelRoom.id.toString() + '-' + date.Day.toString() : 'null'
+      }}"
+    ></div>
+  </div>
+  <app-custom-timeline [timelines]="timelines"></app-custom-timeline>
 </div>
