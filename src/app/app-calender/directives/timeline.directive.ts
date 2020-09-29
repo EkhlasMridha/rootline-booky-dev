@@ -5,21 +5,27 @@ import {
   Input,
   Renderer2,
 } from '@angular/core';
+import { TimelineModel } from '../models/timeline.model';
 
 @Directive({
   selector: '[appTimeline]',
 })
 export class TimelineDirective {
-  @Input() start: number;
-  @Input() end: number;
+  @Input() timeline: TimelineModel;
+  @Input() document: Document;
   constructor(private elm: ElementRef, private renderer: Renderer2) {}
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
 
     this.updateTimeline();
+    console.log(this.timeline);
   }
 
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+  }
   updateTimeline() {
     // if (this.end && this.start) {
     //   console.log(this.end);

@@ -1,7 +1,11 @@
+import { DOCUMENT } from '@angular/common';
 import {
   Component,
+  ElementRef,
   HostListener,
+  Inject,
   Input,
+  OnChanges,
   OnInit,
   Renderer2,
   SimpleChanges,
@@ -9,6 +13,7 @@ import {
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { DayModel } from '../../models/day.model';
 import { RoomModel } from '../../models/room.model';
+import { TimelineModel } from '../../models/timeline.model';
 import { TimelineService } from '../../services/timeline.service';
 
 @Component({
@@ -16,25 +21,37 @@ import { TimelineService } from '../../services/timeline.service';
   templateUrl: './individual-room.component.html',
   styleUrls: ['./individual-room.component.scss'],
 })
-export class IndividualRoomComponent implements OnInit {
+export class IndividualRoomComponent implements OnInit, OnChanges {
   @Input() hotelRoom: RoomModel;
   @Input() calendarDates: DayModel[];
   weekDayName: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-  start: number;
-  end: number;
+  doc: Document;
+
+  timelines: TimelineModel[];
+
   constructor(
     private timlineService: TimelineService,
-    private calendarControl: CalendarControlService
-  ) {}
-
-  ngOnInit(): void {
-    this.updateTimeline();
+    @Inject(DOCUMENT) document
+  ) {
+    this.doc = document;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    this.timlineService.getTimelineStartEnd(this.hotelRoom, this.calendarDates);
+    this.timelines = this.timlineService.getTimelineStartEnd(
+      this.hotelRoom,
+      this.calendarDates
+    );
+  }
+
+  ngOnInit(): void {
+    this.updateTimeline();
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
   }
 
   updateTimeline() {

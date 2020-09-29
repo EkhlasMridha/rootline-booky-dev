@@ -1,12 +1,16 @@
 <div class="rooms room-decorator" fxLayout="row" *ngIf="hotelRoom">
   <span class="room-label">{{ hotelRoom.roomname }}</span>
-  <!-- <div
-    appTimeline
-    [start]="start"
-    [end]="end"
-    id="{{ hotelRoom.toString() }}"
-    class="timeline"
-  ></div> -->
+  <ng-container *ngFor="let line of timelines">
+    <div
+      appTimeline
+      [timeline]="line"
+      [document]="doc"
+      id="{{
+        hotelRoom.id.toString() + '-' + line.booked.bookingId.toString()
+      }}"
+      class="timeline"
+    ></div>
+  </ng-container>
 
   <div
     class="room-cell"

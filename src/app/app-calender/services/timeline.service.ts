@@ -24,11 +24,10 @@ export class TimelineService {
     return view;
   }
 
-  getTimelineStartEnd(room: RoomModel, weekDays: DayModel[]) {
+  getTimelineStartEnd(room: RoomModel, weekDays: DayModel[]): TimelineModel[] {
     let dates = this.generateDateArrayFrom(weekDays);
     let bookings = this.getBookingsByWeek(room.bookedRooms, dates);
     let timelines = this.generateStartEndDate(bookings, dates);
-    console.log(timelines);
 
     return timelines;
   }
