@@ -13,6 +13,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { TimelineModel } from '../models/timeline.model';
+import { TypeColor } from '../models/type.color';
 
 @Directive({
   selector: '[appTimeline]',
@@ -66,6 +67,24 @@ export class TimelineDirective implements OnChanges {
     let endWidth = Math.abs(endX - startX);
     this.renderer.setStyle(dom, 'left', startX + 'px');
     this.renderer.setStyle(dom, 'width', endWidth + 'px');
+    let color = this.getTimelineColor();
+    this.renderer.setStyle(dom, 'background-color', color);
+  }
+
+  getTimelineColor() {
+    let state: string = this.timeline.booked.booking.state['statename'];
+    let colors = new TypeColor();
+
+    switch (state.toLocaleLowerCase()) {
+      case 'booked':
+        return colors.booked;
+      case 'checked-In':
+        return colors.checkedIn;
+      case 'paid':
+        return colors.paid;
+      default:
+        return colors.noMatch;
+    }
   }
 
   getCellId(date: number): string {
