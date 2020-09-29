@@ -1,5 +1,6 @@
 import { IfStmt } from '@angular/compiler';
 import { Injectable } from '@angular/core';
+import { debug } from 'console';
 import { BookedModel } from '../models/booked.model';
 import { BookingModel } from '../models/booking.model';
 import { DayModel } from '../models/day.model';
@@ -37,18 +38,21 @@ export class TimelineService {
     let timelines: TimelineModel[] = [];
 
     bookings.forEach((book) => {
-      let bookFrom = new Date(book.booking.book_From).toLocaleDateString('en');
-      let bookTo = new Date(book.booking.leave_At).toLocaleDateString('en');
+      let bookFrom = new Date(book.booking.book_From).getTime();
+      let bookTo = new Date(book.booking.leave_At).getTime();
+      let firstDay = new Date(dateArray[0]).getTime();
+      let lastDay = new Date(dateArray[dateArray.length - 1]).getTime();
+
       timeline.booked = book;
       timeline.startDate.date = new Date(bookFrom);
       timeline.endDate.date = new Date(bookTo);
 
-      if (bookFrom < dateArray[0]) {
+      if (bookFrom < firstDay) {
         timeline.startDate.date = new Date(dateArray[0]);
         timeline.startDate.isOutside = true;
       }
 
-      if (bookTo > dateArray[dateArray.length - 1]) {
+      if (bookTo > lastDay) {
         timeline.endDate.date = new Date(dateArray[dateArray.length - 1]);
         timeline.endDate.isOutside = true;
       }

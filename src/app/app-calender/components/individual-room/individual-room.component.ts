@@ -21,7 +21,6 @@ import { TimelineService } from '../../services/timeline.service';
   selector: 'individual-room',
   templateUrl: './individual-room.component.html',
   styleUrls: ['./individual-room.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IndividualRoomComponent implements OnInit, OnChanges {
   @Input() hotelRoom: RoomModel;
