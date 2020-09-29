@@ -20,10 +20,10 @@ export class IndividualRoomComponent implements OnInit {
   weekDayName: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   start: number;
   end: number;
-  constructor(private timlineService: TimelineService) {}
+  constructor(private timlineService: TimelineService) { }
 
   ngOnInit(): void {
-    console.log(this.hotelRoom.bookedRooms);
+
   }
 
   ngAfterViewInit(): void {
@@ -42,8 +42,6 @@ export class IndividualRoomComponent implements OnInit {
     //   this.end = start + width;
     //   console.log(this.start + '  ' + this.end);
     // }
-    console.log(this.hotelRoom.id);
-    console.log(this.timlineService.getRoomCell(this.hotelRoom.id, 29));
   }
 
   @HostListener('window:resize', ['event$'])

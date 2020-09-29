@@ -32,7 +32,6 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.generateCustomCalendar(this.date, this.currentMonth, this.currentYear);
-    console.log(this.currenWeekNumber);
     this.previousWeek();
     this.nextWeek();
     this.today();
@@ -112,7 +111,7 @@ export class CalendarComponent implements OnInit {
 
   generateCalender(month: number, year: number) {
     let data = this.calendarService.generateWeeks(month, year);
-    console.log(data);
+
     return data;
   }
 

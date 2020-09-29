@@ -15,9 +15,7 @@ export class RoomsComponent implements OnInit {
     this.getAllRooms();
   }
 
-  ngOnInit(): void {
-    console.log(this.substituteDate);
-  }
+  ngOnInit(): void {}
 
   getView(date: number) {
     let view = document.getElementById(date.toString());
@@ -26,7 +24,6 @@ export class RoomsComponent implements OnInit {
 
   getAllRooms() {
     this.roomService.getAllRoomData().subscribe((res) => {
-      console.log(res);
       this.guestRooms = res;
     });
   }
