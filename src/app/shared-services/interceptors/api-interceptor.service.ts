@@ -18,7 +18,7 @@ export class ApiInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (req.url.search(/^.*(.svg)$/) >= 0) {
-      console.log(req.url);
+      console.log('local');
       return next.handle(req);
     }
     let request = req.clone({

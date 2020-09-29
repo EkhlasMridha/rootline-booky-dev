@@ -20,15 +20,13 @@ export class IndividualRoomComponent implements OnInit {
   weekDayName: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   start: number;
   end: number;
-  constructor(private timlineService: TimelineService) { }
+  constructor(private timlineService: TimelineService) {}
 
   ngOnInit(): void {
-
+    console.log(this.hotelRoom);
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
     this.updateTimeline();
   }
 
