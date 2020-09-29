@@ -8,7 +8,7 @@ import { CalendarControlService } from 'src/app/shared-services/calendar-control
   encapsulation: ViewEncapsulation.None,
 })
 export class CalendarComponent implements OnInit {
-  selectedDate: any;
+  selectedDate: any = new Date().getDate();
   constructor(private calendarControl: CalendarControlService) {}
 
   ngOnInit(): void {}

@@ -33,4 +33,8 @@ export class CustomTimelineComponent
   }
 
   ngOnInit(): void {}
+
+  openDescription(data){
+    console.log(data);
+  }
 }

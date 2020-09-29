@@ -40,13 +40,13 @@ const DEFAULT_CONFIG: FilePreviewDialogConfig = {
 export class CalendarOverlayService {
   positions: ConnectedPosition[] = [
     {
-      originX: 'center',
+      originX: 'start',
       originY: 'bottom',
       overlayX: 'start',
       overlayY: 'top',
     },
     {
-      originX: 'center',
+      originX: 'start',
       originY: 'top',
       overlayX: 'start',
       overlayY: 'bottom',
