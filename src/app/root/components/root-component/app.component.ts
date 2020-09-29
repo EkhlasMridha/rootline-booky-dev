@@ -7,6 +7,5 @@ import { IconService } from 'src/app/shared-services/utilities/icon.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'root-line';
   constructor() {}
 }
