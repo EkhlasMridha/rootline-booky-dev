@@ -1,5 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { BookedModel } from 'src/app/app-calender/models/booked.model';
+import { TypeColor } from 'src/app/app-calender/models/type.color';
 import { DomainService } from 'src/app/shared-services/utilities/domain.service';
 import {
   DescriptionToken,
@@ -24,6 +31,9 @@ export class DescriptionComponent implements OnInit {
   totalCost: number;
   isLoading: boolean;
   customer: any;
+  bookedDate: any;
+
+  typeColor: string;
   constructor(
     @Inject(DESCRIPTION_POPUP_CONFIG) token: DescriptionToken,
     private descriptionAPI: DescriptionApiService
@@ -34,17 +44,7 @@ export class DescriptionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.descriptionAPI
-      .getCustomer(this.data.booking.customerId)
-      .subscribe((res) => {
-        this.customer = res;
-        this.isLoading = false;
-      });
-    this.bookingDate = this.getBookingDate();
-    this.nights = this.getNights();
-    this.amount = this.data.booking.amount.toPrecision(2);
-    this.totalCost = this.calculateTotalCost(this.nights, this.amount);
+    this.initContent();
   }
 
   editDescription() {
@@ -57,6 +57,22 @@ export class DescriptionComponent implements OnInit {
 
   calculateTotalCost(nights: number, amount: number) {
     return nights * amount;
+  }
+
+  initContent() {
+    this.isLoading = true;
+    this.descriptionAPI
+      .getCustomer(this.data.booking.customerId)
+      .subscribe((res) => {
+        this.customer = res;
+        this.isLoading = false;
+      });
+    this.bookingDate = this.getBookingDate();
+    this.nights = this.getNights();
+    this.amount = this.data.booking.amount.toPrecision(2);
+    this.totalCost = this.calculateTotalCost(this.nights, this.amount);
+    this.bookedDate = this.getBookedDate(this.data.booking.booked_Date);
+    this.typeColor = this.getTypeColor(this.data.booking.state.statename);
   }
 
   getNights() {
@@ -92,5 +108,35 @@ export class DescriptionComponent implements OnInit {
     let toDate = dateTo.day + '. ' + dateTo.month + ' ' + dateTo.year;
 
     return { from: fromDate, to: toDate };
+  }
+
+  getBookedDate(date: any) {
+    let processedDate = new Date(date);
+
+    let finalDate: Partial<DateModel> = {};
+
+    finalDate.day = processedDate.getDate();
+    finalDate.month = this.months[processedDate.getMonth()];
+    finalDate.year = processedDate.getFullYear();
+
+    let bookedAt =
+      finalDate.day + '. ' + finalDate.month + ' ' + finalDate.year;
+
+    console.log(bookedAt);
+
+    return bookedAt;
+  }
+
+  getTypeColor(type: string) {
+    switch (type.toLowerCase()) {
+      case 'paid':
+        return new TypeColor().paid;
+      case 'checked-in':
+        return new TypeColor().checkedIn;
+      case 'booked':
+        return new TypeColor().booked;
+      default:
+        return new TypeColor().noMatch;
+    }
   }
 }

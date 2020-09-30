@@ -7,4 +7,5 @@ export interface BookingModel {
   customerId: number;
   adults: number;
   children: number;
+  booked_Date: any;
 }

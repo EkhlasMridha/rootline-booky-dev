@@ -5,31 +5,75 @@
     fxLayoutAlign="end end"
     class="full-width booking-controls"
   >
-    <button mat-icon-button (click)="editDescription()">
+    <button
+      fxLayoutAlign="center center"
+      mat-icon-button
+      (click)="editDescription()"
+    >
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-icon-button (click)="deleteBooking()">
+    <button
+      fxLayoutAlign="center center"
+      mat-icon-button
+      (click)="deleteBooking()"
+    >
       <mat-icon>delete</mat-icon>
     </button>
   </div>
-  <div fxLayout="column" class="description-container">
+  <div fxLayout="column" class="description-container" fxLayoutGap="10px">
     <div
       class="full-width"
-      fxLayout="column"
-      fxLayoutGap="5px"
+      fxLayout="row"
       fxLayoutAlign="start start"
+      fxLayoutGap="5px"
       *ngIf="customer"
     >
-      <span>{{ customer.firstname }} {{ customer.lastname }}</span>
-      <span>Booked date</span>
+      <div [ngStyle]="{ background: typeColor }" class="indicator"></div>
+      <div fxLayout="column" fxLayoutAlign="start start">
+        <span class="customer"
+          >{{ customer.firstname }} {{ customer.lastname }}</span
+        >
+        <span class="booked-date">Booked {{ bookedDate }}</span>
+      </div>
     </div>
-    <div class="booking-date" *ngIf="bookingDate">
+    <div
+      class="content-fonts"
+      *ngIf="bookingDate"
+      fxLayout="row"
+      fxLayoutGap="5px"
+      fxLayoutAlign="start center"
+    >
+      <mat-icon>calendar_today</mat-icon>
       <span>{{ bookingDate.from }} - {{ bookingDate.to }}</span>
     </div>
-    <div *ngIf="nights" class="nights">
+    <div
+      *ngIf="nights"
+      class="content-fonts"
+      fxLayout="row"
+      fxLayoutGap="5px"
+      fxLayoutAlign="start center"
+    >
+      <mat-icon>access_time</mat-icon>
       <span>{{ nights }} {{ nights == 1 ? "Night" : "Nights" }}</span>
     </div>
-    <div *ngIf="data">{{ amount }} CHF</div>
-    <div *ngIf="data">{{ totalCost }} CHF</div>
+    <div
+      *ngIf="data"
+      class="content-fonts"
+      fxLayout="row"
+      fxLayoutGap="5px"
+      fxLayoutAlign="start center"
+    >
+      <mat-icon>local_offer</mat-icon><span>{{ amount }} CHF</span>
+    </div>
+    <div class="border-line"></div>
+    <div
+      *ngIf="data"
+      class="content-fonts"
+      fxLayout="row"
+      fxLayoutGap="5px"
+      fxLayoutAlign="start center"
+    >
+      <mat-icon>credit_card</mat-icon><span>{{ totalCost }} CHF</span>
+    </div>
   </div>
 </div>

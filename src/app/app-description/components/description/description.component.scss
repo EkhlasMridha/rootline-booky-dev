@@ -3,19 +3,53 @@
 }
 
 .description-container {
-  padding: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 15px;
 }
 
-.booking-controls{
-  mat-icon{
-    
+.booking-controls {
+  button {
+    height: 25px;
+    width: 25px;
+    mat-icon {
+      font-size: 16px;
+      height: 24px;
+      width: 24px;
+      color: #585858;
+    }
   }
 }
 
-.booking-date{
-
+.customer {
+  font-size: 18px;
+  color: #242424;
 }
 
-.nights{
-    
+.booked-date {
+  font-size: 10px;
+  color: #585858;
+  line-height: 12px;
+}
+
+.indicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  margin-top: 2.5px;
+}
+
+.content-fonts {
+  font-size: 12px;
+  color: #242424;
+  mat-icon {
+    font-size: 14px;
+    height: 16px;
+    width: 16px;
+    color: #707070;
+  }
+}
+
+.border-line {
+  border-top: 1px solid #707070;
 }
