@@ -1,3 +1,4 @@
+import { OverlayRef } from '@angular/cdk/overlay';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,6 +20,7 @@ import { TimelineModel } from '../../models/timeline.model';
 })
 export class CustomTimelineComponent implements OnInit {
   @Input() timelines: TimelineModel[];
+  descriptionRef: OverlayRef;
   constructor(
     private descriptionService: DescriptionService,
     private viewContainer: ViewContainerRef
@@ -30,10 +32,15 @@ export class CustomTimelineComponent implements OnInit {
     console.log(elm);
     let eleRef: ElementRef = elm.elementRef;
 
-    this.descriptionService.open({
+    this.descriptionRef = this.descriptionService.open({
       elementRef: eleRef,
       viewContainerRef: this.viewContainer,
-      positionX: 50,
+      positionX: 0,
+    });
+
+    let subscription = this.descriptionRef.backdropClick().subscribe((res) => {
+      this.descriptionRef.dispose();
+      subscription.unsubscribe();
     });
   }
 }

@@ -1,6 +1,4 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
-
-import { TimelineModel } from 'src/app/app-calender/models/timeline.model';
+import { Component, ElementRef, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-timeline',
