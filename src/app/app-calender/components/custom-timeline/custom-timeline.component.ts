@@ -36,6 +36,7 @@ export class CustomTimelineComponent implements OnInit {
       elementRef: eleRef,
       viewContainerRef: this.viewContainer,
       positionX: 0,
+      data: line,
     });
 
     let subscription = this.descriptionRef.backdropClick().subscribe((res) => {

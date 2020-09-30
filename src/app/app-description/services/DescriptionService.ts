@@ -1,17 +1,19 @@
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
+import {
+  ElementRef,
+  Inject,
+  Injectable,
+  ViewContainerRef,
+} from '@angular/core';
 import { CalendarOverlayService } from 'src/app/shared-modules/calendar-popup/services/calendar-overlay.service';
 import { DescriptionComponent } from '../components/description/description.component';
-
-interface FilePreviewDialogConfig {
-  panelClass?: string;
-  hasBackdrop?: boolean;
-  backdropClass?: string;
-  elementRef?: ElementRef;
-  viewContainerRef?: ViewContainerRef;
-  positionX?: number;
-}
+import {
+  FilePreviewDialogConfig,
+  DEFAULT_CONFIG,
+  DESCRIPTION_POPUP_CONFIG,
+  DescriptionToken,
+} from '../description.config';
 
 export class FilePreviewOverlayRef {
   constructor(private overlayRef: OverlayRef) {}
@@ -25,22 +27,27 @@ export class FilePreviewOverlayRef {
   }
 }
 
-const DEFAULT_CONFIG: FilePreviewDialogConfig = {
-  hasBackdrop: true,
-  backdropClass: 'dark-backdrop',
-  panelClass: 'mat-datepicker-popup',
-};
-
 @Injectable({
   providedIn: 'root',
 })
 export class DescriptionService extends CalendarOverlayService {
-  constructor(public overlay: Overlay) {
+  descriptionConfig: DescriptionToken;
+  refinedConfig: FilePreviewDialogConfig;
+  constructor(
+    public overlay: Overlay,
+    @Inject(DESCRIPTION_POPUP_CONFIG) token: DescriptionToken
+  ) {
     super(overlay);
+    this.descriptionConfig = token;
+    this.refinedConfig = {
+      ...this.descriptionConfig.default,
+      ...this.descriptionConfig.config,
+    };
   }
 
   open(config: FilePreviewDialogConfig = {}) {
-    const dialogConfig = { ...DEFAULT_CONFIG, ...config };
+    const dialogConfig = { ...this.refinedConfig, ...config };
+    this.descriptionConfig.config = { ...dialogConfig };
 
     let descriptionPosition: ConnectedPosition[] = [
       {

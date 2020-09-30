@@ -20,7 +20,7 @@ import { AppTimelineModule } from '../app-timeline/app-timeline.module';
   imports: [
     CommonModule,
     SharedMaterialModule,
-    AppDescriptionModule,
+    AppDescriptionModule.forChild({ panelClass: 'has' }),
     AppTimelineModule,
   ],
   exports: [CalendarComponent],
