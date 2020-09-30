@@ -1,6 +1,7 @@
 import { OverlayRef } from '@angular/cdk/overlay';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -9,6 +10,8 @@ import {
 } from '@angular/core';
 import { element } from 'protractor';
 import { DescriptionService } from 'src/app/app-description/services/DescriptionService';
+import { TimelineControlService } from 'src/app/shared-services/timeline-control.service';
+import { BookedModel } from '../../models/booked.model';
 
 import { TimelineModel } from '../../models/timeline.model';
 
@@ -23,10 +26,14 @@ export class CustomTimelineComponent implements OnInit {
   descriptionRef: OverlayRef;
   constructor(
     private descriptionService: DescriptionService,
-    private viewContainer: ViewContainerRef
+    private viewContainer: ViewContainerRef,
+    private timelineControler: TimelineControlService,
+    private ch: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.updateTimeline();
+  }
 
   openDescription(line, elm) {
     let eleRef: ElementRef = elm.elementRef;
@@ -38,6 +45,9 @@ export class CustomTimelineComponent implements OnInit {
       data: line,
     });
 
+    this.descriptionRef.keydownEvents().subscribe((res) => {
+      console.log('event');
+    });
     let subscription = this.descriptionRef.backdropClick().subscribe((res) => {
       this.descriptionRef.dispose();
       subscription.unsubscribe();

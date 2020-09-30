@@ -1,12 +1,7 @@
-import {
-  Component,
-  ElementRef,
-  Inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { BookedModel } from 'src/app/app-calender/models/booked.model';
 import { TypeColor } from 'src/app/app-calender/models/type.color';
+import { TimelineControlService } from 'src/app/shared-services/timeline-control.service';
 import { DomainService } from 'src/app/shared-services/utilities/domain.service';
 import {
   DescriptionToken,
@@ -14,7 +9,9 @@ import {
   FilePreviewDialogConfig,
 } from '../../description.config';
 import { DateModel } from '../../models/date.model';
+import { UpdateModel } from '../../models/update.model';
 import { DescriptionApiService } from '../../services/description-api.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-description',
@@ -36,13 +33,16 @@ export class DescriptionComponent implements OnInit {
   typeColor: string;
   currentState: string = 'Paid';
   allStates: string[] = ['Booked', 'Checked-In', 'Paid'];
+  timelineData: any;
 
   constructor(
     @Inject(DESCRIPTION_POPUP_CONFIG) token: DescriptionToken,
-    private descriptionAPI: DescriptionApiService
+    private descriptionAPI: DescriptionApiService,
+    private timelineControler: TimelineControlService
   ) {
     this.popConfig = token.config;
     this.data = token.config.data.booked;
+    this.timelineData = token.config.data;
     this.months = DomainService.domains.Months;
   }
 
@@ -132,5 +132,17 @@ export class DescriptionComponent implements OnInit {
       default:
         return new TypeColor().noMatch;
     }
+  }
+
+  updateState(state) {
+    let info: Partial<UpdateModel> = {};
+
+    let updateData = _.cloneDeep(this.timelineData);
+    updateData.booked.booking.state.statename = state;
+
+    info.current = updateData;
+    info.previous = this.data;
+
+    this.timelineControler.updateTimeline(info);
   }
 }

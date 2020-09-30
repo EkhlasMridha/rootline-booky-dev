@@ -84,6 +84,7 @@
         <mat-radio-button
           *ngFor="let state of allStates"
           [value]="state"
+          (click)="updateState(state)"
           class="content-fonts"
         >
           {{ state }}
