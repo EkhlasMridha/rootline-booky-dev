@@ -25,7 +25,6 @@ export class RoomsComponent implements OnInit {
   getAllRooms() {
     this.roomService.getAllRoomData().subscribe((res) => {
       this.guestRooms = res;
-      console.log(this.guestRooms);
     });
   }
 }

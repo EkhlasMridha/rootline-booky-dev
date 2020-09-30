@@ -27,7 +27,6 @@ export class TimelineService {
     let dates = this.generateDateArrayFrom(weekDays);
     let bookings = this.getBookingsByWeek(room.bookedRooms, dates);
     let timelines = this.generateStartEndDate(bookings, dates);
-    console.log(dates);
     return timelines;
   }
 
@@ -58,7 +57,6 @@ export class TimelineService {
 
       let copyTimeline: Partial<TimelineModel> = {};
       copyTimeline = _.cloneDeep(timeline);
-      console.log(copyTimeline);
 
       timelines.push(copyTimeline);
     });
