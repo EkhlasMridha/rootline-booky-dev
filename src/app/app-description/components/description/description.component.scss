@@ -53,3 +53,13 @@
 .border-line {
   border-top: 1px solid #707070;
 }
+
+::ng-deep .mat-radio-button {
+  label {
+    display: flex !important;
+    flex-direction: column !important;
+    .mat-radio-label-content {
+      padding-left: 0;
+    }
+  }
+}

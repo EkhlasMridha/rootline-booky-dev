@@ -9,6 +9,8 @@ import {
   DEFAULT_CONFIG,
 } from './description.config';
 import { DescriptionService } from './services/DescriptionService';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
   ...DEFAULT_CONFIG,
@@ -16,7 +18,13 @@ export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
 
 @NgModule({
   declarations: [DescriptionComponent],
-  imports: [CommonModule, SharedMaterialModule, OverlayModule],
+  imports: [
+    CommonModule,
+    SharedMaterialModule,
+    OverlayModule,
+    MatRadioModule,
+    FormsModule,
+  ],
   exports: [DescriptionComponent, OverlayModule],
   providers: [DescriptionService],
   entryComponents: [DescriptionComponent],

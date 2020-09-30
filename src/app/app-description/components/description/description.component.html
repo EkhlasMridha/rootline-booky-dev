@@ -75,5 +75,20 @@
     >
       <mat-icon>credit_card</mat-icon><span>{{ totalCost }} CHF</span>
     </div>
+    <div style="padding-top: 20px">
+      <mat-radio-group
+        [(ngModel)]="currentState"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+      >
+        <mat-radio-button
+          *ngFor="let state of allStates"
+          [value]="state"
+          class="content-fonts"
+        >
+          {{ state }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
   </div>
 </div>

@@ -34,6 +34,9 @@ export class DescriptionComponent implements OnInit {
   bookedDate: any;
 
   typeColor: string;
+  currentState: string = 'Paid';
+  allStates: string[] = ['Booked', 'Checked-In', 'Paid'];
+
   constructor(
     @Inject(DESCRIPTION_POPUP_CONFIG) token: DescriptionToken,
     private descriptionAPI: DescriptionApiService
@@ -55,10 +58,6 @@ export class DescriptionComponent implements OnInit {
     console.log('delete');
   }
 
-  calculateTotalCost(nights: number, amount: number) {
-    return nights * amount;
-  }
-
   initContent() {
     this.isLoading = true;
     this.descriptionAPI
@@ -72,7 +71,12 @@ export class DescriptionComponent implements OnInit {
     this.amount = this.data.booking.amount.toPrecision(2);
     this.totalCost = this.calculateTotalCost(this.nights, this.amount);
     this.bookedDate = this.getBookedDate(this.data.booking.booked_Date);
+    this.bookedDate = this.createDateFormate(this.bookedDate);
     this.typeColor = this.getTypeColor(this.data.booking.state.statename);
+  }
+
+  calculateTotalCost(nights: number, amount: number) {
+    return nights * amount;
   }
 
   getNights() {
@@ -88,24 +92,14 @@ export class DescriptionComponent implements OnInit {
   }
 
   getBookingDate() {
-    let from = new Date(this.data.booking.book_From);
-    let to = new Date(this.data.booking.leave_At);
     let dateFrom: Partial<DateModel> = {};
     let dateTo: Partial<DateModel> = {};
 
-    let monthFrom = from.getMonth();
-    let monthTo = to.getMonth();
-
-    dateFrom.month = this.months[monthFrom];
-    dateFrom.day = from.getDate();
-    dateFrom.year = from.getFullYear();
-
-    dateTo.month = this.months[monthTo];
-    dateTo.day = to.getDate();
-    dateTo.year = to.getFullYear();
+    dateFrom = this.getBookedDate(this.data.booking.book_From);
+    dateTo = this.getBookedDate(this.data.booking.leave_At);
 
     let fromDate = dateFrom.day + '. ' + dateFrom.month;
-    let toDate = dateTo.day + '. ' + dateTo.month + ' ' + dateTo.year;
+    let toDate = this.createDateFormate(dateTo);
 
     return { from: fromDate, to: toDate };
   }
@@ -119,11 +113,11 @@ export class DescriptionComponent implements OnInit {
     finalDate.month = this.months[processedDate.getMonth()];
     finalDate.year = processedDate.getFullYear();
 
-    let bookedAt =
-      finalDate.day + '. ' + finalDate.month + ' ' + finalDate.year;
+    return finalDate;
+  }
 
-    console.log(bookedAt);
-
+  createDateFormate(date: Partial<DateModel>) {
+    let bookedAt = date.day + '. ' + date.month + ' ' + date.year;
     return bookedAt;
   }
 
