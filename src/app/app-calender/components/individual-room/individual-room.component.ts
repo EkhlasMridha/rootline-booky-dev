@@ -42,6 +42,7 @@ export class IndividualRoomComponent {
     this.timelineControler.timlineUpdate$.subscribe((res) => {
       updateData = res.current;
       currentData = res.previous;
+      if (this.hotelRoom.id != currentData.roomId) return;
       this.hotelRoom.bookedRooms = this.hotelRoom.bookedRooms.map((line) => {
         if (
           line.bookingId == currentData.bookingId &&
