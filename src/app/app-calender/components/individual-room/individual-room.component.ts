@@ -1,9 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { TimelineControlService } from 'src/app/shared-services/timeline-control.service';
 import { BookedModel } from '../../models/booked.model';
 import { DayModel } from '../../models/day.model';
@@ -25,8 +20,7 @@ export class IndividualRoomComponent {
 
   constructor(
     private timlineService: TimelineService,
-    private timelineControler: TimelineControlService,
-    private ch: ChangeDetectorRef
+    private timelineControler: TimelineControlService
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +33,7 @@ export class IndividualRoomComponent {
       this.calendarDates
     );
 
-    this.timelines = timeline;
+    this.timelines = Array.from(timeline);
   }
 
   updateTimeline() {

@@ -1,17 +1,13 @@
 import { OverlayRef } from '@angular/cdk/overlay';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import { element } from 'protractor';
 import { DescriptionService } from 'src/app/app-description/services/DescriptionService';
-import { TimelineControlService } from 'src/app/shared-services/timeline-control.service';
-import { BookedModel } from '../../models/booked.model';
 
 import { TimelineModel } from '../../models/timeline.model';
 
@@ -26,14 +22,10 @@ export class CustomTimelineComponent implements OnInit {
   descriptionRef: OverlayRef;
   constructor(
     private descriptionService: DescriptionService,
-    private viewContainer: ViewContainerRef,
-    private timelineControler: TimelineControlService,
-    private ch: ChangeDetectorRef
+    private viewContainer: ViewContainerRef
   ) {}
 
-  ngOnInit(): void {
-    // this.updateTimeline();
-  }
+  ngOnInit(): void {}
 
   openDescription(line, elm) {
     let eleRef: ElementRef = elm.elementRef;

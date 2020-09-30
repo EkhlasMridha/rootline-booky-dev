@@ -3,6 +3,7 @@ import { BookedModel } from '../models/booked.model';
 import { DayModel } from '../models/day.model';
 import { RoomModel } from '../models/room.model';
 import { TimelineModel } from '../models/timeline.model';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -26,12 +27,12 @@ export class TimelineService {
     let dates = this.generateDateArrayFrom(weekDays);
     let bookings = this.getBookingsByWeek(room.bookedRooms, dates);
     let timelines = this.generateStartEndDate(bookings, dates);
-
+    console.log(dates);
     return timelines;
   }
 
   generateStartEndDate(bookings: BookedModel[], dateArray: string[]) {
-    let timeline: TimelineModel = { startDate: {}, endDate: {} };
+    let timeline: TimelineModel;
     let timelines: TimelineModel[] = [];
 
     bookings.forEach((book) => {
@@ -40,6 +41,7 @@ export class TimelineService {
       let firstDay = new Date(dateArray[0]).getTime();
       let lastDay = new Date(dateArray[dateArray.length - 1]).getTime();
 
+      timeline = this.getWorkerTimeline();
       timeline.booked = book;
       timeline.startDate.date = new Date(bookFrom);
       timeline.endDate.date = new Date(bookTo);
@@ -54,15 +56,19 @@ export class TimelineService {
         timeline.endDate.isOutside = true;
       }
 
-      let copyTimeline: TimelineModel = { startDate: {}, endDate: {} };
-      copyTimeline.booked = Object.assign({}, timeline.booked);
-      copyTimeline.startDate = Object.assign({}, timeline.startDate);
-      copyTimeline.endDate = Object.assign({}, timeline.endDate);
+      let copyTimeline: Partial<TimelineModel> = {};
+      copyTimeline = _.cloneDeep(timeline);
+      console.log(copyTimeline);
 
       timelines.push(copyTimeline);
     });
 
     return timelines;
+  }
+
+  private getWorkerTimeline() {
+    let workerTimeline: TimelineModel = { startDate: {}, endDate: {} };
+    return workerTimeline;
   }
 
   getBookingsByWeek(booked: BookedModel[], dateArray: string[]) {
