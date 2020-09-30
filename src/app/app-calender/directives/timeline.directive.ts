@@ -78,7 +78,7 @@ export class TimelineDirective implements OnChanges {
     switch (state.toLocaleLowerCase()) {
       case 'booked':
         return colors.booked;
-      case 'checked-In':
+      case 'checked-in':
         return colors.checkedIn;
       case 'paid':
         return colors.paid;

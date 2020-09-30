@@ -122,6 +122,7 @@ export class DescriptionComponent implements OnInit {
   }
 
   getTypeColor(type: string) {
+    console.log(type.toLowerCase());
     switch (type.toLowerCase()) {
       case 'paid':
         return new TypeColor().paid;
