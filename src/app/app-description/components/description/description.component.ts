@@ -73,10 +73,26 @@ export class DescriptionComponent implements OnInit {
     this.bookedDate = this.getBookedDate(this.data.booking.booked_Date);
     this.bookedDate = this.createDateFormate(this.bookedDate);
     this.typeColor = this.getTypeColor(this.data.booking.state.statename);
+    this.currentState = this.verifyBookingState(this.data.booking.state);
   }
 
   calculateTotalCost(nights: number, amount: number) {
     return nights * amount;
+  }
+
+  verifyBookingState(state: any) {
+    let currentState: string = null;
+    this.allStates.map((st) => {
+      if (st.toLowerCase() == state.statename.toLowerCase()) {
+        currentState = st;
+      }
+    });
+    if (currentState == null) {
+      this.allStates.push(state.statename);
+      currentState = state.statename;
+      console.log(state);
+    }
+    return currentState;
   }
 
   getNights() {
