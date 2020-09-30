@@ -1,3 +1,35 @@
-<div>
-  <h1>Custom pop over description</h1>
+<div fxLayout="column">
+  <div
+    fxLayout="row"
+    fxLayoutGap="5px"
+    fxLayoutAlign="end end"
+    class="full-width booking-controls"
+  >
+    <button mat-icon-button (click)="editDescription()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="deleteBooking()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <div fxLayout="column" class="description-container">
+    <div
+      class="full-width"
+      fxLayout="column"
+      fxLayoutGap="5px"
+      fxLayoutAlign="start start"
+      *ngIf="customer"
+    >
+      <span>{{ customer.firstname }} {{ customer.lastname }}</span>
+      <span>Booked date</span>
+    </div>
+    <div class="booking-date" *ngIf="bookingDate">
+      <span>{{ bookingDate.from }} - {{ bookingDate.to }}</span>
+    </div>
+    <div *ngIf="nights" class="nights">
+      <span>{{ nights }} {{ nights == 1 ? "Night" : "Nights" }}</span>
+    </div>
+    <div *ngIf="data">{{ amount }} CHF</div>
+    <div *ngIf="data">{{ totalCost }} CHF</div>
+  </div>
 </div>

@@ -20,7 +20,7 @@ import { AppTimelineModule } from '../app-timeline/app-timeline.module';
   imports: [
     CommonModule,
     SharedMaterialModule,
-    AppDescriptionModule.forChild({ panelClass: 'has' }),
+    AppDescriptionModule.forChild({ panelClass: 'description-popup' }),
     AppTimelineModule,
   ],
   exports: [CalendarComponent],

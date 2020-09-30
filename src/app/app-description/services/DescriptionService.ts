@@ -1,16 +1,10 @@
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import {
-  ElementRef,
-  Inject,
-  Injectable,
-  ViewContainerRef,
-} from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { CalendarOverlayService } from 'src/app/shared-modules/calendar-popup/services/calendar-overlay.service';
 import { DescriptionComponent } from '../components/description/description.component';
 import {
   FilePreviewDialogConfig,
-  DEFAULT_CONFIG,
   DESCRIPTION_POPUP_CONFIG,
   DescriptionToken,
 } from '../description.config';
@@ -51,16 +45,16 @@ export class DescriptionService extends CalendarOverlayService {
 
     let descriptionPosition: ConnectedPosition[] = [
       {
-        originX: 'center',
+        originX: 'start',
         originY: 'bottom',
-        overlayX: 'center',
+        overlayX: 'start',
         overlayY: 'top',
         offsetX: config.positionX,
       },
       {
-        originX: 'center',
+        originX: 'start',
         originY: 'top',
-        overlayX: 'center',
+        overlayX: 'start',
         overlayY: 'bottom',
         offsetX: config.positionX,
       },

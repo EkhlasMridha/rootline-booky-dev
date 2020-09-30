@@ -29,7 +29,6 @@ export class CustomTimelineComponent implements OnInit {
   ngOnInit(): void {}
 
   openDescription(line, elm) {
-    console.log(elm);
     let eleRef: ElementRef = elm.elementRef;
 
     this.descriptionRef = this.descriptionService.open({
