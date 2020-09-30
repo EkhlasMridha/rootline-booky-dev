@@ -1,4 +1,9 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  SimpleChanges,
+} from '@angular/core';
 import { TimelineControlService } from 'src/app/shared-services/timeline-control.service';
 import { BookedModel } from '../../models/booked.model';
 import { DayModel } from '../../models/day.model';
@@ -20,11 +25,13 @@ export class IndividualRoomComponent {
 
   constructor(
     private timlineService: TimelineService,
-    private timelineControler: TimelineControlService
+    private timelineControler: TimelineControlService,
+    private ch: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.updateTimeline();
+    this.deleteTimeline();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -56,6 +63,21 @@ export class IndividualRoomComponent {
       this.timelines = this.timlineService.getTimelineStartEnd(
         this.hotelRoom,
         this.calendarDates
+      );
+    });
+  }
+
+  deleteTimeline() {
+    this.timelineControler.timelineDelete$.subscribe((res) => {
+      let timeline: TimelineModel = res;
+      let bookingId = timeline.booked.bookingId;
+      if (this.hotelRoom.id != timeline.booked.roomId) return;
+      this.hotelRoom.bookedRooms = this.hotelRoom.bookedRooms.filter(
+        (booked) => {
+          if (bookingId != booked.bookingId) {
+            return booked;
+          }
+        }
       );
     });
   }

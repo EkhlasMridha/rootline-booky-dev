@@ -1,13 +1,16 @@
 import { OverlayRef } from '@angular/cdk/overlay';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { DescriptionService } from 'src/app/app-description/services/DescriptionService';
+import { TimelineControlService } from 'src/app/shared-services/timeline-control.service';
 
 import { TimelineModel } from '../../models/timeline.model';
 
@@ -20,12 +23,17 @@ import { TimelineModel } from '../../models/timeline.model';
 export class CustomTimelineComponent implements OnInit {
   @Input() timelines: TimelineModel[];
   descriptionRef: OverlayRef;
+  subscription: Subscription;
   constructor(
     private descriptionService: DescriptionService,
-    private viewContainer: ViewContainerRef
+    private viewContainer: ViewContainerRef,
+    private timelineControler: TimelineControlService,
+    private ch: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.deleteTimeline();
+  }
 
   openDescription(line, elm) {
     let eleRef: ElementRef = elm.elementRef;
@@ -37,12 +45,26 @@ export class CustomTimelineComponent implements OnInit {
       data: line,
     });
 
-    this.descriptionRef.keydownEvents().subscribe((res) => {
-      console.log('event');
-    });
-    let subscription = this.descriptionRef.backdropClick().subscribe((res) => {
+    this.subscription = this.descriptionRef.backdropClick().subscribe((res) => {
       this.descriptionRef.dispose();
-      subscription.unsubscribe();
+      this.subscription.unsubscribe();
+    });
+  }
+
+  deleteTimeline() {
+    this.timelineControler.timelineDelete$.subscribe((res) => {
+      let timeline: TimelineModel = res;
+      let room =
+        this.timelines.length != 0 ? this.timelines[0].booked.roomId : null;
+      if (!room || room != timeline.booked.roomId) return;
+      this.timelines = this.timelines.filter((line) => {
+        if (timeline.booked.bookingId != line.booked.bookingId) {
+          return line;
+        }
+      });
+      this.ch.detectChanges();
+      this.descriptionRef.dispose();
+      this.subscription.unsubscribe();
     });
   }
 }

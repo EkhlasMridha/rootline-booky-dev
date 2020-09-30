@@ -55,7 +55,7 @@ export class DescriptionComponent implements OnInit {
   }
 
   deleteBooking() {
-    console.log('delete');
+    this.timelineControler.deleteTimeline(this.timelineData);
   }
 
   initContent() {
