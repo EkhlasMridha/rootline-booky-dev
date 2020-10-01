@@ -5,6 +5,8 @@
     <div
       class="room-cell"
       *ngFor="let date of calendarDates; let i = index"
+      [ngClass]="date != null ? 'cell' : 'disabled-cell'"
+      [ngStyle]="{ cursor: date ? 'pointer' : '' }"
       id="{{
         date ? hotelRoom.id.toString() + '-' + date.Day.toString() : 'null'
       }}"

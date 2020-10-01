@@ -62,9 +62,7 @@ export class DescriptionComponent implements OnInit {
     booked.bookingId = this.timelineData.booked.bookingId;
     booked.roomId = this.timelineData.booked.roomId;
 
-    console.log(booked);
     this.descriptionAPI.deleteBookedRoom(booked).subscribe((res) => {
-      console.log(res);
       this.timelineControler.deleteTimeline(this.timelineData);
     });
   }

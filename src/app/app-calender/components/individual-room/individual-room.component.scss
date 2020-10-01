@@ -22,3 +22,11 @@
     border-right: 1px solid #dddddd;
   }
 }
+
+.disabled-cell {
+  background-color: #ebebeb;
+}
+
+.cell:hover {
+  background-color: #d3f3cb;
+}
