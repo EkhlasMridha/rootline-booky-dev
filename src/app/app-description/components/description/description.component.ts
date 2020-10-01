@@ -176,12 +176,17 @@ export class DescriptionComponent implements OnInit {
 
     let updateData = _.cloneDeep(this.timelineData);
     updateData.booked.booking.state = state;
+    updateData.booked.booking.stateId = state.id;
 
     info.current = updateData;
     info.previous = this.data;
-    console.log(info);
 
-    this.typeColor = this.getTypeColor(state.statename);
-    this.timelineControler.updateTimeline(info);
+    this.descriptionAPI
+      .updateBookingState(info.current.booked.booking)
+      .subscribe((res) => {
+        console.log(info.current.booked.booking);
+        this.typeColor = this.getTypeColor(state.statename);
+        this.timelineControler.updateTimeline(info);
+      });
   }
 }
