@@ -14,6 +14,7 @@ import { DescriptionApiService } from '../../services/description-api.service';
 import * as _ from 'lodash';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { BookedRoomModel } from '../../models/booked-room.model';
 
 @Component({
   selector: 'app-description',
@@ -57,7 +58,15 @@ export class DescriptionComponent implements OnInit {
   }
 
   deleteBooking() {
-    this.timelineControler.deleteTimeline(this.timelineData);
+    let booked: BookedRoomModel = { bookingId: null, roomId: null };
+    booked.bookingId = this.timelineData.booked.bookingId;
+    booked.roomId = this.timelineData.booked.roomId;
+
+    console.log(booked);
+    this.descriptionAPI.deleteBookedRoom(booked).subscribe((res) => {
+      console.log(res);
+      this.timelineControler.deleteTimeline(this.timelineData);
+    });
   }
 
   initContent() {

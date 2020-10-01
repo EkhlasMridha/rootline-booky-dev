@@ -4,6 +4,7 @@ import { tap } from 'lodash';
 import { throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { StateModel } from '../models/state.model';
+import { BookedRoomModel } from '../models/booked-room.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,13 @@ export class DescriptionApiService {
 
   getAvailableStates() {
     return this.http.get('booking/states').pipe(
+      retry(2),
+      catchError((err) => throwError(err))
+    );
+  }
+
+  deleteBookedRoom(bookedroom: BookedRoomModel) {
+    return this.http.post('booking/bookedroom', bookedroom).pipe(
       retry(2),
       catchError((err) => throwError(err))
     );
