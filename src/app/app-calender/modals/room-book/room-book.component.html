@@ -1,0 +1,50 @@
+<div class="full-width">
+  <form class="full-width" fxLayoutGap="10px" fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="15px">
+      <mat-form-field class="full-width">
+        <mat-label>First name</mat-label>
+        <input matInput placeholder="first name" required />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Last name</mat-label>
+        <input matInput placeholder="last name" required />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="full-width">
+        <mat-label>Select date</mat-label>
+        <mat-date-range-input [rangePicker]="picker" required>
+          <input matStartDate placeholder="start date" />
+          <input matEndDate placeholder="end date" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="space-between center">
+      <mat-form-field class="full-width">
+        <mat-label>Adults</mat-label>
+        <input matInput placeholder="adults" type="number" required />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Children</mat-label>
+        <input matInput placeholder="children" type="number" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="full-width">
+        <mat-label>CHF/Night</mat-label>
+        <input matInput placeholder="CHF/Night" type="number" required />
+      </mat-form-field>
+    </div>
+    <div
+      class="full-width"
+      fxLayout="row"
+      fxLayoutGap="15px"
+      fxLayoutAlign="end end"
+    >
+      <button mat-stroked-button>Cancel</button>
+      <button mat-raised-button color="accent">Save</button>
+    </div>
+  </form>
+</div>
