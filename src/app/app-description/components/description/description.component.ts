@@ -12,6 +12,8 @@ import { DateModel } from '../../models/date.model';
 import { UpdateModel } from '../../models/update.model';
 import { DescriptionApiService } from '../../services/description-api.service';
 import * as _ from 'lodash';
+import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-description',
@@ -31,8 +33,8 @@ export class DescriptionComponent implements OnInit {
   bookedDate: any;
 
   typeColor: string;
-  currentState: string = 'Paid';
-  allStates: string[] = ['Booked', 'Checked-In', 'Paid'];
+  currentState: any;
+  stateList: any;
   timelineData: any;
 
   constructor(
@@ -59,13 +61,7 @@ export class DescriptionComponent implements OnInit {
   }
 
   initContent() {
-    this.isLoading = true;
-    this.descriptionAPI
-      .getCustomer(this.data.booking.customerId)
-      .subscribe((res) => {
-        this.customer = res;
-        this.isLoading = false;
-      });
+    this.getDescriptionData();
     this.bookingDate = this.getBookingDate();
     this.nights = this.getNights();
     this.amount = this.data.booking.amount.toPrecision(2);
@@ -73,24 +69,43 @@ export class DescriptionComponent implements OnInit {
     this.bookedDate = this.getBookedDate(this.data.booking.booked_Date);
     this.bookedDate = this.createDateFormate(this.bookedDate);
     this.typeColor = this.getTypeColor(this.data.booking.state.statename);
-    this.currentState = this.verifyBookingState(this.data.booking.state);
   }
 
   calculateTotalCost(nights: number, amount: number) {
     return nights * amount;
   }
 
-  verifyBookingState(state: any) {
+  getDescriptionData() {
+    let obsArray = [
+      this.descriptionAPI.getAvailableStates().pipe(
+        tap((res) => {
+          this.stateList = res;
+        })
+      ),
+      this.descriptionAPI.getCustomer(this.data.booking.customerId).pipe(
+        tap((res) => {
+          this.customer = res;
+        })
+      ),
+    ];
+
+    this.isLoading = true;
+    forkJoin(obsArray).subscribe((res) => {
+      this.currentState = this.verifyBookingState(
+        this.data.booking.state,
+        this.stateList
+      );
+      this.isLoading = false;
+    });
+  }
+
+  private verifyBookingState(state: any, stateList: any[]) {
     let currentState: string = null;
-    this.allStates.map((st) => {
-      if (st.toLowerCase() == state.statename.toLowerCase()) {
+    stateList.map((st) => {
+      if (st.id == state.id) {
         currentState = st;
       }
     });
-    if (currentState == null) {
-      this.allStates.push(state.statename);
-      currentState = state.statename;
-    }
     return currentState;
   }
 

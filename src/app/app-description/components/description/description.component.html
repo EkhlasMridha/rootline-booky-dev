@@ -82,12 +82,12 @@
         fxLayoutAlign="space-between center"
       >
         <mat-radio-button
-          *ngFor="let state of allStates"
+          *ngFor="let state of stateList"
           [value]="state"
           (click)="updateState(state)"
           class="content-fonts"
         >
-          {{ state }}
+          {{ state.statename }}
         </mat-radio-button>
       </mat-radio-group>
     </div>
