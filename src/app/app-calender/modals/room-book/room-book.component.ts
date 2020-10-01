@@ -1,20 +1,14 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Inject,
   OnInit,
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
+import * as _ from 'lodash';
+import { BookedModel } from '../../models/booked.model';
 
 @Component({
   selector: 'app-room-book',
@@ -25,6 +19,7 @@ import { FormService } from 'src/app/shared-services/utilities/form.service';
 export class RoomBookComponent implements OnInit {
   data: any;
   bookingForm: FormGroup;
+  public static bookedRooms: BookedModel[] = [];
 
   errorObservers$ = {
     firstname: '',
@@ -45,6 +40,7 @@ export class RoomBookComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    RoomBookComponent.bookedRooms = _.cloneDeep(this.data.data.bookedRooms);
     console.log(this.data);
     this.bookingForm = this.createBookingForm();
     this.formService.handleFormError(
@@ -101,8 +97,12 @@ export class RoomBookComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.bookingForm.errors);
-    this.formService.checkFormStatus(this.bookingForm);
+    if (!this.bookingForm.valid && this.bookingForm.errors != null) {
+      this.formService.checkFormStatus(this.bookingForm);
+      return;
+    }
+    const result = _.cloneDeep(this.bookingForm.value);
+    console.log(result);
   }
 
   close() {
@@ -127,9 +127,23 @@ export class RoomBookComponent implements OnInit {
 
       let totalLoad = control1.value + control2.value;
       if (totalLoad > roomCapacity) {
-        console.log(formGroup);
         return { errorCapcity: true };
       }
     };
+  }
+
+  bookedDates(caledarDate: Date): boolean {
+    let disabled: boolean = true;
+    if (RoomBookComponent.bookedRooms.length == 0) return disabled;
+    RoomBookComponent.bookedRooms.map((room) => {
+      let from = new Date(room.booking.book_From);
+      let to = new Date(room.booking.leave_At);
+      let currentDate = new Date(caledarDate).getTime();
+
+      if (currentDate > from.getTime() && currentDate < to.getTime()) {
+        disabled = false;
+      }
+    });
+    return disabled;
   }
 }

@@ -10,7 +10,7 @@
       id="{{
         date ? hotelRoom.id.toString() + '-' + date.Day.toString() : 'null'
       }}"
-      (click)="bookRoom(date)"
+      (click)="date?bookRoom(date):null"
     ></div>
   </div>
   <app-custom-timeline [timelines]="timelines"></app-custom-timeline>

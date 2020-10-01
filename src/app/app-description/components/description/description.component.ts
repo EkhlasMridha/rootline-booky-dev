@@ -175,11 +175,13 @@ export class DescriptionComponent implements OnInit {
     let info: Partial<UpdateModel> = {};
 
     let updateData = _.cloneDeep(this.timelineData);
-    updateData.booked.booking.state.statename = state;
+    updateData.booked.booking.state = state;
 
     info.current = updateData;
     info.previous = this.data;
+    console.log(info);
 
+    this.typeColor = this.getTypeColor(state.statename);
     this.timelineControler.updateTimeline(info);
   }
 }
