@@ -56,6 +56,7 @@
           formControlName="adults"
           placeholder="adults"
           type="number"
+          min="0"
           required
         />
         <mat-error>{{ errorObservers$.adults | async }}</mat-error>
@@ -67,6 +68,7 @@
           formControlName="children"
           placeholder="children"
           type="number"
+          min="0"
         />
         <mat-error>{{ errorObservers$.children | async }}</mat-error>
       </mat-form-field>
@@ -79,18 +81,22 @@
           formControlName="chf"
           placeholder="CHF/Night"
           type="number"
+          min="0"
           required
         />
         <mat-error>{{ errorObservers$.chf | async }}</mat-error>
       </mat-form-field>
     </div>
+    <span class="form-errors">{{
+      bookingForm.errors ? errorTypeGenerator("error", "bookingForm") : ""
+    }}</span>
     <div
       class="full-width"
       fxLayout="row"
       fxLayoutGap="15px"
       fxLayoutAlign="end end"
     >
-      <button mat-stroked-button type="button">Cancel</button>
+      <button mat-stroked-button type="button" (click)="close()">Cancel</button>
       <button mat-raised-button color="accent" type="submit">Save</button>
     </div>
   </form>

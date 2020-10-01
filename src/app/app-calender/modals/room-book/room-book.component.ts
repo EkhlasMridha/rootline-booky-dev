@@ -11,7 +11,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 
@@ -38,7 +39,7 @@ export class RoomBookComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data: any,
     private formBuilder: FormBuilder,
     private formService: FormService,
-    private ch: ChangeDetectorRef
+    private dialogRef: MatDialogRef<RoomBookComponent>
   ) {
     this.data = data;
   }
@@ -65,6 +66,8 @@ export class RoomBookComponent implements OnInit {
         return 'Set number of adults';
       case 'chf':
         return 'Set amount';
+      case 'bookingForm':
+        return `This room is for ${this.data.data.capacity} person only`;
     }
   }
 
@@ -77,19 +80,33 @@ export class RoomBookComponent implements OnInit {
           startDate: ['', Validators.required],
           endDate: ['', Validators.required],
         }),
-        adults: ['', Validators.required],
-        children: [''],
+        adults: [
+          0,
+          Validators.compose([Validators.required, Validators.min(1)]),
+        ],
+        children: [0],
         chf: ['', Validators.required],
       },
       {
-        validators: [this.watchDateRangeErrorState('startDate', 'endDate')],
+        validators: [
+          this.watchDateRangeErrorState('startDate', 'endDate'),
+          this.validateRoomCapacity(
+            'adults',
+            'children',
+            this.data.data.capacity
+          ),
+        ],
       }
     );
   }
 
   onSubmit() {
-    console.log(this.bookingForm.value);
+    console.log(this.bookingForm.errors);
     this.formService.checkFormStatus(this.bookingForm);
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 
   watchDateRangeErrorState(value1: string, value2: string) {
@@ -99,6 +116,19 @@ export class RoomBookComponent implements OnInit {
         formGroup.controls.dateRange.value[value1] == null
       ) {
         return formGroup.controls.dateRange.setErrors({ required: true });
+      }
+    };
+  }
+
+  validateRoomCapacity(ctrl1: string, ctrl2: string, roomCapacity: number) {
+    return (formGroup: FormGroup) => {
+      const control1 = formGroup.controls[ctrl1];
+      const control2 = formGroup.controls[ctrl2];
+
+      let totalLoad = control1.value + control2.value;
+      if (totalLoad > roomCapacity) {
+        console.log(formGroup);
+        return { errorCapcity: true };
       }
     };
   }
