@@ -1,40 +1,87 @@
 <div class="full-width">
-  <form class="full-width" fxLayoutGap="10px" fxLayout="column">
+  <form
+    [formGroup]="bookingForm"
+    (ngSubmit)="onSubmit()"
+    class="full-width"
+    fxLayoutGap="10px"
+    fxLayout="column"
+  >
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="15px">
       <mat-form-field class="full-width">
         <mat-label>First name</mat-label>
-        <input matInput placeholder="first name" required />
+        <input
+          matInput
+          formControlName="firstname"
+          placeholder="first name"
+          required
+        />
+        <mat-error>{{ errorObservers$.firstname | async }}</mat-error>
       </mat-form-field>
       <mat-form-field class="full-width">
         <mat-label>Last name</mat-label>
-        <input matInput placeholder="last name" required />
+        <input
+          matInput
+          formControlName="lastname"
+          placeholder="last name"
+          required
+        />
+        <mat-error>{{ errorObservers$.lastname | async }}</mat-error>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="full-width">
         <mat-label>Select date</mat-label>
-        <mat-date-range-input [rangePicker]="picker" required>
-          <input matStartDate placeholder="start date" />
-          <input matEndDate placeholder="end date" />
+        <mat-date-range-input
+          [rangePicker]="picker"
+          formGroupName="dateRange"
+          required
+        >
+          <input
+            matStartDate
+            formControlName="startDate"
+            placeholder="start date"
+          />
+          <input matEndDate formControlName="endDate" placeholder="end date" />
         </mat-date-range-input>
         <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-error>{{ errorObservers$.dateRange | async }}</mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="space-between center">
       <mat-form-field class="full-width">
         <mat-label>Adults</mat-label>
-        <input matInput placeholder="adults" type="number" required />
+        <input
+          matInput
+          formControlName="adults"
+          placeholder="adults"
+          type="number"
+          required
+        />
+        <mat-error>{{ errorObservers$.adults | async }}</mat-error>
       </mat-form-field>
       <mat-form-field class="full-width">
         <mat-label>Children</mat-label>
-        <input matInput placeholder="children" type="number" />
+        <input
+          matInput
+          formControlName="children"
+          placeholder="children"
+          type="number"
+        />
+        <mat-error>{{ errorObservers$.children | async }}</mat-error>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="full-width">
         <mat-label>CHF/Night</mat-label>
-        <input matInput placeholder="CHF/Night" type="number" required />
+        <input
+          matInput
+          formControlName="chf"
+          placeholder="CHF/Night"
+          type="number"
+          required
+        />
+        <mat-error>{{ errorObservers$.chf | async }}</mat-error>
       </mat-form-field>
     </div>
     <div
@@ -43,8 +90,8 @@
       fxLayoutGap="15px"
       fxLayoutAlign="end end"
     >
-      <button mat-stroked-button>Cancel</button>
-      <button mat-raised-button color="accent">Save</button>
+      <button mat-stroked-button type="button">Cancel</button>
+      <button mat-raised-button color="accent" type="submit">Save</button>
     </div>
   </form>
 </div>
