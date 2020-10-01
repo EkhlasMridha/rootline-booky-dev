@@ -9,6 +9,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import * as _ from 'lodash';
 import { BookedModel } from '../../models/booked.model';
+import { BookingModel } from '../../models/booking.model';
+import { CustomerModel } from 'src/app/shared-modules/models/customer.model';
+import { RoomApiService } from '../../services/room-api.service';
 
 @Component({
   selector: 'app-room-book',
@@ -34,7 +37,8 @@ export class RoomBookComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data: any,
     private formBuilder: FormBuilder,
     private formService: FormService,
-    private dialogRef: MatDialogRef<RoomBookComponent>
+    private dialogRef: MatDialogRef<RoomBookComponent>,
+    private bookingService: RoomApiService
   ) {
     this.data = data;
   }
@@ -97,12 +101,56 @@ export class RoomBookComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.data);
     if (!this.bookingForm.valid && this.bookingForm.errors != null) {
       this.formService.checkFormStatus(this.bookingForm);
       return;
     }
     const result = _.cloneDeep(this.bookingForm.value);
-    console.log(result);
+
+    let payload = this.prepareBookingPayload(result);
+    this.bookingService.createBookingWithCustomer(payload).subscribe((res) => {
+      console.log(res);
+    });
+  }
+
+  prepareBookingPayload(data: any) {
+    let booking = this.prepareBookingModel(data);
+    let customer = this.prepareCustomerModel(data);
+    customer.booking = [];
+    customer.booking.push(booking);
+    let bookedModel: Partial<BookedModel> = {};
+    bookedModel.bookingId = booking.id;
+    bookedModel.roomId = this.data.data.id;
+    booking.bookedRoom = [];
+    booking.bookedRoom.push(bookedModel);
+    console.log(customer);
+    return customer;
+  }
+
+  prepareBookingModel(data: any) {
+    let booking: Partial<BookingModel> = {};
+    booking.book_From = new Date(data.dateRange.startDate);
+    booking.leave_At = new Date(data.dateRange.endDate);
+    booking.adults = data.adults;
+    booking.children = data.children;
+    booking.amount = data.chf;
+    booking.stateId = 1;
+    booking.booked_Date = new Date(
+      this.data.date.year,
+      this.data.date.month,
+      this.data.date.Day
+    );
+    return booking;
+  }
+
+  prepareCustomerModel(data: any): Partial<CustomerModel> {
+    let customer: Partial<CustomerModel> = {};
+
+    customer.firstname = data.firstname;
+    customer.lastname = data.lastname;
+
+    return customer;
   }
 
   close() {
