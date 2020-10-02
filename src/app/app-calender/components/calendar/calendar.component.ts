@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
+import { StateControlService } from 'src/app/shared-services/state-control.service';
+import { DomainService } from 'src/app/shared-services/utilities/domain.service';
 import { DayModel } from '../../models/day.model';
 import { CalendarService } from '../../services/calendar.service';
 
@@ -20,6 +22,9 @@ export class CalendarComponent implements OnInit {
   substituteDate: any[] = [null, null, null, null, null, null, null];
   currentDate: any = new Date().getDate();
   data: any;
+  isLoading: boolean;
+  bookingStates: any[];
+  stateColors: any[];
 
   currentWeekData: DayModel[];
   currenWeekNumber: any;
@@ -27,8 +32,11 @@ export class CalendarComponent implements OnInit {
 
   constructor(
     private calendarService: CalendarService,
-    private caledarControl: CalendarControlService
-  ) {}
+    private caledarControl: CalendarControlService,
+    private stateControler: StateControlService
+  ) {
+    this.stateColors = DomainService.domains.StateColors;
+  }
 
   ngOnInit(): void {
     this.generateCustomCalendar(this.date, this.currentMonth, this.currentYear);
@@ -36,6 +44,21 @@ export class CalendarComponent implements OnInit {
     this.nextWeek();
     this.today();
     this.updateCalendar();
+    this.getStates();
+  }
+
+  getStates() {
+    this.stateControler.stateObserver$.subscribe((res) => {
+      this.bookingStates = res;
+    });
+  }
+
+  getStateColor(state: any) {
+    if (state.id > this.stateColors.length) {
+      return this.stateColors[0];
+    }
+    let color = this.stateColors[state.id];
+    return color;
   }
 
   generateCustomCalendar(date: number, month: number, year: number) {

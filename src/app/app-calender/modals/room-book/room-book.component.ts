@@ -107,7 +107,6 @@ export class RoomBookComponent implements OnInit {
       return;
     }
     const result = _.cloneDeep(this.bookingForm.value);
-
     let payload = this.prepareBookingPayload(result);
     this.bookingService.createBookingWithCustomer(payload).subscribe((res) => {
       console.log(res);
@@ -130,17 +129,17 @@ export class RoomBookComponent implements OnInit {
 
   prepareBookingModel(data: any) {
     let booking: Partial<BookingModel> = {};
-    booking.book_From = new Date(data.dateRange.startDate);
-    booking.leave_At = new Date(data.dateRange.endDate);
+    booking.book_From = new Date(data.dateRange.startDate).toLocaleDateString(
+      'en'
+    );
+    booking.leave_At = new Date(data.dateRange.endDate).toLocaleDateString(
+      'en'
+    );
     booking.adults = data.adults;
     booking.children = data.children;
     booking.amount = data.chf;
     booking.stateId = 1;
-    booking.booked_Date = new Date(
-      this.data.date.year,
-      this.data.date.month,
-      this.data.date.Day
-    );
+    booking.booked_Date = new Date();
     return booking;
   }
 

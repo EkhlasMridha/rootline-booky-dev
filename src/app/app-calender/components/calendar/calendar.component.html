@@ -1,4 +1,23 @@
-<div class="calendar-body">
+<div class="calendar-body" fxLayout="column" fxLayoutGap="10px">
+  <div
+    fxLayout="row wrap"
+    fxLayoutGap="20px"
+    *ngIf="bookingStates"
+    style="padding-left: 5.5rem"
+  >
+    <div
+      *ngFor="let state of bookingStates"
+      fxLayout="row"
+      fxLayoutGap="5px"
+      fxLayoutAlign="center center"
+    >
+      <div
+        class="state-indicator"
+        [ngStyle]="{ 'background-color': getStateColor(state) }"
+      ></div>
+      <span>{{ state.statename }}</span>
+    </div>
+  </div>
   <div class="calendar-container" fxLayout="column">
     <div fxLayout="row">
       <div

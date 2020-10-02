@@ -24,4 +24,11 @@ export class RoomApiService {
       catchError((err) => catchError(err))
     );
   }
+
+  getAllStates() {
+    return this.http.get<any[]>('booking/states').pipe(
+      retry(3),
+      catchError((err) => throwError(err))
+    );
+  }
 }
