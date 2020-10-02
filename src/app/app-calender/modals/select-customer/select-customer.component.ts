@@ -5,8 +5,13 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { RoomApiService } from '../../services/room-api.service';
+import { RoomBookComponent } from '../room-book/room-book.component';
 
 @Component({
   selector: 'app-select-customer',
@@ -21,7 +26,9 @@ export class SelectCustomerComponent implements OnInit {
   customerList: any[];
   constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
-    private dataAPi: RoomApiService
+    private dataAPi: RoomApiService,
+    private dialogRef: MatDialogRef<SelectCustomerComponent>,
+    private dialog: MatDialog
   ) {
     this.data = data;
   }
@@ -30,9 +37,17 @@ export class SelectCustomerComponent implements OnInit {
     console.log(this.data);
   }
 
+  selectCustomer(customer) {
+    console.log(customer);
+    this.dialog.open(RoomBookComponent, {
+      width: 'auto',
+      data: { room: this.data, customer: customer },
+    });
+    this.dialogRef.close();
+  }
+
   getCustomer(value) {
     this.dataAPi.getCustomerByquery(value).subscribe((res) => {
-      console.log(res);
       this.customerList = res;
     });
   }

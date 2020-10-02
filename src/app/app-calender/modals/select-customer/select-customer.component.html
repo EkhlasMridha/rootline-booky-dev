@@ -12,10 +12,11 @@
     <div class="customer-display">
       <div class="scroller" fxLayoutGap="10px" fxLayout="column">
         <div
-          class="customer-card"
+          class="customer-card cursor-pointer"
           id="{{ customer.id }}"
           *ngFor="let customer of customerList"
           fxLayout="column"
+          (click)="selectCustomer(customer)"
         >
           <span class="name"
             >{{ customer.firstname }} {{ customer.lastname }}</span

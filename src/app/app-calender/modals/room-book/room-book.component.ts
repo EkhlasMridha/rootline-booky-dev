@@ -21,12 +21,11 @@ import { RoomApiService } from '../../services/room-api.service';
 })
 export class RoomBookComponent implements OnInit {
   data: any;
+  customer: any;
   bookingForm: FormGroup;
   public static bookedRooms: BookedModel[] = [];
 
   errorObservers$ = {
-    firstname: '',
-    lastname: '',
     toDate: '',
     adults: '',
     children: '',
@@ -40,7 +39,8 @@ export class RoomBookComponent implements OnInit {
     private dialogRef: MatDialogRef<RoomBookComponent>,
     private bookingService: RoomApiService
   ) {
-    this.data = data;
+    this.data = data.room;
+    this.customer = data.customer;
   }
 
   ngOnInit(): void {
@@ -56,10 +56,6 @@ export class RoomBookComponent implements OnInit {
 
   errorTypeGenerator(type: string, owner: string) {
     switch (owner) {
-      case 'firstname':
-        return 'First name is required';
-      case 'lastname':
-        return 'Last name is required';
       case 'toDate':
         return 'Selcet a date';
       case 'adults':
@@ -74,8 +70,6 @@ export class RoomBookComponent implements OnInit {
   createBookingForm() {
     return this.formBuilder.group(
       {
-        firstname: ['', Validators.required],
-        lastname: ['', Validators.required],
         toDate: ['', Validators.required],
         adults: [
           0,
