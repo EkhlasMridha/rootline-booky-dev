@@ -19,8 +19,8 @@ export class RoomApiService {
     );
   }
 
-  createBookingWithCustomer(payload: any) {
-    return this.http.post('booking/withcustomer', payload).pipe(
+  createBooking(payload: any) {
+    return this.http.post('booking/create', payload).pipe(
       retry(3),
       catchError((err) => catchError(err))
     );

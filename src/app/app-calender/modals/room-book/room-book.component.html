@@ -18,7 +18,7 @@
           matPrefix
           [for]="picker1"
         ></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
+        <mat-datepicker #picker1 [startAt]="startDate"></mat-datepicker>
         <mat-error>{{ errorObservers$.toDate | async }}</mat-error>
       </mat-form-field>
     </div>

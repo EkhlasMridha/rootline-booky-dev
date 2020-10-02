@@ -23,6 +23,8 @@ export class RoomBookComponent implements OnInit {
   data: any;
   customer: any;
   bookingForm: FormGroup;
+
+  startDate: any;
   public static bookedRooms: BookedModel[] = [];
 
   errorObservers$ = {
@@ -46,6 +48,11 @@ export class RoomBookComponent implements OnInit {
   ngOnInit(): void {
     RoomBookComponent.bookedRooms = _.cloneDeep(this.data.data.bookedRooms);
     console.log(this.data);
+    this.startDate = new Date(
+      this.data.date.year,
+      this.data.date.month,
+      this.data.date.Day
+    );
     this.bookingForm = this.createBookingForm();
     this.formService.handleFormError(
       this.bookingForm,
@@ -99,23 +106,20 @@ export class RoomBookComponent implements OnInit {
     const result = _.cloneDeep(this.bookingForm.value);
     let payload = this.prepareBookingPayload(result);
     console.log(payload);
-    // this.bookingService.createBookingWithCustomer(payload).subscribe((res) => {
-    //   console.log(res);
-    // });
+    this.bookingService.createBooking(payload).subscribe((res) => {
+      console.log(res);
+    });
   }
 
   prepareBookingPayload(data: any) {
     let booking = this.prepareBookingModel(data);
-    let customer = this.prepareCustomerModel(data);
-    customer.booking = [];
-    customer.booking.push(booking);
     let bookedModel: Partial<BookedModel> = {};
     bookedModel.bookingId = booking.id;
     bookedModel.roomId = this.data.data.id;
     booking.bookedRoom = [];
     booking.bookedRoom.push(bookedModel);
-    console.log(customer);
-    return customer;
+
+    return booking;
   }
 
   prepareBookingModel(data: any) {
@@ -131,6 +135,7 @@ export class RoomBookComponent implements OnInit {
     booking.amount = data.chf;
     booking.stateId = 1;
     booking.booked_Date = new Date();
+    booking.customerId = this.customer.id;
     return booking;
   }
 
