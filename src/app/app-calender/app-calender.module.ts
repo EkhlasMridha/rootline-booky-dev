@@ -13,6 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-material/forms-material.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { SelectCustomerComponent } from './modals/select-customer/select-customer.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     TimelineDirective,
     CustomTimelineComponent,
     RoomBookComponent,
+    SelectCustomerComponent,
   ],
   imports: [
     CommonModule,

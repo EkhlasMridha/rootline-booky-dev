@@ -74,3 +74,9 @@ body {
   box-shadow: 1px 1px 3px 1px #c7c7c7;
   min-width: 260px;
 }
+
+.modal-body {
+  mat-dialog-container {
+    padding: 0;
+  }
+}

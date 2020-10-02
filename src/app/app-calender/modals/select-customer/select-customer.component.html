@@ -1,0 +1,24 @@
+<div fxLayout="column">
+  <div class="full-width header" fxLayoutAlign="center center">
+    <span>Select a customer to continue</span>
+  </div>
+  <div fxLayout="column" fxLayoutGap="15px" class="tool-body">
+    <input type="text" placeholder="Search" />
+    <div class="customer-display">
+      <div class="scroller" fxLayoutGap="10px" fxLayout="column">
+        <div class="customer-card">
+          <span>Customer info</span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="full-width"
+      fxLayoutAlign="end end"
+      fxLayout="row"
+      fxLayoutGap="15px"
+    >
+      <button mat-stroked-button>Cancel</button>
+      <button mat-raised-button color="accent">Create new</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+.header {
+  background-color: #418de4;
+  height: 50px;
+  padding-left: 15px;
+  padding-right: 15px;
+  color: white;
+  font-size: 16px;
+}
+
+input {
+  outline: none;
+  border: 1px solid #c2c2c2;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.customer-display {
+  height: 12rem;
+  background-color: #f1f1f1;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 4px;
+  display: block;
+  overflow-y: auto;
+  .scroller {
+    .customer-card {
+      background-color: white;
+      box-shadow: 0.5px 0.5px 1px 1px #d1d1d1;
+      padding: 15px;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+  }
+}
+
+.tool-body {
+  padding-top: 15px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+}
