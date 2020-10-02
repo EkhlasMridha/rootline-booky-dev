@@ -28,9 +28,20 @@ input {
     .customer-card {
       background-color: white;
       box-shadow: 0.5px 0.5px 1px 1px #d1d1d1;
-      padding: 15px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 15px;
+      padding-right: 15px;
       border-radius: 2px;
       overflow: hidden;
+      .name {
+        font-size: 14px;
+        color: #3f3f3f;
+      }
+      .details {
+        font-size: 12px;
+        color: #979797;
+      }
     }
   }
 }

@@ -1,14 +1,39 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { RoomApiService } from '../../services/room-api.service';
 
 @Component({
   selector: 'app-select-customer',
   templateUrl: './select-customer.component.html',
   styleUrls: ['./select-customer.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class SelectCustomerComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) data: any) {}
+  data: any;
+  searchString: string;
+  customerList: any[];
+  constructor(
+    @Inject(MAT_DIALOG_DATA) data: any,
+    private dataAPi: RoomApiService
+  ) {
+    this.data = data;
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.data);
+  }
+
+  getCustomer(value) {
+    this.dataAPi.getCustomerByquery(value).subscribe((res) => {
+      console.log(res);
+      this.customerList = res;
+    });
+  }
 }

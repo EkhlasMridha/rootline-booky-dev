@@ -3,11 +3,25 @@
     <span>Select a customer to continue</span>
   </div>
   <div fxLayout="column" fxLayoutGap="15px" class="tool-body">
-    <input type="text" placeholder="Search" />
+    <input
+      type="text"
+      placeholder="Search"
+      [ngModel]="searchString"
+      (ngModelChange)="getCustomer($event)"
+    />
     <div class="customer-display">
       <div class="scroller" fxLayoutGap="10px" fxLayout="column">
-        <div class="customer-card">
-          <span>Customer info</span>
+        <div
+          class="customer-card"
+          id="{{ customer.id }}"
+          *ngFor="let customer of customerList"
+          fxLayout="column"
+        >
+          <span class="name"
+            >{{ customer.firstname }} {{ customer.lastname }}</span
+          >
+          <span class="details">Phone: {{ customer.phoneNumber }}</span>
+          <span class="details">Email: {{ customer.email }}</span>
         </div>
       </div>
     </div>
