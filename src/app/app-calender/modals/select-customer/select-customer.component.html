@@ -25,6 +25,13 @@
           <span class="details">Email: {{ customer.email }}</span>
         </div>
       </div>
+      <div
+        class="full-width full-height"
+        fxLayoutAlign="center center"
+        *ngIf="customerList.length == 0"
+      >
+        <span style="color: #707070">No search result to show</span>
+      </div>
     </div>
     <div
       class="full-width"
@@ -32,7 +39,7 @@
       fxLayout="row"
       fxLayoutGap="15px"
     >
-      <button mat-stroked-button>Cancel</button>
+      <button mat-stroked-button (click)="close()">Cancel</button>
       <button mat-raised-button color="accent">Create new</button>
     </div>
   </div>

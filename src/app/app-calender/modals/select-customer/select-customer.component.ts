@@ -23,7 +23,7 @@ import { RoomBookComponent } from '../room-book/room-book.component';
 export class SelectCustomerComponent implements OnInit {
   data: any;
   searchString: string;
-  customerList: any[];
+  customerList: any[] = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
     private dataAPi: RoomApiService,
@@ -50,5 +50,9 @@ export class SelectCustomerComponent implements OnInit {
     this.dataAPi.getCustomerByquery(value).subscribe((res) => {
       this.customerList = res;
     });
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 }
