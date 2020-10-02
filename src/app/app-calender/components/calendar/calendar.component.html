@@ -17,6 +17,14 @@
       ></div>
       <span>{{ state.statename }}</span>
     </div>
+    <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
+      <div
+        *ngIf="bookingStates"
+        class="state-indicator"
+        [ngStyle]="{ 'background-color': stateColors[0] }"
+      ></div>
+      <span>Others</span>
+    </div>
   </div>
   <div class="calendar-container" fxLayout="column">
     <div fxLayout="row">

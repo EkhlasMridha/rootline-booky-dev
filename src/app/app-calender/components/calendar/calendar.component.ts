@@ -54,7 +54,7 @@ export class CalendarComponent implements OnInit {
   }
 
   getStateColor(state: any) {
-    if (state.id > this.stateColors.length) {
+    if (state.id >= this.stateColors.length) {
       return this.stateColors[0];
     }
     let color = this.stateColors[state.id];

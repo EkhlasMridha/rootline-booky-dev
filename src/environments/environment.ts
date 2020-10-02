@@ -24,7 +24,7 @@ export const environment = {
   ],
   StateColors: [
     '#D9CC53',
-    '#AEAEAE',
+    '#698495',
     '#418DE4',
     '#88C956',
     '#9056C9',

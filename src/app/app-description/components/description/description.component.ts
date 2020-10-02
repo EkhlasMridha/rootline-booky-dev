@@ -37,6 +37,7 @@ export class DescriptionComponent implements OnInit {
   currentState: any;
   stateList: any;
   timelineData: any;
+  stateColors: any[];
 
   constructor(
     @Inject(DESCRIPTION_POPUP_CONFIG) token: DescriptionToken,
@@ -47,6 +48,7 @@ export class DescriptionComponent implements OnInit {
     this.data = token.config.data.booked;
     this.timelineData = token.config.data;
     this.months = DomainService.domains.Months;
+    this.stateColors = DomainService.domains.StateColors;
   }
 
   ngOnInit(): void {
@@ -75,7 +77,7 @@ export class DescriptionComponent implements OnInit {
     this.totalCost = this.calculateTotalCost(this.nights, this.amount);
     this.bookedDate = this.getBookedDate(this.data.booking.booked_Date);
     this.bookedDate = this.createDateFormate(this.bookedDate);
-    this.typeColor = this.getTypeColor(this.data.booking.state.statename);
+    this.typeColor = this.getTypeColor(this.data.booking.state);
   }
 
   calculateTotalCost(nights: number, amount: number) {
@@ -158,17 +160,12 @@ export class DescriptionComponent implements OnInit {
     return bookedAt;
   }
 
-  getTypeColor(type: string) {
-    switch (type.toLowerCase()) {
-      case 'paid':
-        return new TypeColor().paid;
-      case 'checked-in':
-        return new TypeColor().checkedIn;
-      case 'booked':
-        return new TypeColor().booked;
-      default:
-        return new TypeColor().noMatch;
+  getTypeColor(state: any) {
+    if (state.id >= this.stateColors.length) {
+      return this.stateColors[0];
     }
+
+    return this.stateColors[state.id];
   }
 
   updateState(state) {
@@ -185,7 +182,7 @@ export class DescriptionComponent implements OnInit {
       .updateBookingState(info.current.booked.booking)
       .subscribe((res) => {
         console.log(info.current.booked.booking);
-        this.typeColor = this.getTypeColor(state.statename);
+        this.typeColor = this.getTypeColor(state);
         this.timelineControler.updateTimeline(info);
       });
   }

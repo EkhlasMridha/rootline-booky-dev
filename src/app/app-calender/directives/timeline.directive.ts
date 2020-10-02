@@ -12,6 +12,7 @@ import {
   Renderer2,
   SimpleChanges,
 } from '@angular/core';
+import { DomainService } from 'src/app/shared-services/utilities/domain.service';
 import { TimelineModel } from '../models/timeline.model';
 import { TypeColor } from '../models/type.color';
 
@@ -22,12 +23,14 @@ export class TimelineDirective implements OnChanges {
   @Input() timeline: TimelineModel;
 
   document: Document;
+  stateColors: any[];
   constructor(
     private elm?: ElementRef,
     private renderer?: Renderer2,
     @Inject(DOCUMENT) doc?
   ) {
     this.document = doc;
+    this.stateColors = DomainService.domains.StateColors;
   }
 
   ngAfterViewInit(): void {
@@ -67,24 +70,15 @@ export class TimelineDirective implements OnChanges {
     let endWidth = Math.abs(endX - startX);
     this.renderer.setStyle(dom, 'left', startX + 'px');
     this.renderer.setStyle(dom, 'width', endWidth + 'px');
-    let color = this.getTimelineColor();
+    let color = this.getTimelineColor(this.timeline.booked.booking.state);
     this.renderer.setStyle(dom, 'background-color', color);
   }
 
-  getTimelineColor() {
-    let state: string = this.timeline.booked.booking.state['statename'];
-    let colors = new TypeColor();
-
-    switch (state.toLocaleLowerCase()) {
-      case 'booked':
-        return colors.booked;
-      case 'checked-in':
-        return colors.checkedIn;
-      case 'paid':
-        return colors.paid;
-      default:
-        return colors.noMatch;
+  getTimelineColor(state: any) {
+    if (state.id >= this.stateColors.length) {
+      return this.stateColors[0];
     }
+    return this.stateColors[state.id];
   }
 
   getCellId(date: number): string {
