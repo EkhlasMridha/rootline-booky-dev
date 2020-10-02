@@ -5,16 +5,19 @@ import {
   OverlayRef,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
+import {
+  ElementRef,
+  Inject,
+  Injectable,
+  InjectionToken,
+  ViewContainerRef,
+} from '@angular/core';
+import {
+  DEFAULT_CONFIG,
+  FilePreviewDialogConfig,
+} from 'src/app/app-description/description.config';
+import { CalendarToken, TOOLBAR_CALENDAR_DATA } from '../calendar.config';
 import { CalendarComponent } from '../components/calendar/calendar.component';
-
-interface FilePreviewDialogConfig {
-  panelClass?: string;
-  hasBackdrop?: boolean;
-  backdropClass?: string;
-  elementRef?: ElementRef;
-  viewContainerRef?: ViewContainerRef;
-}
 
 export class FilePreviewOverlayRef {
   constructor(private overlayRef: OverlayRef) {}
@@ -27,12 +30,6 @@ export class FilePreviewOverlayRef {
     return this.overlayRef;
   }
 }
-
-const DEFAULT_CONFIG: FilePreviewDialogConfig = {
-  hasBackdrop: true,
-  backdropClass: 'dark-backdrop',
-  panelClass: 'mat-datepicker-popup',
-};
 
 @Injectable({
   providedIn: 'root',
@@ -52,11 +49,17 @@ export class CalendarOverlayService {
       overlayY: 'bottom',
     },
   ];
-
-  constructor(public overlay?: Overlay) {}
+  cData: CalendarToken;
+  constructor(
+    public overlay?: Overlay,
+    @Inject(TOOLBAR_CALENDAR_DATA) caledarData?: CalendarToken
+  ) {
+    this.cData = caledarData;
+  }
 
   open(config: FilePreviewDialogConfig = {}) {
     const dialogConfig = { ...DEFAULT_CONFIG, ...config };
+    this.cData.config = config;
 
     const overlayRef = this.createOverlay(dialogConfig);
     const dialogRef = new FilePreviewOverlayRef(overlayRef).getOverlayRef();

@@ -22,20 +22,8 @@ export class ToolbarComponent implements OnInit {
   startDate = new Date(1990, 0, 1);
   currentDateValue: string;
   popUpRef: OverlayRef;
-  monthNames: string[] = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+  selectedDate: any;
+  monthNames: string[] = [];
   constructor(
     private userManagerService: UserManagerService,
     private router: Router,
@@ -46,18 +34,21 @@ export class ToolbarComponent implements OnInit {
   ) {
     this.iconService.loadIcons(['signout']);
     this.appName = DomainService.domains.AppName;
+    this.monthNames = DomainService.domains.Months;
   }
 
   ngOnInit(): void {
     this.currentDateValue = this.generateCurrentDate(new Date());
+    this.selectedDate = new Date();
     this.updateObservertoolbar();
     this.observeCalendarDateChange();
   }
 
   updateObservertoolbar() {
-    this.calendarControl.toolbarDateObserver$.subscribe(res => {
+    this.calendarControl.toolbarDateObserver$.subscribe((res) => {
       this.currentDateValue = this.generateCurrentDate(res);
-    })
+      this.selectedDate = res;
+    });
   }
 
   nextWeek() {
@@ -101,7 +92,10 @@ export class ToolbarComponent implements OnInit {
       elementRef: ref,
       viewContainerRef: this._viewContainer,
       panelClass: 'date-picker',
+      data: this.selectedDate,
     });
+
+    this.calendarControl.transmitDateFromToolbar(this.selectedDate);
 
     let subscription = this.popUpRef.backdropClick().subscribe((res) => {
       this.popUpRef.dispose();
