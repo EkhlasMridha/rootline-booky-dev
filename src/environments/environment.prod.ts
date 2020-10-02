@@ -16,4 +16,13 @@ export const environment = {
     'November',
     'December',
   ],
+  StateColors: [
+    '#D9CC53',
+    '#698495',
+    '#418DE4',
+    '#88C956',
+    '#9056C9',
+    '#56C9BD',
+    '#D95381',
+  ],
 };

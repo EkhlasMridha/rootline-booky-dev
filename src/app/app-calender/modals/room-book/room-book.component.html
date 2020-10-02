@@ -29,24 +29,15 @@
       </mat-form-field>
     </div>
     <div>
-      <mat-form-field class="full-width">
+      <mat-form-field color="accent" class="full-width">
         <mat-label>Select date</mat-label>
-        <mat-date-range-input
-          [rangePicker]="picker"
-          [dateFilter]="bookedDates"
-          formGroupName="dateRange"
-          required
-        >
-          <input
-            matStartDate
-            formControlName="startDate"
-            placeholder="start date"
-          />
-          <input matEndDate formControlName="endDate" placeholder="end date" />
-        </mat-date-range-input>
-        <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-        <mat-error>{{ errorObservers$.dateRange | async }}</mat-error>
+        <input matInput formControlName="toDate" [matDatepicker]="picker1" />
+        <mat-datepicker-toggle
+          matPrefix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error>{{ errorObservers$.toDate | async }}</mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="space-between center">

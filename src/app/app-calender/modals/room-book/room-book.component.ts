@@ -27,7 +27,7 @@ export class RoomBookComponent implements OnInit {
   errorObservers$ = {
     firstname: '',
     lastname: '',
-    dateRange: '',
+    toDate: '',
     adults: '',
     children: '',
     chf: '',
@@ -60,8 +60,8 @@ export class RoomBookComponent implements OnInit {
         return 'First name is required';
       case 'lastname':
         return 'Last name is required';
-      case 'dateRange':
-        return 'Date range required';
+      case 'toDate':
+        return 'Selcet a date';
       case 'adults':
         return 'Set number of adults';
       case 'chf':
@@ -76,10 +76,7 @@ export class RoomBookComponent implements OnInit {
       {
         firstname: ['', Validators.required],
         lastname: ['', Validators.required],
-        dateRange: this.formBuilder.group({
-          startDate: ['', Validators.required],
-          endDate: ['', Validators.required],
-        }),
+        toDate: ['', Validators.required],
         adults: [
           0,
           Validators.compose([Validators.required, Validators.min(1)]),
@@ -89,7 +86,6 @@ export class RoomBookComponent implements OnInit {
       },
       {
         validators: [
-          this.watchDateRangeErrorState('startDate', 'endDate'),
           this.validateRoomCapacity(
             'adults',
             'children',
@@ -108,9 +104,10 @@ export class RoomBookComponent implements OnInit {
     }
     const result = _.cloneDeep(this.bookingForm.value);
     let payload = this.prepareBookingPayload(result);
-    this.bookingService.createBookingWithCustomer(payload).subscribe((res) => {
-      console.log(res);
-    });
+    console.log(payload);
+    // this.bookingService.createBookingWithCustomer(payload).subscribe((res) => {
+    //   console.log(res);
+    // });
   }
 
   prepareBookingPayload(data: any) {
@@ -129,12 +126,12 @@ export class RoomBookComponent implements OnInit {
 
   prepareBookingModel(data: any) {
     let booking: Partial<BookingModel> = {};
-    booking.book_From = new Date(data.dateRange.startDate).toLocaleDateString(
-      'en'
-    );
-    booking.leave_At = new Date(data.dateRange.endDate).toLocaleDateString(
-      'en'
-    );
+    booking.book_From = new Date(
+      this.data.date.year,
+      this.data.date.month,
+      this.data.date.Day
+    ).toLocaleDateString('en');
+    booking.leave_At = new Date(data.toDate).toLocaleDateString('en');
     booking.adults = data.adults;
     booking.children = data.children;
     booking.amount = data.chf;
