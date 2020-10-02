@@ -11,6 +11,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { RoomApiService } from '../../services/room-api.service';
+import { CreateCustomerComponent } from '../create-customer/create-customer.component';
 import { RoomBookComponent } from '../room-book/room-book.component';
 
 @Component({
@@ -42,6 +43,14 @@ export class SelectCustomerComponent implements OnInit {
     this.dialog.open(RoomBookComponent, {
       width: 'auto',
       data: { room: this.data, customer: customer },
+    });
+    this.dialogRef.close();
+  }
+
+  createCustomer() {
+    this.dialog.open(CreateCustomerComponent, {
+      width: 'auto',
+      data: this.data,
     });
     this.dialogRef.close();
   }

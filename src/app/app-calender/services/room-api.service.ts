@@ -26,6 +26,13 @@ export class RoomApiService {
     );
   }
 
+  createCustomer(payload: any) {
+    return this.http.post('customer', payload).pipe(
+      retry(3),
+      catchError((err) => throwError(err))
+    );
+  }
+
   getAllStates() {
     return this.http.get<any[]>('booking/states').pipe(
       retry(3),

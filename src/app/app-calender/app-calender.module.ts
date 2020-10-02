@@ -14,6 +14,7 @@ import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-ma
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SelectCustomerComponent } from './modals/select-customer/select-customer.component';
+import { CreateCustomerComponent } from './modals/create-customer/create-customer.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SelectCustomerComponent } from './modals/select-customer/select-custome
     CustomTimelineComponent,
     RoomBookComponent,
     SelectCustomerComponent,
+    CreateCustomerComponent,
   ],
   imports: [
     CommonModule,

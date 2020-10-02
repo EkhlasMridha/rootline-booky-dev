@@ -1,0 +1,35 @@
+<form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+  <div fxLayout="column" fxLayoutGap="10px">
+    <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="space-between center">
+      <mat-form-field>
+        <mat-label>First name</mat-label>
+        <input matInput formControlName="firstname" placeholder="first name" />
+        <mat-error>{{ errorObservers$.firstname | async }}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Last name</mat-label>
+        <input matInput formControlName="lastname" placeholder="last name" />
+        <mat-error>{{ errorObservers$.lastname | async }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="email" />
+      <mat-error>{{ errorObservers$.email | async }}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Phone</mat-label>
+      <input
+        matInput
+        formControlName="phoneNumber"
+        placeholder="phone number"
+      />
+      <mat-error>{{ errorObservers$.phoneNumber | async }}</mat-error>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end end">
+      <button mat-stroked-button type="button" (click)="close()">Cancel</button>
+      <button mat-raised-button color="accent">Create</button>
+    </div>
+  </div>
+</form>
