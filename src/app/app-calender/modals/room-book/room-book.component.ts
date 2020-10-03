@@ -25,6 +25,7 @@ import { debounceTime, filter, map, mergeMap, tap } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { IconService } from 'src/app/shared-services/utilities/icon.service';
 import { CreateCustomerComponent } from '../create-customer/create-customer.component';
+import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 
 @Component({
   selector: 'app-room-book',
@@ -58,7 +59,8 @@ export class RoomBookComponent implements OnInit {
     private dialogRef: MatDialogRef<RoomBookComponent>,
     private bookingService: RoomApiService,
     private iconService: IconService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private caledarControl: CalendarControlService
   ) {
     this.data = data;
     this.iconService.loadIcons(['user']);
@@ -92,7 +94,7 @@ export class RoomBookComponent implements OnInit {
     return this.customerListFilterCtrl.valueChanges.pipe(
       filter((search) => !!search),
       tap(() => (this.searching = true)),
-      debounceTime(1000),
+      debounceTime(200),
       mergeMap((res) => {
         return this.bookingService
           .getCustomerByquery(res)
@@ -158,6 +160,7 @@ export class RoomBookComponent implements OnInit {
     console.log(payload);
     this.bookingService.createBooking(payload).subscribe((res) => {
       console.log(res);
+      this.caledarControl.updateCaledar(res);
     });
   }
 

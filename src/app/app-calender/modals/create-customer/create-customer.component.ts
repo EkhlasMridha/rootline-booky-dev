@@ -69,12 +69,10 @@ export class CreateCustomerComponent implements OnInit {
       this.formService.checkFormStatus(this.customerForm);
       return;
     }
-    console.log(this.customerForm.value);
     const customer = Object.assign({}, this.customerForm.value);
     this.apiService.createCustomer(customer).subscribe((res) => {
-      console.log(res);
+      this.dialogRef.close();
     });
-    console.log(customer);
   }
 
   close() {

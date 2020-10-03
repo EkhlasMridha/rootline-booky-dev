@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { StateControlService } from 'src/app/shared-services/state-control.service';
 import { DomainService } from 'src/app/shared-services/utilities/domain.service';
 import { RoomApiService } from '../../services/room-api.service';
@@ -20,13 +21,16 @@ export class RoomsComponent implements OnInit {
 
   constructor(
     private roomService: RoomApiService,
-    private stateControler: StateControlService
+    private stateControler: StateControlService,
+    private calendarControl: CalendarControlService
   ) {
     this.getData();
     this.stateColors = DomainService.domains.StateColors;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateCalendarData();
+  }
 
   getView(date: number) {
     let view = document.getElementById(date.toString());
@@ -38,6 +42,7 @@ export class RoomsComponent implements OnInit {
       this.roomService.getAllRoomData().pipe(
         tap((res) => {
           this.guestRooms = res;
+          console.log(this.guestRooms);
         })
       ),
       this.roomService.getAllStates().pipe(
@@ -51,6 +56,12 @@ export class RoomsComponent implements OnInit {
     forkJoin(apis).subscribe((res) => {
       this.isLoading = false;
       this.stateControler.sendState(this.allStates);
+    });
+  }
+
+  updateCalendarData() {
+    this.calendarControl.calendarUpdate$.subscribe((res) => {
+      console.log(res);
     });
   }
 }
