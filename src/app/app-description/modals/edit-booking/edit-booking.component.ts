@@ -80,6 +80,7 @@ export class EditBookingComponent implements OnInit {
     console.log(preparedData);
     this.apiService.updateBooking(preparedData).subscribe((res) => {
       console.log(res);
+      this.dialogRef.close(res);
     });
   }
 

@@ -28,6 +28,7 @@ import { EditCustomerComponent } from '../../modals/edit-customer/edit-customer.
 export class DescriptionComponent implements OnInit {
   popConfig: FilePreviewDialogConfig;
   data: BookedModel;
+  bookingModel: BookingModel;
   months: string[];
   bookingDate: any;
   nights: any;
@@ -57,14 +58,29 @@ export class DescriptionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data);
     this.initContent();
   }
 
   editBooking() {
-    this.dialog.open(EditBookingComponent, {
+    let dialogRef = this.dialog.open(EditBookingComponent, {
       width: 'auto',
       data: this.timelineData,
     });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        console.log(res);
+        this.bookingModel = res;
+        this.bookingModel.state = this.data.booking.state;
+        this.data.booking = this.bookingModel;
+        this.initBookingInfo();
+      }
+    });
+  }
+
+  prepareBooking(data: BookingModel) {
+    data;
   }
 
   editCustomer() {
@@ -98,6 +114,10 @@ export class DescriptionComponent implements OnInit {
 
   initContent() {
     this.getDescriptionData();
+    this.initBookingInfo();
+  }
+
+  initBookingInfo() {
     this.bookingDate = this.getBookingDate();
     this.nights = this.getNights();
     this.amount = this.data.booking.amount.toPrecision(2);
