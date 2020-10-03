@@ -37,6 +37,7 @@ export class IndividualRoomComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(this.hotelRoom);
+
     let timeline = this.timlineService.getTimelineStartEnd(
       this.hotelRoom,
       this.calendarDates
@@ -46,7 +47,7 @@ export class IndividualRoomComponent {
   }
 
   bookRoom(date: any) {
-    console.log(date);
+    // console.log(date);
     this.dialog.open(RoomBookComponent, {
       width: 'auto',
       data: { date: date, data: this.hotelRoom },

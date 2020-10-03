@@ -76,7 +76,7 @@ export class TimelineService {
       let toDate = new Date(item.booking.leave_At);
 
       let localFrom = fromDate.toLocaleDateString('en');
-      let localTo = fromDate.toLocaleDateString('en');
+      let localTo = toDate.toLocaleDateString('en');
 
       let firstDay = new Date(dateArray[0]).getTime();
 
