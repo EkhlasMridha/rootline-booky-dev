@@ -27,11 +27,19 @@ export class RoomsComponent implements OnInit {
     this.stateColors = DomainService.domains.StateColors;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.roomCreationListener();
+  }
 
   getView(date: number) {
     let view = document.getElementById(date.toString());
     return view;
+  }
+
+  roomCreationListener() {
+    this.stateControler.roomCreationObserver$.subscribe((res) => {
+      this.guestRooms.push(res);
+    });
   }
 
   getData() {

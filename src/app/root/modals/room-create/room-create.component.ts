@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RoomApiService } from '../services/room-api.service';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
+import { StateControlService } from 'src/app/shared-services/state-control.service';
 
 @Component({
   selector: 'app-room-create',
@@ -20,7 +21,8 @@ export class RoomCreateComponent implements OnInit {
     private dialogRef: MatDialogRef<RoomCreateComponent>,
     private roomApi: RoomApiService,
     private formBuilder: FormBuilder,
-    private formService: FormService
+    private formService: FormService,
+    private stateControler: StateControlService
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +68,8 @@ export class RoomCreateComponent implements OnInit {
     console.log(result);
     this.roomApi.createRoom(result).subscribe((res) => {
       console.log(res);
+      this.stateControler.sendRoomCreationSignal(res);
+      this.dialogRef.close();
     });
   }
 }
