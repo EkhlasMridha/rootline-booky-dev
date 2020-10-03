@@ -48,8 +48,8 @@ export class DescriptionApiService {
     );
   }
 
-  updateBooking(payload: any) {
-    return this.http.put('booking', payload).pipe(
+  updateBooking(payload: any, id: number) {
+    return this.http.put(`booking/${id}`, payload).pipe(
       retry(3),
       catchError((err) => throwError(err))
     );

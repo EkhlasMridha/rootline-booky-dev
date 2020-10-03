@@ -13,7 +13,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-material/forms-material.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { SelectCustomerComponent } from './modals/select-customer/select-customer.component';
 import { CreateCustomerComponent } from './modals/create-customer/create-customer.component';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -26,7 +25,6 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     TimelineDirective,
     CustomTimelineComponent,
     RoomBookComponent,
-    SelectCustomerComponent,
     CreateCustomerComponent,
   ],
   imports: [

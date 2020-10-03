@@ -32,6 +32,7 @@ export class EditBookingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data);
     this.editBooking = this.createForm();
     this.formService.handleFormError(
       this.editBooking,
@@ -77,9 +78,11 @@ export class EditBookingComponent implements OnInit {
     this.booking = result;
     let preparedData = this.prepareBookingModel(this.booking);
 
-    this.apiService.updateBooking(preparedData).subscribe((res) => {
-      this.dialogRef.close(res);
-    });
+    this.apiService
+      .updateBooking(preparedData, this.data.booked.roomId)
+      .subscribe((res) => {
+        this.dialogRef.close(res);
+      });
   }
 
   prepareBookingModel(data: BookingModel) {
