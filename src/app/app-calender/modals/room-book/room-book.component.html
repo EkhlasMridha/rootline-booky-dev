@@ -6,8 +6,8 @@
     fxLayoutGap="10px"
     fxLayout="column"
   >
-    <div fxLayout="row" fxLayoutAlign="start start">
-      <mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+      <mat-form-field class="full-width">
         <mat-label>Select Customer</mat-label>
         <mat-select formControlName="customerId" required>
           <mat-option>
@@ -20,14 +20,25 @@
           </mat-option>
           <mat-option
             *ngFor="let customer of customerList$ | async"
-            [value]="customer"
+            [value]="customer.id"
           >
             <span>{{ customer.firstname }} {{ customer.lastname }}</span>
           </mat-option>
         </mat-select>
         <mat-error>{{ errorObservers$.customerId | async }}</mat-error>
       </mat-form-field>
+      <div>
+        <button
+          mat-mini-fab
+          color="accent"
+          type="button"
+          fxLayoutAlign="center center"
+        >
+          <mat-icon svgIcon="user" style="transform: scale(0.8)"></mat-icon>
+        </button>
+      </div>
     </div>
+
     <div>
       <mat-form-field color="accent" class="full-width">
         <mat-label>Select date</mat-label>

@@ -19,6 +19,7 @@ import { CustomerModel } from 'src/app/shared-modules/models/customer.model';
 import { RoomApiService } from '../../services/room-api.service';
 import { debounceTime, filter, map, mergeMap, tap } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
+import { IconService } from 'src/app/shared-services/utilities/icon.service';
 
 @Component({
   selector: 'app-room-book',
@@ -50,9 +51,11 @@ export class RoomBookComponent implements OnInit {
     private formBuilder: FormBuilder,
     private formService: FormService,
     private dialogRef: MatDialogRef<RoomBookComponent>,
-    private bookingService: RoomApiService
+    private bookingService: RoomApiService,
+    private iconService: IconService
   ) {
     this.data = data;
+    this.iconService.loadIcons(['user']);
   }
 
   ngOnInit(): void {
@@ -138,11 +141,11 @@ export class RoomBookComponent implements OnInit {
       return;
     }
     const result = _.cloneDeep(this.bookingForm.value);
-    // let payload = this.prepareBookingPayload(result);
-    console.log(result);
-    // this.bookingService.createBooking(payload).subscribe((res) => {
-    //   console.log(res);
-    // });
+    let payload = this.prepareBookingPayload(result);
+    console.log(payload);
+    this.bookingService.createBooking(payload).subscribe((res) => {
+      console.log(res);
+    });
   }
 
   prepareBookingPayload(data: any) {
@@ -169,7 +172,7 @@ export class RoomBookComponent implements OnInit {
     booking.amount = data.chf;
     booking.stateId = 1;
     booking.booked_Date = new Date();
-    booking.customerId = this.customer.id;
+    booking.customerId = data.customerId;
     return booking;
   }
 
