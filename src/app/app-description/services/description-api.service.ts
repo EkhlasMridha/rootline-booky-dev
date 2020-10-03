@@ -47,4 +47,11 @@ export class DescriptionApiService {
       catchError((err) => throwError(err))
     );
   }
+
+  updateBooking(payload: any) {
+    return this.http.put('booking', payload).pipe(
+      retry(3),
+      catchError((err) => throwError(err))
+    );
+  }
 }

@@ -1,1 +1,77 @@
-<p>edit-booking works!</p>
+<form [formGroup]="editBooking" (ngSubmit)="onSubmit()">
+  <div fxLayout="column" fxLayoutGap="10px">
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center">
+      <mat-form-field color="accent">
+        <mat-label>From</mat-label>
+        <input
+          matInput
+          formControlName="book_From"
+          [matDatepicker]="picker1"
+          required
+        />
+        <mat-datepicker-toggle
+          matPrefix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error>{{ error$.book_From | async }}</mat-error>
+      </mat-form-field>
+      <mat-form-field color="accent">
+        <mat-label>To</mat-label>
+        <input
+          matInput
+          formControlName="leave_At"
+          [matDatepicker]="picker2"
+          required
+        />
+        <mat-datepicker-toggle
+          matPrefix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error>{{ error$.leave_At | async }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center">
+      <mat-form-field color="accent">
+        <mat-label>Adults</mat-label>
+        <input
+          matInput
+          formControlName="adults"
+          type="number"
+          min="0"
+          required
+          placeholder="adults"
+        />
+        <mat-error>{{ error$.adults | async }}</mat-error>
+      </mat-form-field>
+      <mat-form-field color="accent">
+        <mat-label>Childrens</mat-label>
+        <input
+          matInput
+          formControlName="children"
+          type="number"
+          min="0"
+          placeholder="childrens"
+        />
+        <mat-error>{{ error$.children | async }}</mat-error>
+      </mat-form-field>
+    </div>
+    <mat-form-field color="accent">
+      <mat-label>CHF/Night</mat-label>
+      <input
+        matInput
+        formControlName="amount"
+        type="number"
+        min="0"
+        required
+        placeholder="chf/night"
+      />
+      <mat-error>{{ error$.amount | async }}</mat-error>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="15px">
+      <button mat-stroked-button type="button" (click)="close()">Cancel</button>
+      <button mat-raised-button color="accent">Save</button>
+    </div>
+  </div>
+</form>

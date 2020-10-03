@@ -1,24 +1,24 @@
 <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
   <div fxLayout="column" fxLayoutGap="10px">
     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center">
-      <mat-form-field>
+      <mat-form-field color="accent">
         <mat-label>First name</mat-label>
         <input matInput formControlName="firstname" placeholder="first name" />
         <mat-error>{{ error$.firstname | async }}</mat-error>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field color="accent">
         <mat-label>First name</mat-label>
         <input matInput formControlName="lastname" placeholder="first name" />
         <mat-error>{{ error$.lastname | async }}</mat-error>
       </mat-form-field>
     </div>
 
-    <mat-form-field>
+    <mat-form-field color="accent">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" placeholder="email" />
       <mat-error>{{ error$.email | async }}</mat-error>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field color="accent">
       <mat-label>Phone number</mat-label>
       <input
         matInput

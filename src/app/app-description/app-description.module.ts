@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { EditCustomerComponent } from './modals/edit-customer/edit-customer.component';
 import { EditBookingComponent } from './modals/edit-booking/edit-booking.component';
 import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-material/forms-material.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
   ...DEFAULT_CONFIG,
@@ -31,6 +33,8 @@ export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
     FormsMaterialModule,
     OverlayModule,
     MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   exports: [DescriptionComponent, OverlayModule],
   providers: [DescriptionService],

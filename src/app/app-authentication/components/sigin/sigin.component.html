@@ -14,12 +14,12 @@
     <div class="signin-body full-width" fxLayout="column">
       <span class="signin-title">Login</span>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayout="column">
-        <mat-form-field>
+        <mat-form-field color="accent">
           <mat-label>Username</mat-label>
           <input matInput formControlName="userName" placeholder="username" />
           <mat-error>{{ errorObserver$.userName | async }}</mat-error>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field color="accent">
           <mat-label>Password</mat-label>
           <input
             matInput
