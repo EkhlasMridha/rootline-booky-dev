@@ -34,6 +34,7 @@ export class IndividualRoomComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.hotelRoom);
     let timeline = this.timlineService.getTimelineStartEnd(
       this.hotelRoom,
       this.calendarDates

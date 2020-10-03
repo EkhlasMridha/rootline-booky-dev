@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { BookedRoomModel } from '../../models/booked-room.model';
+import { BookingModel } from 'src/app/app-calender/models/booking.model';
 
 @Component({
   selector: 'app-description',
@@ -60,13 +61,18 @@ export class DescriptionComponent implements OnInit {
   }
 
   deleteBooking() {
-    let booked: BookedRoomModel = { bookingId: null, roomId: null };
-    booked.bookingId = this.timelineData.booked.bookingId;
-    booked.roomId = this.timelineData.booked.roomId;
+    let booked: BookingModel;
+    let bookedRoom: BookedRoomModel = { bookingId: null, roomId: null };
+    booked = this.timelineData.booked.booking;
+    bookedRoom.bookingId = this.timelineData.booked.bookingId;
+    bookedRoom.roomId = this.timelineData.booked.roomId;
+    booked.bookedRoom = [];
+    booked.bookedRoom.push(bookedRoom);
 
     this.descriptionAPI.deleteBookedRoom(booked).subscribe((res) => {
       this.timelineControler.deleteTimeline(this.timelineData);
     });
+    console.log(booked);
   }
 
   initContent() {
