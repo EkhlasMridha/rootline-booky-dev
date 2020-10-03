@@ -4,6 +4,7 @@ import {
   MatDatepickerBase,
   MatDatepickerControl,
 } from '@angular/material/datepicker/datepicker-base';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CalendarService } from 'src/app/app-calender/services/calendar.service';
 import { CalendarOverlayService } from 'src/app/shared-modules/calendar-popup/services/calendar-overlay.service';
@@ -11,6 +12,7 @@ import { CalendarControlService } from 'src/app/shared-services/calendar-control
 import { UserManagerService } from 'src/app/shared-services/user-manager.service';
 import { DomainService } from 'src/app/shared-services/utilities/domain.service';
 import { IconService } from 'src/app/shared-services/utilities/icon.service';
+import { RoomCreateComponent } from '../../modals/room-create/room-create.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -30,7 +32,8 @@ export class ToolbarComponent implements OnInit {
     private iconService: IconService,
     private calendarControl: CalendarControlService,
     private datePickerService: CalendarOverlayService,
-    private _viewContainer: ViewContainerRef
+    private _viewContainer: ViewContainerRef,
+    private dialog: MatDialog
   ) {
     this.iconService.loadIcons(['signout']);
     this.appName = DomainService.domains.AppName;
@@ -83,6 +86,12 @@ export class ToolbarComponent implements OnInit {
     let currentYear = date.getFullYear().toString();
     let finalValue = currentMonth + ' ' + currentYear;
     return finalValue;
+  }
+
+  addRoom() {
+    let dialogRef = this.dialog.open(RoomCreateComponent, {
+      width: '350px',
+    });
   }
 
   openDatePicker(elm) {

@@ -1,10 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap } from 'lodash';
 import { throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { StateModel } from '../models/state.model';
-import { BookedRoomModel } from '../models/booked-room.model';
 import { BookingModel } from 'src/app/app-calender/models/booking.model';
 
 @Injectable({

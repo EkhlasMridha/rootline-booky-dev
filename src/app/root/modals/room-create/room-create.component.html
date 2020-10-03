@@ -1,0 +1,27 @@
+<form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
+  <div fxLayout="column" fxLayoutGap="15px">
+    <mat-form-field color="accent">
+      <mat-label>Room name</mat-label>
+      <input
+        matInput
+        formControlName="roomname"
+        placeholder="enter room name"
+      />
+      <mat-error>{{ error$.roomname | async }}</mat-error>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <mat-label>Capacity</mat-label>
+      <input
+        matInput
+        formControlName="capacity"
+        type="number"
+        placeholder="capacity"
+      />
+      <mat-error>{{ error$.capacity | async }}</mat-error>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end end">
+      <button mat-stroked-button type="button" (click)="close()">Cancel</button>
+      <button mat-raised-button color="accent">Create</button>
+    </div>
+  </div>
+</form>

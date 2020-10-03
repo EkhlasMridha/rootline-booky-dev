@@ -14,18 +14,18 @@ import { NonavLayoutComponent } from './components/nonav-layout/nonav-layout.com
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatButtonModule } from '@angular/material/button';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { interceptorProvider } from '../shared-services/interceptors/interceptor.provider';
-import { ApiInterceptorService } from '../shared-services/interceptors/api-interceptor.service';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CalendarPopupModule } from '../shared-modules/calendar-popup/calendar-popup.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RoomCreateComponent } from './modals/room-create/room-create.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 export function initializer(domainService: DomainService) {
   return () => {
@@ -46,6 +46,7 @@ export function initializer(domainService: DomainService) {
     NonavLayoutComponent,
     MainLayoutComponent,
     NotFoundComponent,
+    RoomCreateComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +61,11 @@ export function initializer(domainService: DomainService) {
     OverlayModule,
     MatNativeDateModule,
     CalendarPopupModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
   ],
   providers: [
     JwtHelperService,
