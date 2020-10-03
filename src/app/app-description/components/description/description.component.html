@@ -8,13 +8,6 @@
     <button
       fxLayoutAlign="center center"
       mat-icon-button
-      (click)="editDescription()"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button
-      fxLayoutAlign="center center"
-      mat-icon-button
       (click)="deleteBooking()"
     >
       <mat-icon>delete</mat-icon>
@@ -30,21 +23,44 @@
     >
       <div [ngStyle]="{ background: typeColor }" class="indicator"></div>
       <div fxLayout="column" fxLayoutAlign="start start">
-        <span class="customer"
-          >{{ customer.firstname }} {{ customer.lastname }}</span
-        >
+        <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
+          <span class="customer"
+            >{{ customer.firstname }} {{ customer.lastname }}</span
+          >
+          <button
+            fxLayoutAlign="center center"
+            mat-icon-button
+            (click)="editCustomer()"
+            class="edit-button"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
         <span class="booked-date">Booked {{ bookedDate }}</span>
+        <span class="booked-date">Email: {{ customer.email }}</span>
+        <span class="booked-date"> Phone: {{ customer.phoneNumber }}</span>
       </div>
     </div>
+    <div class="border-line"></div>
     <div
       class="content-fonts"
       *ngIf="bookingDate"
       fxLayout="row"
       fxLayoutGap="5px"
-      fxLayoutAlign="start center"
+      fxLayoutAlign="space-between center"
     >
-      <mat-icon>calendar_today</mat-icon>
-      <span>{{ bookingDate.from }} - {{ bookingDate.to }}</span>
+      <div fxLayout="row" fxLayoutGap="5px">
+        <mat-icon>calendar_today</mat-icon>
+        <span>{{ bookingDate.from }} - {{ bookingDate.to }}</span>
+      </div>
+      <button
+        fxLayoutAlign="center center"
+        mat-icon-button
+        (click)="editBooking()"
+        class="edit-button"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
     </div>
     <div
       *ngIf="nights"
@@ -65,7 +81,7 @@
     >
       <mat-icon>local_offer</mat-icon><span>{{ amount }} CHF</span>
     </div>
-    <div class="border-line"></div>
+    <div class="dashed"></div>
     <div
       *ngIf="data"
       class="content-fonts"

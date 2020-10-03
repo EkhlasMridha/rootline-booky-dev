@@ -11,19 +11,26 @@ import {
 import { DescriptionService } from './services/DescriptionService';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { EditCustomerComponent } from './modals/edit-customer/edit-customer.component';
+import { EditBookingComponent } from './modals/edit-booking/edit-booking.component';
+import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-material/forms-material.module';
 
 export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
   ...DEFAULT_CONFIG,
 };
 
 @NgModule({
-  declarations: [DescriptionComponent],
+  declarations: [
+    DescriptionComponent,
+    EditCustomerComponent,
+    EditBookingComponent,
+  ],
   imports: [
     CommonModule,
     SharedMaterialModule,
+    FormsMaterialModule,
     OverlayModule,
     MatRadioModule,
-    FormsModule,
   ],
   exports: [DescriptionComponent, OverlayModule],
   providers: [DescriptionService],

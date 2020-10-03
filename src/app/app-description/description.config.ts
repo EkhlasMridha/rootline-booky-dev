@@ -1,3 +1,4 @@
+import { OverlayRef } from '@angular/cdk/overlay';
 import { ElementRef, InjectionToken, ViewContainerRef } from '@angular/core';
 
 export interface FilePreviewDialogConfig {
@@ -8,6 +9,7 @@ export interface FilePreviewDialogConfig {
   viewContainerRef?: ViewContainerRef;
   positionX?: number;
   data?: any;
+  descriptionRef?: OverlayRef;
 }
 
 export const DEFAULT_CONFIG: FilePreviewDialogConfig = {

@@ -40,4 +40,11 @@ export class DescriptionApiService {
       catchError((err) => throwError(err))
     );
   }
+
+  updateCustomer(payload: any) {
+    return this.http.put('customer', payload).pipe(
+      retry(3),
+      catchError((err) => throwError(err))
+    );
+  }
 }

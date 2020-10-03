@@ -22,7 +22,9 @@
             *ngFor="let customer of customerList$ | async"
             [value]="customer.id"
           >
-            <span>{{ customer.firstname }} {{ customer.lastname }}</span>
+            <div class="name">
+              {{ customer.firstname }} {{ customer.lastname }}
+            </div>
           </mat-option>
         </mat-select>
         <mat-error>{{ errorObservers$.customerId | async }}</mat-error>

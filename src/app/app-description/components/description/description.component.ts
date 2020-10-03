@@ -16,6 +16,9 @@ import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { BookedRoomModel } from '../../models/booked-room.model';
 import { BookingModel } from 'src/app/app-calender/models/booking.model';
+import { MatDialog } from '@angular/material/dialog';
+import { EditBookingComponent } from '../../modals/edit-booking/edit-booking.component';
+import { EditCustomerComponent } from '../../modals/edit-customer/edit-customer.component';
 
 @Component({
   selector: 'app-description',
@@ -43,7 +46,8 @@ export class DescriptionComponent implements OnInit {
   constructor(
     @Inject(DESCRIPTION_POPUP_CONFIG) token: DescriptionToken,
     private descriptionAPI: DescriptionApiService,
-    private timelineControler: TimelineControlService
+    private timelineControler: TimelineControlService,
+    private dialog: MatDialog
   ) {
     this.popConfig = token.config;
     this.data = token.config.data.booked;
@@ -56,8 +60,25 @@ export class DescriptionComponent implements OnInit {
     this.initContent();
   }
 
-  editDescription() {
-    console.log('edit');
+  editBooking() {
+    this.dialog.open(EditBookingComponent, {
+      width: 'auto',
+      data: this.timelineData,
+    });
+  }
+
+  editCustomer() {
+    let ref = this.dialog.open(EditCustomerComponent, {
+      width: 'auto',
+      data: this.customer,
+    });
+
+    let subscription = ref.afterClosed().subscribe((res) => {
+      if (res) {
+        this.customer = res;
+      }
+      subscription.unsubscribe();
+    });
   }
 
   deleteBooking() {
