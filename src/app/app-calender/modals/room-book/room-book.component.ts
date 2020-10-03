@@ -150,17 +150,15 @@ export class RoomBookComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.data);
     if (!this.bookingForm.valid && this.bookingForm.errors != null) {
       this.formService.checkFormStatus(this.bookingForm);
       return;
     }
     const result = _.cloneDeep(this.bookingForm.value);
     let payload = this.prepareBookingPayload(result);
-    console.log(payload);
     this.bookingService.createBooking(payload).subscribe((res) => {
-      console.log(res);
       this.caledarControl.updateCaledar(res);
+      this.dialogRef.close();
     });
   }
 

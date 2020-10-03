@@ -21,16 +21,13 @@ export class RoomsComponent implements OnInit {
 
   constructor(
     private roomService: RoomApiService,
-    private stateControler: StateControlService,
-    private calendarControl: CalendarControlService
+    private stateControler: StateControlService
   ) {
     this.getData();
     this.stateColors = DomainService.domains.StateColors;
   }
 
-  ngOnInit(): void {
-    this.updateCalendarData();
-  }
+  ngOnInit(): void {}
 
   getView(date: number) {
     let view = document.getElementById(date.toString());
@@ -56,12 +53,6 @@ export class RoomsComponent implements OnInit {
     forkJoin(apis).subscribe((res) => {
       this.isLoading = false;
       this.stateControler.sendState(this.allStates);
-    });
-  }
-
-  updateCalendarData() {
-    this.calendarControl.calendarUpdate$.subscribe((res) => {
-      console.log(res);
     });
   }
 }

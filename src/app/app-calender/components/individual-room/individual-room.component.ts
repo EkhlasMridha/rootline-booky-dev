@@ -1,14 +1,14 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { TimelineControlService } from 'src/app/shared-services/timeline-control.service';
-import { CreateCustomerComponent } from '../../modals/create-customer/create-customer.component';
 import { RoomBookComponent } from '../../modals/room-book/room-book.component';
-import { SelectCustomerComponent } from '../../modals/select-customer/select-customer.component';
 import { BookedModel } from '../../models/booked.model';
 import { DayModel } from '../../models/day.model';
 import { RoomModel } from '../../models/room.model';
 import { TimelineModel } from '../../models/timeline.model';
 import { TimelineService } from '../../services/timeline.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'individual-room',
@@ -25,12 +25,14 @@ export class IndividualRoomComponent {
   constructor(
     private timlineService: TimelineService,
     private timelineControler: TimelineControlService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private caledarControl: CalendarControlService
   ) {}
 
   ngOnInit(): void {
     this.updateTimeline();
     this.deleteTimeline();
+    this.updateCalendarData();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,5 +90,34 @@ export class IndividualRoomComponent {
         }
       );
     });
+  }
+
+  updateCalendarData() {
+    let booking: any;
+
+    this.caledarControl.calendarUpdate$.subscribe((res) => {
+      booking = res;
+      this.mapBookingData(booking);
+    });
+  }
+
+  mapBookingData(data: any) {
+    let bookings: Partial<BookedModel> = {};
+    bookings.booking = _.cloneDeep(data);
+    bookings.booking.bookedRoom = [];
+    data.bookedRoom.forEach((booked) => {
+      if (booked.roomId == this.hotelRoom.id) {
+        bookings.bookingId = booked.bookingId;
+        bookings.roomId = booked.roomId;
+
+        this.hotelRoom.bookedRooms.push(bookings as BookedModel);
+        this.timelines = this.timlineService.getTimelineStartEnd(
+          this.hotelRoom,
+          this.calendarDates
+        );
+      }
+    });
+
+    return bookings;
   }
 }
