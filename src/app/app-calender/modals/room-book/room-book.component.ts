@@ -10,7 +10,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import * as _ from 'lodash';
 import { BookedModel } from '../../models/booked.model';
@@ -20,6 +24,7 @@ import { RoomApiService } from '../../services/room-api.service';
 import { debounceTime, filter, map, mergeMap, tap } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { IconService } from 'src/app/shared-services/utilities/icon.service';
+import { CreateCustomerComponent } from '../create-customer/create-customer.component';
 
 @Component({
   selector: 'app-room-book',
@@ -52,7 +57,8 @@ export class RoomBookComponent implements OnInit {
     private formService: FormService,
     private dialogRef: MatDialogRef<RoomBookComponent>,
     private bookingService: RoomApiService,
-    private iconService: IconService
+    private iconService: IconService,
+    private dialog: MatDialog
   ) {
     this.data = data;
     this.iconService.loadIcons(['user']);
@@ -132,6 +138,13 @@ export class RoomBookComponent implements OnInit {
         ],
       }
     );
+  }
+
+  createCustomer() {
+    this.dialog.open(CreateCustomerComponent, {
+      width: 'auto',
+      disableClose: true,
+    });
   }
 
   onSubmit() {

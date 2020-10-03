@@ -74,6 +74,7 @@ export class CreateCustomerComponent implements OnInit {
     this.apiService.createCustomer(customer).subscribe((res) => {
       console.log(res);
     });
+    console.log(customer);
   }
 
   close() {
