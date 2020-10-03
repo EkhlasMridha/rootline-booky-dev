@@ -15,6 +15,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SelectCustomerComponent } from './modals/select-customer/select-customer.component';
 import { CreateCustomerComponent } from './modals/create-customer/create-customer.component';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { CreateCustomerComponent } from './modals/create-customer/create-custome
     FormsMaterialModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
+    NgxMatSelectSearchModule,
   ],
   exports: [CalendarComponent],
 })

@@ -6,14 +6,37 @@
     fxLayoutGap="10px"
     fxLayout="column"
   >
-    <div *ngIf="customer" fxLayout="column" fxLayoutAlign="start start">
-      <span class="guest-name">Guest name:</span>
-      <span class="name">{{ customer.firstname }} {{ customer.lastname }}</span>
+    <div fxLayout="row" fxLayoutAlign="start start">
+      <mat-form-field>
+        <mat-label>Select Customer</mat-label>
+        <mat-select formControlName="customerId" required>
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="customerListFilterCtrl"
+              [searching]="searching"
+              placeholderLabel="Search for customer"
+              noEntriesFoundLabel="No customer found"
+            ></ngx-mat-select-search>
+          </mat-option>
+          <mat-option
+            *ngFor="let customer of customerList$ | async"
+            [value]="customer"
+          >
+            <span>{{ customer.firstname }} {{ customer.lastname }}</span>
+          </mat-option>
+        </mat-select>
+        <mat-error>{{ errorObservers$.customerId | async }}</mat-error>
+      </mat-form-field>
     </div>
     <div>
       <mat-form-field color="accent" class="full-width">
         <mat-label>Select date</mat-label>
-        <input matInput formControlName="toDate" [matDatepicker]="picker1" />
+        <input
+          matInput
+          formControlName="toDate"
+          [matDatepicker]="picker1"
+          required
+        />
         <mat-datepicker-toggle
           matPrefix
           [for]="picker1"

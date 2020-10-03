@@ -1,6 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TimelineControlService } from 'src/app/shared-services/timeline-control.service';
+import { CreateCustomerComponent } from '../../modals/create-customer/create-customer.component';
 import { RoomBookComponent } from '../../modals/room-book/room-book.component';
 import { SelectCustomerComponent } from '../../modals/select-customer/select-customer.component';
 import { BookedModel } from '../../models/booked.model';
@@ -43,9 +44,8 @@ export class IndividualRoomComponent {
 
   bookRoom(date: any) {
     console.log(date);
-    this.dialog.open(SelectCustomerComponent, {
-      width: '350px',
-      panelClass: 'modal-body',
+    this.dialog.open(RoomBookComponent, {
+      width: 'auto',
       data: { date: date, data: this.hotelRoom },
     });
   }

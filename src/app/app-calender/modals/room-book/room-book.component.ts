@@ -4,7 +4,12 @@ import {
   Inject,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import * as _ from 'lodash';
@@ -12,6 +17,8 @@ import { BookedModel } from '../../models/booked.model';
 import { BookingModel } from '../../models/booking.model';
 import { CustomerModel } from 'src/app/shared-modules/models/customer.model';
 import { RoomApiService } from '../../services/room-api.service';
+import { debounceTime, filter, map, mergeMap, tap } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-room-book',
@@ -26,8 +33,12 @@ export class RoomBookComponent implements OnInit {
 
   startDate: any;
   public static bookedRooms: BookedModel[] = [];
+  public customerListFilterCtrl: FormControl = new FormControl();
+  customerList$: ReplaySubject<any[]> = new ReplaySubject(1);
+  searching: boolean = false;
 
   errorObservers$ = {
+    customerId: '',
     toDate: '',
     adults: '',
     children: '',
@@ -41,8 +52,7 @@ export class RoomBookComponent implements OnInit {
     private dialogRef: MatDialogRef<RoomBookComponent>,
     private bookingService: RoomApiService
   ) {
-    this.data = data.room;
-    this.customer = data.customer;
+    this.data = data;
   }
 
   ngOnInit(): void {
@@ -59,10 +69,33 @@ export class RoomBookComponent implements OnInit {
       this.errorObservers$,
       this.errorTypeGenerator
     );
+    this.getCustomerList().subscribe(
+      (res) => {
+        this.customerList$.next(res);
+      },
+      (error) => {
+        this.searching = false;
+      }
+    );
+  }
+
+  getCustomerList() {
+    return this.customerListFilterCtrl.valueChanges.pipe(
+      filter((search) => !!search),
+      tap(() => (this.searching = true)),
+      debounceTime(1000),
+      mergeMap((res) => {
+        return this.bookingService
+          .getCustomerByquery(res)
+          .pipe(tap(() => (this.searching = false)));
+      })
+    );
   }
 
   errorTypeGenerator(type: string, owner: string) {
     switch (owner) {
+      case 'customerId':
+        return 'Please select a customer';
       case 'toDate':
         return 'Selcet a date';
       case 'adults':
@@ -77,6 +110,7 @@ export class RoomBookComponent implements OnInit {
   createBookingForm() {
     return this.formBuilder.group(
       {
+        customerId: [null, Validators.required],
         toDate: ['', Validators.required],
         adults: [
           0,
@@ -104,11 +138,11 @@ export class RoomBookComponent implements OnInit {
       return;
     }
     const result = _.cloneDeep(this.bookingForm.value);
-    let payload = this.prepareBookingPayload(result);
-    console.log(payload);
-    this.bookingService.createBooking(payload).subscribe((res) => {
-      console.log(res);
-    });
+    // let payload = this.prepareBookingPayload(result);
+    console.log(result);
+    // this.bookingService.createBooking(payload).subscribe((res) => {
+    //   console.log(res);
+    // });
   }
 
   prepareBookingPayload(data: any) {
