@@ -42,6 +42,7 @@ export class DescriptionComponent implements OnInit {
   currentState: any;
   stateList: any;
   timelineData: any;
+  editBookingData: any;
   stateColors: any[];
 
   constructor(
@@ -52,35 +53,40 @@ export class DescriptionComponent implements OnInit {
   ) {
     this.popConfig = token.config;
     this.data = token.config.data.booked;
-    this.timelineData = token.config.data;
+    this.timelineData = _.cloneDeep(token.config.data);
+    this.editBookingData = token.config.data;
     this.months = DomainService.domains.Months;
     this.stateColors = DomainService.domains.StateColors;
   }
 
   ngOnInit(): void {
-    console.log(this.data);
     this.initContent();
   }
 
   editBooking() {
     let dialogRef = this.dialog.open(EditBookingComponent, {
       width: 'auto',
-      data: this.timelineData,
+      data: this.editBookingData,
     });
 
     dialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        console.log(res);
+        // this.editBookingData.booked.booking = res;
         this.bookingModel = res;
         this.bookingModel.state = this.data.booking.state;
         this.data.booking = this.bookingModel;
         this.initBookingInfo();
+        this.updateTimelineData();
       }
     });
   }
 
-  prepareBooking(data: BookingModel) {
-    data;
+  updateTimelineData() {
+    let pre = _.cloneDeep(this.timelineData.booked);
+    this.timelineData.booked = this.data;
+    let cur = this.timelineData;
+
+    this.timelineControler.updateTimeline({ current: cur, previous: pre });
   }
 
   editCustomer() {
@@ -109,7 +115,6 @@ export class DescriptionComponent implements OnInit {
     this.descriptionAPI.deleteBookedRoom(booked).subscribe((res) => {
       this.timelineControler.deleteTimeline(this.timelineData);
     });
-    console.log(booked);
   }
 
   initContent() {
@@ -228,7 +233,6 @@ export class DescriptionComponent implements OnInit {
     this.descriptionAPI
       .updateBookingState(info.current.booked.booking)
       .subscribe((res) => {
-        console.log(info.current.booked.booking);
         this.typeColor = this.getTypeColor(state);
         this.timelineControler.updateTimeline(info);
       });

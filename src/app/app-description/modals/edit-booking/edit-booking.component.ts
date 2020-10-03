@@ -29,7 +29,6 @@ export class EditBookingComponent implements OnInit {
     private apiService: DescriptionApiService
   ) {
     this.data = data;
-    console.log(data);
   }
 
   ngOnInit(): void {
@@ -56,8 +55,8 @@ export class EditBookingComponent implements OnInit {
 
   createForm() {
     return this.formBuilder.group({
-      book_From: [this.data.startDate.date, Validators.required],
-      leave_At: [this.data.endDate.date, Validators.required],
+      book_From: [this.data.booked.booking.book_From, Validators.required],
+      leave_At: [this.data.booked.booking.leave_At, Validators.required],
       adults: [
         this.data.booked.booking.adults,
         Validators.compose([Validators.required, Validators.min(1)]),
@@ -77,9 +76,8 @@ export class EditBookingComponent implements OnInit {
 
     this.booking = result;
     let preparedData = this.prepareBookingModel(this.booking);
-    console.log(preparedData);
+
     this.apiService.updateBooking(preparedData).subscribe((res) => {
-      console.log(res);
       this.dialogRef.close(res);
     });
   }

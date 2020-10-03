@@ -36,8 +36,6 @@ export class IndividualRoomComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.hotelRoom);
-
     let timeline = this.timlineService.getTimelineStartEnd(
       this.hotelRoom,
       this.calendarDates
@@ -47,7 +45,6 @@ export class IndividualRoomComponent {
   }
 
   bookRoom(date: any) {
-    // console.log(date);
     this.dialog.open(RoomBookComponent, {
       width: 'auto',
       data: { date: date, data: this.hotelRoom },
@@ -60,6 +57,7 @@ export class IndividualRoomComponent {
     this.timelineControler.timlineUpdate$.subscribe((res) => {
       updateData = res.current;
       currentData = res.previous;
+
       if (this.hotelRoom.id != currentData.roomId) return;
       this.hotelRoom.bookedRooms = this.hotelRoom.bookedRooms.map((line) => {
         if (
