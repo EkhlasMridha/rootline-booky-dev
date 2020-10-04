@@ -1,6 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { ValidatorsService } from '../../services/validators.service';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { RoomApiService } from '../../services/room-api.service';
 
@@ -17,7 +25,8 @@ export class CreateCustomerComponent implements OnInit {
     private dialogRef: MatDialogRef<CreateCustomerComponent>,
     private formBuilder: FormBuilder,
     private formService: FormService,
-    private apiService: RoomApiService
+    private apiService: RoomApiService,
+    private validators: ValidatorsService
   ) {
     this.data = data;
   }
@@ -47,10 +56,15 @@ export class CreateCustomerComponent implements OnInit {
       case 'email':
         if (type == 'required') {
           return 'Email is required';
+        } else if (type == 'isExists') {
+          return 'Already has a user with this email';
         } else {
           return 'Invalid email';
         }
       case 'phoneNumber':
+        if (type == 'isExists') {
+          return 'Already has a user with this phone number';
+        }
         return 'Phone number is required';
     }
   }
@@ -59,8 +73,12 @@ export class CreateCustomerComponent implements OnInit {
     return this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      phoneNumber: ['', Validators.required],
+      email: [
+        '',
+        Validators.compose([Validators.required, Validators.email]),
+        this.checkMail.bind(this),
+      ],
+      phoneNumber: ['', Validators.required, this.checkPhone.bind(this)],
     });
   }
 
@@ -77,5 +95,13 @@ export class CreateCustomerComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
+  }
+
+  checkMail({ value }: AbstractControl): Observable<ValidationErrors | null> {
+    return this.validators.isMailExists(value);
+  }
+
+  checkPhone({ value }: AbstractControl): Observable<ValidationErrors | null> {
+    return this.validators.isPhoneExists(value);
   }
 }
