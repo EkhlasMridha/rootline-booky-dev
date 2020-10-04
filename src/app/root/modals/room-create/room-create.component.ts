@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { RoomApiService } from '../services/room-api.service';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { StateControlService } from 'src/app/shared-services/state-control.service';
+import { RootlineModalService } from 'rootline-dialog';
 
 @Component({
   selector: 'app-room-create',
@@ -22,10 +23,12 @@ export class RoomCreateComponent implements OnInit {
     private roomApi: RoomApiService,
     private formBuilder: FormBuilder,
     private formService: FormService,
-    private stateControler: StateControlService
+    private stateControler: StateControlService,
+    private modalService: RootlineModalService
   ) {}
 
   ngOnInit(): void {
+    this.tryAgain = this.tryAgain.bind(this);
     this.roomForm = this.createForm();
     this.formService.handleFormError(
       this.roomForm,
@@ -65,11 +68,38 @@ export class RoomCreateComponent implements OnInit {
 
     const result = Object.assign({}, this.roomForm.value);
 
-    console.log(result);
-    this.roomApi.createRoom(result).subscribe((res) => {
-      console.log(res);
-      this.stateControler.sendRoomCreationSignal(res);
-      this.dialogRef.close();
+    let ref = this.modalService.openConfirmationModal({
+      isLoader: true,
+      loaderText: 'Creating room ...',
+      disableClose: true,
     });
+
+    this.roomApi.createRoom(result).subscribe(
+      (res) => {
+        this.stateControler.sendRoomCreationSignal(res);
+        this.dialogRef.close();
+        ref.close();
+        this.modalService.dispose();
+      },
+      (err) => {
+        ref.close();
+        this.modalService.dispose();
+        this.errorModal();
+      }
+    );
+  }
+
+  errorModal() {
+    this.modalService.openConfirmationModal({
+      matIcon: 'error_outline',
+      headerText: 'Error ocurred while Creating room',
+      primaryButtonName: 'Try again',
+      modalWidth: '550px',
+      primaryEvent: this.tryAgain,
+    });
+  }
+
+  tryAgain() {
+    this.modalService.dispose();
   }
 }
