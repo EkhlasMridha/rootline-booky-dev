@@ -29,6 +29,7 @@ import { CreateCustomerComponent } from '../create-customer/create-customer.comp
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { RootlineModalService } from 'rootline-dialog';
 
 @Component({
   selector: 'app-room-book',
@@ -67,7 +68,8 @@ export class RoomBookComponent implements OnInit {
     private bookingService: RoomApiService,
     private iconService: IconService,
     private dialog: MatDialog,
-    private caledarControl: CalendarControlService
+    private caledarControl: CalendarControlService,
+    private modalService: RootlineModalService
   ) {
     this.data = data;
     this.iconService.loadIcons(['user']);
@@ -166,10 +168,41 @@ export class RoomBookComponent implements OnInit {
 
     let payload = this.prepareBookingPayload(result);
 
-    this.bookingService.createBooking(payload).subscribe((res) => {
-      this.caledarControl.updateCaledar(res);
-      this.dialogRef.close();
+    let dialogRef = this.modalService.openConfirmationModal({
+      isLoader: true,
+      loaderText: 'Creating booking ...',
+      disableClose: true,
     });
+    this.bookingService.createBooking(payload).subscribe(
+      (res) => {
+        this.caledarControl.updateCaledar(res);
+        this.dialogRef.close();
+        dialogRef.close();
+        this.modalService.dispose();
+      },
+      (err) => {
+        this.dialogRef.close();
+        dialogRef.close();
+        this.modalService.dispose();
+        this.errorModal();
+      }
+    );
+  }
+
+  errorModal() {
+    this.modalService.openConfirmationModal({
+      matIcon: 'error_outline',
+      type: 'error',
+      headerText: 'Booking creation failed',
+      description:
+        'Check if there is already a booking available in this range or you have entered everything correctly.',
+      primaryButtonName: 'Okay',
+      primaryEvent: this.errorDialogEvent,
+    });
+  }
+
+  errorDialogEvent(event) {
+    this.modalService.dispose();
   }
 
   prepareBookingPayload(data: any) {

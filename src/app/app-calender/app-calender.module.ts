@@ -16,6 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { CreateCustomerComponent } from './modals/create-customer/create-customer.component';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { RootlineDialogModule } from 'rootline-dialog';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatNativeDateModule,
     MatSelectModule,
     NgxMatSelectSearchModule,
+    RootlineDialogModule.forChild(),
   ],
   exports: [CalendarComponent],
 })
