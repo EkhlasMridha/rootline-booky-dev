@@ -160,7 +160,7 @@ export class RoomBookComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.bookingForm.valid && this.bookingForm.errors != null) {
+    if (!this.bookingForm.valid || this.bookingForm.errors != null) {
       this.formService.checkFormStatus(this.bookingForm);
       return;
     }
