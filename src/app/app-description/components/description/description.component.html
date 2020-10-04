@@ -1,4 +1,4 @@
-<div fxLayout="column">
+<div *ngIf="!isLoading" fxLayout="column">
   <div
     fxLayout="row"
     fxLayoutGap="5px"
@@ -13,7 +13,7 @@
       <mat-icon>delete</mat-icon>
     </button>
   </div>
-  <div fxLayout="column" class="description-container" fxLayoutGap="10px">
+  <div fxLayout="column" class="description-container" fxLayoutGap="7px">
     <div
       class="full-width"
       fxLayout="row"
@@ -79,6 +79,19 @@
       fxLayoutGap="5px"
       fxLayoutAlign="start center"
     >
+      <mat-icon>person</mat-icon>
+      <span
+        >Adults: {{ data.booking.adults }} | Childrens:
+        {{ data.booking.children }}</span
+      >
+    </div>
+    <div
+      *ngIf="data"
+      class="content-fonts"
+      fxLayout="row"
+      fxLayoutGap="5px"
+      fxLayoutAlign="start center"
+    >
       <mat-icon>local_offer</mat-icon><span>{{ amount }} CHF</span>
     </div>
     <div class="dashed"></div>
@@ -107,5 +120,33 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
+  </div>
+</div>
+
+<div
+  *ngIf="isLoading"
+  class="ghost-container"
+  fxLayout="column"
+  fxLayoutGap="5px"
+>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      'border-radius': '2px',
+      height: '80px',
+      width: '80%'
+    }"
+  ></ngx-skeleton-loader>
+  <ngx-skeleton-loader
+    count="5"
+    appearance="line"
+    [theme]="{
+      'border-radius': '2px',
+      height: '10px'
+    }"
+  ></ngx-skeleton-loader>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <ngx-skeleton-loader count="4" appearance="circle"></ngx-skeleton-loader>
   </div>
 </div>

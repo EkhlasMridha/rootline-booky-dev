@@ -26,6 +26,7 @@
     "document-register-element": "^1.7.2",
     "lodash": "^4.17.20",
     "ngx-mat-select-search": "^3.1.0",
+    "ngx-skeleton-loader": "^2.4.4",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
     "web-animations-js": "^2.3.2",

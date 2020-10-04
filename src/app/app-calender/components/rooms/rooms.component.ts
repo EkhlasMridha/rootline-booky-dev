@@ -49,7 +49,6 @@ export class RoomsComponent implements OnInit {
       this.roomService.getAllRoomData().pipe(
         tap((res) => {
           this.guestRooms = res;
-          console.log(this.guestRooms);
         })
       ),
       this.roomService.getAllStates().pipe(

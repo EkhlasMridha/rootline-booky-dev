@@ -60,6 +60,7 @@ export class DescriptionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data);
     this.initContent();
   }
 
