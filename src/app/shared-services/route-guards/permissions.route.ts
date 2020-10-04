@@ -2,7 +2,6 @@ const authRoutes: string[] = ['/dashboard'];
 
 export function isAuhtRoute(url: string) {
   let refinedRoute = getRifinedRoute(url);
-  console.log('refined url: ' + refinedRoute);
   let check = authRoutes.includes(refinedRoute);
 
   return check;

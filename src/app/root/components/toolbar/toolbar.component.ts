@@ -95,7 +95,6 @@ export class ToolbarComponent implements OnInit {
   }
 
   openDatePicker(elm) {
-    console.log(elm);
     let ref = elm._elementRef;
     this.popUpRef = this.datePickerService.open({
       elementRef: ref,

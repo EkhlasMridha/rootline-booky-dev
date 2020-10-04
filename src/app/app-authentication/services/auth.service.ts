@@ -46,7 +46,6 @@ export class AuthService {
       username = userIdentity;
       queryParams = queryParams.append('UserName', username);
     }
-    console.log(email + ' ' + typeof username);
 
     return this.http
       .get('identity/reset_request', { params: queryParams })

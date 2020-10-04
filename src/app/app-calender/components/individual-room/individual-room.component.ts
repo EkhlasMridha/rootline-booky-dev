@@ -47,6 +47,7 @@ export class IndividualRoomComponent {
   bookRoom(date: any) {
     this.dialog.open(RoomBookComponent, {
       width: 'auto',
+      panelClass: 'modal-body',
       data: { date: date, data: this.hotelRoom },
     });
   }

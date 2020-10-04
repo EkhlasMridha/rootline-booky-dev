@@ -81,7 +81,11 @@ export class CreateCustomerComponent implements OnInit {
         Validators.compose([Validators.required, Validators.email]),
         this.checkMail.bind(this),
       ],
-      phoneNumber: ['', Validators.required, this.checkPhone.bind(this)],
+      phoneNumber: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(8)]),
+        this.checkPhone.bind(this),
+      ],
     });
   }
 

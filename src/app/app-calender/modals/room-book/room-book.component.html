@@ -1,125 +1,137 @@
-<div class="full-width">
-  <form
-    [formGroup]="bookingForm"
-    (ngSubmit)="onSubmit()"
-    class="full-width"
-    fxLayoutGap="10px"
-    fxLayout="column"
-  >
-    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-      <mat-form-field class="full-width" color="accent">
-        <mat-label>Select Customer</mat-label>
-        <mat-select #select formControlName="customerId" required>
-          <mat-select-trigger *ngIf="selectedCustomer && selectedCustomer.value"
-            >{{ selectedCustomer.value.firstname }}
-            {{ selectedCustomer.value.lastname }}</mat-select-trigger
-          >
-          <mat-option>
-            <ngx-mat-select-search
-              [formControl]="customerListFilterCtrl"
-              [searching]="searching"
-              placeholderLabel="Search for customer"
-              noEntriesFoundLabel="No customer found"
-            ></ngx-mat-select-search>
-          </mat-option>
-          <mat-option
-            *ngFor="let customer of customerList$ | async"
-            [value]="customer"
-          >
-            <div class="name" fxLayout="column">
-              <span class="name-tag"
-                >{{ customer.firstname }} {{ customer.lastname }}</span
-              >
-              <div fxLayout="row" fxLayoutGap="10px">
-                <span class="details">Phone: {{ customer.phoneNumber }}</span>
-                <span class="details">Email: {{ customer.email }}</span>
-              </div>
-            </div>
-          </mat-option>
-        </mat-select>
-        <mat-error>{{ errorObservers$.customerId | async }}</mat-error>
-      </mat-form-field>
-      <div>
-        <button
-          mat-mini-fab
-          color="accent"
-          type="button"
-          fxLayoutAlign="center center"
-          (click)="createCustomer()"
-        >
-          <mat-icon svgIcon="user" style="transform: scale(0.8)"></mat-icon>
-        </button>
-      </div>
-    </div>
-
-    <div>
-      <mat-form-field color="accent" class="full-width">
-        <mat-label>Select date</mat-label>
-        <input
-          matInput
-          formControlName="toDate"
-          [matDatepicker]="picker1"
-          [matDatepickerFilter]="bookedDates"
-          required
-        />
-        <mat-datepicker-toggle
-          matPrefix
-          [for]="picker1"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker1 [startAt]="startDate"></mat-datepicker>
-        <mat-error>{{ errorObservers$.toDate | async }}</mat-error>
-      </mat-form-field>
-    </div>
-    <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="space-between center">
-      <mat-form-field class="full-width" color="accent">
-        <mat-label>Adults</mat-label>
-        <input
-          matInput
-          formControlName="adults"
-          placeholder="adults"
-          type="number"
-          min="0"
-          required
-        />
-        <mat-error>{{ errorObservers$.adults | async }}</mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-width" color="accent">
-        <mat-label>Children</mat-label>
-        <input
-          matInput
-          formControlName="children"
-          placeholder="children"
-          type="number"
-          min="0"
-        />
-        <mat-error>{{ errorObservers$.children | async }}</mat-error>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field class="full-width" color="accent">
-        <mat-label>CHF/Night</mat-label>
-        <input
-          matInput
-          formControlName="chf"
-          placeholder="CHF/Night"
-          type="number"
-          min="0"
-          required
-        />
-        <mat-error>{{ errorObservers$.chf | async }}</mat-error>
-      </mat-form-field>
-    </div>
-    <span class="form-errors">{{
-      bookingForm.errors ? errorTypeGenerator("error", "bookingForm") : ""
-    }}</span>
-    <div
+<div class="full-width" fxLayout="column">
+  <div fxLayoutAlign="center center" class="modal-header">
+    <span>Create a booking</span>
+  </div>
+  <div class="modal-content">
+    <form
+      [formGroup]="bookingForm"
+      (ngSubmit)="onSubmit()"
       class="full-width"
-      fxLayout="row"
-      fxLayoutGap="15px"
-      fxLayoutAlign="end end"
+      fxLayoutGap="10px"
+      fxLayout="column"
     >
-      <button mat-stroked-button type="button" (click)="close()">Cancel</button>
-      <button mat-raised-button color="accent" type="submit">Save</button>
-    </div>
-  </form>
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <div>
+          <button
+            mat-mini-fab
+            color="accent"
+            type="button"
+            fxLayoutAlign="center center"
+            (click)="createCustomer()"
+          >
+            <mat-icon svgIcon="user" style="transform: scale(0.8)"></mat-icon>
+          </button>
+        </div>
+        <mat-form-field class="full-width" color="accent">
+          <mat-label>Select Customer</mat-label>
+          <mat-select #select formControlName="customerId" required>
+            <mat-select-trigger
+              *ngIf="selectedCustomer && selectedCustomer.value"
+              >{{ selectedCustomer.value.firstname }}
+              {{ selectedCustomer.value.lastname }}</mat-select-trigger
+            >
+            <mat-option>
+              <ngx-mat-select-search
+                [formControl]="customerListFilterCtrl"
+                [searching]="searching"
+                placeholderLabel="Search for customer"
+                noEntriesFoundLabel="No customer found"
+              ></ngx-mat-select-search>
+            </mat-option>
+            <mat-option
+              *ngFor="let customer of customerList$ | async"
+              [value]="customer"
+            >
+              <div class="name" fxLayout="column">
+                <span class="name-tag"
+                  >{{ customer.firstname }} {{ customer.lastname }}</span
+                >
+                <div fxLayout="row" fxLayoutGap="10px">
+                  <span class="details">Phone: {{ customer.phoneNumber }}</span>
+                  <span class="details">Email: {{ customer.email }}</span>
+                </div>
+              </div>
+            </mat-option>
+          </mat-select>
+          <mat-error>{{ errorObservers$.customerId | async }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field color="accent" class="full-width">
+          <mat-label>Select end date</mat-label>
+          <input
+            matInput
+            formControlName="toDate"
+            [matDatepicker]="picker1"
+            [matDatepickerFilter]="bookedDates"
+            required
+          />
+          <mat-datepicker-toggle
+            matPrefix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1 [startAt]="startDate"></mat-datepicker>
+          <mat-error>{{ errorObservers$.toDate | async }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayoutGap="15px"
+        fxLayoutAlign="space-between center"
+      >
+        <mat-form-field class="full-width" color="accent">
+          <mat-label>Adults</mat-label>
+          <input
+            matInput
+            formControlName="adults"
+            placeholder="adults"
+            type="number"
+            min="0"
+            required
+          />
+          <mat-error>{{ errorObservers$.adults | async }}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width" color="accent">
+          <mat-label>Children</mat-label>
+          <input
+            matInput
+            formControlName="children"
+            placeholder="children"
+            type="number"
+            min="0"
+          />
+          <mat-error>{{ errorObservers$.children | async }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="full-width" color="accent">
+          <mat-label>CHF/Night</mat-label>
+          <input
+            matInput
+            formControlName="chf"
+            placeholder="CHF/Night"
+            type="number"
+            min="0"
+            required
+          />
+          <mat-error>{{ errorObservers$.chf | async }}</mat-error>
+        </mat-form-field>
+      </div>
+      <span class="form-errors">{{
+        bookingForm.errors ? errorTypeGenerator("error", "bookingForm") : ""
+      }}</span>
+      <div
+        class="full-width"
+        fxLayout="row"
+        fxLayoutGap="15px"
+        fxLayoutAlign="end end"
+      >
+        <button mat-stroked-button type="button" (click)="close()">
+          Cancel
+        </button>
+        <button mat-raised-button color="accent" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
 </div>

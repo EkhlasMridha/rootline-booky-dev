@@ -80,7 +80,6 @@ export class RoomBookComponent implements OnInit {
     this.errorDialogEvent = this.errorDialogEvent.bind(this);
 
     this.bookedRooms = _.cloneDeep(this.data.data.bookedRooms);
-    console.log(this.data);
     this.startDate = new Date(
       this.data.date.year,
       this.data.date.month,
@@ -158,6 +157,7 @@ export class RoomBookComponent implements OnInit {
     this.dialog.open(CreateCustomerComponent, {
       width: 'auto',
       disableClose: true,
+      panelClass: 'modal-body',
     });
   }
 

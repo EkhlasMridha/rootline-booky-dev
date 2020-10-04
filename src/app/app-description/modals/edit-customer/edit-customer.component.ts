@@ -30,7 +30,6 @@ export class EditCustomerComponent implements OnInit {
     private modalService: RootlineModalService
   ) {
     this.data = data;
-    console.log(this.data);
   }
 
   ngOnInit(): void {
