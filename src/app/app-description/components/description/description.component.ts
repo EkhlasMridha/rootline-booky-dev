@@ -114,8 +114,8 @@ export class DescriptionComponent implements OnInit {
       matIcon: 'warning',
       type: 'warn',
       modalWidth: '500px',
-      primaryButtonName: 'Okay',
-      secondaryButtonName: 'Cancel',
+      primaryButtonName: 'Yes',
+      secondaryButtonName: 'No',
       primaryEvent: this.executeDelete,
       secondaryEvent: this.deleteCancel,
     });
