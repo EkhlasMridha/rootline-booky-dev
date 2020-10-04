@@ -40,7 +40,7 @@
     </button>
     <button
       mat-raised-button
-      color="primary"
+      color="accent"
       *ngIf="modalConfig.primaryButtonName"
       (click)="primaryButton($event)"
     >
@@ -54,7 +54,7 @@
   fxLayoutGap="30px"
 >
   <div>
-    <mat-spinner diameter="40"></mat-spinner>
+    <mat-spinner color="accent" diameter="40"></mat-spinner>
   </div>
   <div>
     <span style="font-size: 16px">{{ modalConfig.loaderText }}</span>

@@ -16,8 +16,8 @@ export interface ModalConfig {
   disableClose: boolean;
   isLoader: boolean;
   loaderText: string;
-  primaryEvent: () => any;
-  secondaryEvent: () => any;
+  primaryEvent: (event: MouseEvent) => any;
+  secondaryEvent: (event: MouseEvent) => any;
 }
 
 export const DefaultConfig: Partial<ModalConfig> = {

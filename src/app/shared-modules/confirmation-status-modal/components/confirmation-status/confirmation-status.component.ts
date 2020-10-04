@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationStatusService } from '../../services/confirmation-status.service';
 import {
   CONFIRMATION_MODAL_CONFIG,
+  DefaultConfig,
   ModalConfig,
   ModalToken,
 } from '../../configs/modal.config';
@@ -21,17 +22,20 @@ export class ConfirmationStatusComponent implements OnInit {
   ) {
     this.modalConfig = config;
     this.typeColor = this.setModalColor(this.modalConfig);
+    console.log(this.modalConfig);
   }
 
   ngOnInit(): void {}
 
-  primaryButton(event) {
-    this.modalConfig.primaryEvent();
+  primaryButton(event: MouseEvent) {
+    this.modalConfig.primaryEvent(event);
     this.ref.close();
+    this.modalConfig = DefaultConfig;
   }
-  secodaryButton(event) {
-    this.modalConfig.secondaryEvent();
+  secodaryButton(event: MouseEvent) {
+    this.modalConfig.secondaryEvent(event);
     this.ref.close();
+    this.modalConfig = DefaultConfig;
   }
 
   private setModalColor(config: Partial<ModalConfig>) {

@@ -12,10 +12,12 @@ import {
 })
 export class ConfirmationStatusService {
   modalConfig: Partial<ModalConfig>;
+  storedDefault: Partial<ModalConfig>;
   constructor(
     private dialog: MatDialog,
     @Inject(CONFIRMATION_MODAL_CONFIG) token: ModalToken
   ) {
+    this.storedDefault = token.default;
     this.modalConfig = {
       ...token.default,
       ...token.config,
@@ -29,6 +31,10 @@ export class ConfirmationStatusService {
       ...this.modalConfig,
       ...config,
     };
+  }
+
+  dispose() {
+    this.modalConfig = { ...this.storedDefault };
   }
 
   private verifyConfig(config: Partial<ModalConfig>) {

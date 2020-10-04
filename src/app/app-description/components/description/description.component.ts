@@ -19,6 +19,7 @@ import { BookingModel } from 'src/app/app-calender/models/booking.model';
 import { MatDialog } from '@angular/material/dialog';
 import { EditBookingComponent } from '../../modals/edit-booking/edit-booking.component';
 import { EditCustomerComponent } from '../../modals/edit-customer/edit-customer.component';
+import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
 
 @Component({
   selector: 'app-description',
@@ -49,7 +50,8 @@ export class DescriptionComponent implements OnInit {
     @Inject(DESCRIPTION_POPUP_CONFIG) token: DescriptionToken,
     private descriptionAPI: DescriptionApiService,
     private timelineControler: TimelineControlService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private confirmationModal: ConfirmationStatusService
   ) {
     this.popConfig = token.config;
     this.data = token.config.data.booked;
@@ -62,6 +64,7 @@ export class DescriptionComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data);
     this.initContent();
+    this.executeDelete = this.executeDelete.bind(this);
   }
 
   editBooking() {
@@ -105,6 +108,23 @@ export class DescriptionComponent implements OnInit {
   }
 
   deleteBooking() {
+    this.confirmationModal.openConfirmationModal({
+      headerText: 'Are you sure to delete this booking?',
+      description:
+        'This will delete the booking related information for this customer. But the customer detail will be still available',
+      matIcon: 'warning',
+      type: 'warn',
+      modalWidth: '500px',
+      primaryButtonName: 'Okay',
+      secondaryButtonName: 'Cancel',
+      primaryEvent: this.executeDelete,
+      secondaryEvent: this.deleteCancel,
+    });
+  }
+
+  deleteCancel(event: MouseEvent) {}
+
+  executeDelete(event) {
     let booked: BookingModel;
     let bookedRoom: BookedRoomModel = { bookingId: null, roomId: null };
     booked = this.timelineData.booked.booking;
@@ -113,8 +133,15 @@ export class DescriptionComponent implements OnInit {
     booked.bookedRoom = [];
     booked.bookedRoom.push(bookedRoom);
 
+    let dialogRef = this.confirmationModal.openConfirmationModal({
+      isLoader: true,
+      loaderText: 'Deleting booking ...',
+    });
+
     this.descriptionAPI.deleteBookedRoom(booked).subscribe((res) => {
       this.timelineControler.deleteTimeline(this.timelineData);
+      dialogRef.close();
+      this.confirmationModal.dispose();
     });
   }
 

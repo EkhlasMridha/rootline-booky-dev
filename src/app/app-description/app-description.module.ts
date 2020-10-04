@@ -16,6 +16,7 @@ import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-ma
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ConfirmationStatusModalModule } from '../shared-modules/confirmation-status-modal/confirmation-status-modal.module';
 
 export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
   ...DEFAULT_CONFIG,
@@ -36,6 +37,7 @@ export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
     MatDatepickerModule,
     MatNativeDateModule,
     NgxSkeletonLoaderModule,
+    ConfirmationStatusModalModule.forChild({ warnColor: '#ce4e05' }),
   ],
   exports: [DescriptionComponent, OverlayModule],
   providers: [DescriptionService],
