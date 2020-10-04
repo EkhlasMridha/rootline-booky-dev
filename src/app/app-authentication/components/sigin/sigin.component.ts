@@ -59,7 +59,7 @@ export class SiginComponent implements OnInit {
 
     let ref = this.modalService.openConfirmationModal({
       isLoader: true,
-      loaderText: 'Attemting to login ...',
+      loaderText: 'Attempting to login ...',
       disableClose: true,
     });
 
