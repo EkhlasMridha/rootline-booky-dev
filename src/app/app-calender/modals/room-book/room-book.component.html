@@ -9,7 +9,11 @@
     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
       <mat-form-field class="full-width" color="accent">
         <mat-label>Select Customer</mat-label>
-        <mat-select formControlName="customerId" required>
+        <mat-select #select formControlName="customerId" required>
+          <mat-select-trigger *ngIf="selectedCustomer && selectedCustomer.value"
+            >{{ selectedCustomer.value.firstname }}
+            {{ selectedCustomer.value.lastname }}</mat-select-trigger
+          >
           <mat-option>
             <ngx-mat-select-search
               [formControl]="customerListFilterCtrl"
@@ -20,10 +24,16 @@
           </mat-option>
           <mat-option
             *ngFor="let customer of customerList$ | async"
-            [value]="customer.id"
+            [value]="customer"
           >
-            <div class="name">
-              {{ customer.firstname }} {{ customer.lastname }}
+            <div class="name" fxLayout="column">
+              <span class="name-tag"
+                >{{ customer.firstname }} {{ customer.lastname }}</span
+              >
+              <div fxLayout="row" fxLayoutGap="10px">
+                <span class="details">Phone: {{ customer.phoneNumber }}</span>
+                <span class="details">Email: {{ customer.email }}</span>
+              </div>
             </div>
           </mat-option>
         </mat-select>

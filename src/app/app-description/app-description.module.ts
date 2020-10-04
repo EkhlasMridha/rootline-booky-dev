@@ -40,7 +40,7 @@ export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
     RootlineDialogModule.forChild({ warnColor: '#ce4e05' }),
   ],
   exports: [DescriptionComponent, OverlayModule],
-  providers: [DescriptionService, RootlineModalService],
+  providers: [DescriptionService],
   entryComponents: [DescriptionComponent],
 })
 export class AppDescriptionModule {

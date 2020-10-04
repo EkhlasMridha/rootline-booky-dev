@@ -59,10 +59,17 @@ export class RoomsComponent implements OnInit {
     ];
 
     this.preloaderService.startAppLoader();
-    forkJoin(apis).subscribe((res) => {
-      this.isLoading = false;
-      this.stateControler.sendState(this.allStates);
-      this.preloaderService.stopAppLoader();
-    });
+    forkJoin(apis).subscribe(
+      (res) => {
+        this.isLoading = false;
+        this.stateControler.sendState(this.allStates);
+        this.preloaderService.stopAppLoader();
+      },
+      (error) => {
+        if (error.status != 500) {
+          this.preloaderService.stopAppLoader();
+        }
+      }
+    );
   }
 }

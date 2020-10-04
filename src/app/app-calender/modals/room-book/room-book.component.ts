@@ -3,6 +3,7 @@ import {
   Component,
   Inject,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -26,6 +27,8 @@ import { ReplaySubject } from 'rxjs';
 import { IconService } from 'src/app/shared-services/utilities/icon.service';
 import { CreateCustomerComponent } from '../create-customer/create-customer.component';
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-room-book',
@@ -43,6 +46,10 @@ export class RoomBookComponent implements OnInit {
   public customerListFilterCtrl: FormControl = new FormControl();
   customerList$: ReplaySubject<any[]> = new ReplaySubject(1);
   searching: boolean = false;
+
+  get selectedCustomer(): FormControl {
+    return this.bookingForm.get('customerId') as FormControl;
+  }
 
   errorObservers$ = {
     customerId: '',
@@ -155,7 +162,10 @@ export class RoomBookComponent implements OnInit {
       return;
     }
     const result = _.cloneDeep(this.bookingForm.value);
+    result.customerId = this.bookingForm.value.customerId.id;
+
     let payload = this.prepareBookingPayload(result);
+
     this.bookingService.createBooking(payload).subscribe((res) => {
       this.caledarControl.updateCaledar(res);
       this.dialogRef.close();

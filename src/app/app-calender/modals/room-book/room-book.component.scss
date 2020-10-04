@@ -15,11 +15,18 @@
 }
 
 .name {
-  font-size: 14px;
-  color: #242424;
+  font-size: 12px;
+  color: #3b3b3b;
 }
 
 .details {
-  font-size: 11px;
+  font-size: 10px;
   color: #858585;
+  line-height: 11px;
+  margin: 0;
+}
+
+.name-tag {
+  line-height: 14px;
+  margin: 0;
 }
