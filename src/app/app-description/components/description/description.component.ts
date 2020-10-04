@@ -61,7 +61,7 @@ export class DescriptionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
+    this.tryAgain = this.tryAgain.bind(this);
     this.initContent();
     this.executeDelete = this.executeDelete.bind(this);
   }
@@ -258,11 +258,41 @@ export class DescriptionComponent implements OnInit {
     info.current = updateData;
     info.previous = this.data;
 
+    let ref = this.confirmationModal.openConfirmationModal({
+      isLoader: true,
+      loaderText: 'Updating state ...',
+      disableClose: true,
+    });
+
     this.descriptionAPI
       .updateBookingState(info.current.booked.booking)
-      .subscribe((res) => {
-        this.typeColor = this.getTypeColor(state);
-        this.timelineControler.updateTimeline(info);
-      });
+      .subscribe(
+        (res) => {
+          this.typeColor = this.getTypeColor(state);
+          this.timelineControler.updateTimeline(info);
+          ref.close();
+          this.confirmationModal.dispose();
+        },
+        (err) => {
+          ref.close();
+          this.confirmationModal.dispose();
+          this.errorModal();
+        }
+      );
+  }
+
+  errorModal() {
+    this.confirmationModal.openConfirmationModal({
+      matIcon: 'error_outline',
+      type: 'error',
+      headerText: 'Error ocurred while updating state',
+      primaryButtonName: 'Try again',
+      modalWidth: '550px',
+      primaryEvent: this.tryAgain,
+    });
+  }
+
+  tryAgain(event) {
+    this.confirmationModal.dispose();
   }
 }
