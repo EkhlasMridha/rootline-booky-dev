@@ -41,6 +41,7 @@ export class CreateCustomerComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.tryAgain = this.tryAgain.bind(this);
     this.customerForm = this.createForm();
     this.formService.handleFormError(
       this.customerForm,
@@ -113,7 +114,7 @@ export class CreateCustomerComponent implements OnInit {
       matIcon: 'error_outline',
       headerText: 'Error ocurred while creating customer',
       primaryButtonName: 'Try again',
-      modalWidth: 'auto',
+      modalWidth: '550px',
       primaryEvent: this.tryAgain,
     });
   }

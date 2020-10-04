@@ -77,6 +77,8 @@ export class RoomBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookedDates = this.bookedDates.bind(this);
+    this.errorDialogEvent = this.errorDialogEvent.bind(this);
+
     this.bookedRooms = _.cloneDeep(this.data.data.bookedRooms);
     console.log(this.data);
     this.startDate = new Date(
@@ -197,8 +199,9 @@ export class RoomBookComponent implements OnInit {
       type: 'error',
       headerText: 'Booking creation failed',
       description:
-        'Check if there is already a booking available in this range or you have entered everything correctly.',
+        'Check if there is already a booking exists in this range or if you entered everything correctly or not.',
       primaryButtonName: 'Okay',
+      modalWidth: '550px',
       primaryEvent: this.errorDialogEvent,
     });
   }

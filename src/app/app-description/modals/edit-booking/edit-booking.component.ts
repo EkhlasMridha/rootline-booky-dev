@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { RootlineModalService } from 'rootline-dialog';
 import { BookingModel } from 'src/app/app-calender/models/booking.model';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { DescriptionApiService } from '../../services/description-api.service';
@@ -26,13 +27,14 @@ export class EditBookingComponent implements OnInit {
     private dialogRef: MatDialogRef<EditBookingComponent>,
     private formBuilder: FormBuilder,
     private formService: FormService,
-    private apiService: DescriptionApiService
+    private apiService: DescriptionApiService,
+    private modalService: RootlineModalService
   ) {
     this.data = data;
   }
 
   ngOnInit(): void {
-    console.log(this.data);
+    this.tryAgain = this.tryAgain.bind(this);
     this.editBooking = this.createForm();
     this.formService.handleFormError(
       this.editBooking,
@@ -78,11 +80,43 @@ export class EditBookingComponent implements OnInit {
     this.booking = result;
     let preparedData = this.prepareBookingModel(this.booking);
 
+    let ref = this.modalService.openConfirmationModal({
+      isLoader: true,
+      loaderText: 'Updating booking ...',
+      disableClose: true,
+    });
+
     this.apiService
       .updateBooking(preparedData, this.data.booked.roomId)
-      .subscribe((res) => {
-        this.dialogRef.close(res);
-      });
+      .subscribe(
+        (res) => {
+          this.dialogRef.close(res);
+          ref.close();
+          this.modalService.dispose();
+        },
+        (err) => {
+          ref.close();
+          this.modalService.dispose();
+          this.errorModal();
+        }
+      );
+  }
+
+  errorModal() {
+    this.modalService.openConfirmationModal({
+      matIcon: 'error_outline',
+      type: 'error',
+      headerText: 'Error in updating booking information',
+      description:
+        'Check if you are setting the same date as start and end, also has possibility that there is another booking exists in this range or something else happen.',
+      primaryButtonName: 'Try again',
+      modalWidth: '550px',
+      primaryEvent: this.tryAgain,
+    });
+  }
+
+  tryAgain() {
+    this.modalService.dispose();
   }
 
   prepareBookingModel(data: BookingModel) {

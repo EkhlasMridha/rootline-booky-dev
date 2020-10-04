@@ -42,7 +42,7 @@ export class RoomApiService {
 
   getCustomerByquery(query: string) {
     return this.http.get<any[]>(`customer?searchParam=${query}`).pipe(
-      debounceTime(1000),
+      debounceTime(500),
       catchError((err) => throwError(err))
     );
   }

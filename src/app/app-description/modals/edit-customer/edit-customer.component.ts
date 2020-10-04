@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CustomerModel } from '../../models/customer.model';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { DescriptionApiService } from '../../services/description-api.service';
+import { RootlineModalService } from 'rootline-dialog';
 
 @Component({
   selector: 'app-edit-customer',
@@ -25,13 +26,15 @@ export class EditCustomerComponent implements OnInit {
     private dialogRef: MatDialogRef<EditCustomerComponent>,
     private formBuilder: FormBuilder,
     private formService: FormService,
-    private descriptionApi: DescriptionApiService
+    private descriptionApi: DescriptionApiService,
+    private modalService: RootlineModalService
   ) {
     this.data = data;
     console.log(this.data);
   }
 
   ngOnInit(): void {
+    this.tryAgain = this.tryAgain.bind(this);
     this.editForm = this.createForm();
     this.formService.handleFormError(
       this.editForm,
@@ -84,9 +87,38 @@ export class EditCustomerComponent implements OnInit {
     this.data.lastname = result.lastname;
     this.data.email = result.email;
     this.data.phoneNumber = result.phoneNumber;
-    console.log(this.data);
-    this.descriptionApi.updateCustomer(this.data).subscribe((res) => {
-      this.dialogRef.close(res);
+
+    let ref = this.modalService.openConfirmationModal({
+      isLoader: true,
+      loaderText: 'Updating customer info ...',
+      disableClose: true,
     });
+
+    this.descriptionApi.updateCustomer(this.data).subscribe(
+      (res) => {
+        this.dialogRef.close(res);
+        ref.close();
+        this.modalService.dispose();
+      },
+      (err) => {
+        ref.close();
+        this.modalService.dispose();
+        this.errorModal();
+      }
+    );
+  }
+
+  errorModal() {
+    this.modalService.openConfirmationModal({
+      matIcon: 'error_outline',
+      headerText: 'Error ocurred while updating customer',
+      primaryButtonName: 'Try again',
+      modalWidth: '550px',
+      primaryEvent: this.tryAgain,
+    });
+  }
+
+  tryAgain() {
+    this.modalService.dispose();
   }
 }
