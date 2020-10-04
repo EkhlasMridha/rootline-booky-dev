@@ -42,8 +42,8 @@ export class RoomBookComponent implements OnInit {
   customer: any;
   bookingForm: FormGroup;
 
-  startDate: any;
-  public static bookedRooms: BookedModel[] = [];
+  startDate: Date;
+  public bookedRooms: BookedModel[] = [];
   public customerListFilterCtrl: FormControl = new FormControl();
   customerList$: ReplaySubject<any[]> = new ReplaySubject(1);
   searching: boolean = false;
@@ -76,7 +76,8 @@ export class RoomBookComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    RoomBookComponent.bookedRooms = _.cloneDeep(this.data.data.bookedRooms);
+    this.bookedDates = this.bookedDates.bind(this);
+    this.bookedRooms = _.cloneDeep(this.data.data.bookedRooms);
     console.log(this.data);
     this.startDate = new Date(
       this.data.date.year,
@@ -173,6 +174,7 @@ export class RoomBookComponent implements OnInit {
       loaderText: 'Creating booking ...',
       disableClose: true,
     });
+
     this.bookingService.createBooking(payload).subscribe(
       (res) => {
         this.caledarControl.updateCaledar(res);
@@ -270,17 +272,23 @@ export class RoomBookComponent implements OnInit {
   }
 
   bookedDates(caledarDate: Date): boolean {
-    let disabled: boolean = true;
-    if (RoomBookComponent.bookedRooms.length == 0) return disabled;
-    RoomBookComponent.bookedRooms.map((room) => {
+    let enabled: boolean = true;
+    if (caledarDate.getTime() <= new Date(this.startDate).getTime()) {
+      enabled = false;
+      return enabled;
+    } else {
+      enabled = true;
+    }
+    if (this.bookedRooms.length == 0) return enabled;
+    this.bookedRooms.map((room) => {
       let from = new Date(room.booking.book_From);
       let to = new Date(room.booking.leave_At);
       let currentDate = new Date(caledarDate).getTime();
 
       if (currentDate > from.getTime() && currentDate < to.getTime()) {
-        disabled = false;
+        enabled = false;
       }
     });
-    return disabled;
+    return enabled;
   }
 }
