@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { PreloaderService } from 'src/app/app-tools/app-loader/service/preloader.service';
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { StateControlService } from 'src/app/shared-services/state-control.service';
 import { DomainService } from 'src/app/shared-services/utilities/domain.service';
@@ -21,7 +22,8 @@ export class RoomsComponent implements OnInit {
 
   constructor(
     private roomService: RoomApiService,
-    private stateControler: StateControlService
+    private stateControler: StateControlService,
+    private preloaderService: PreloaderService
   ) {
     this.getData();
     this.stateColors = DomainService.domains.StateColors;
@@ -57,10 +59,11 @@ export class RoomsComponent implements OnInit {
       ),
     ];
 
-    this.isLoading = true;
+    this.preloaderService.startAppLoader();
     forkJoin(apis).subscribe((res) => {
       this.isLoading = false;
       this.stateControler.sendState(this.allStates);
+      this.preloaderService.stopAppLoader();
     });
   }
 }

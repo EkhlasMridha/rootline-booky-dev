@@ -1,5 +1,8 @@
 export const environment = {
   production: true,
+
+  apiHost: 'http://168.119.52.123/v1/',
+
   AppName: 'Booky',
   RefreshError: 'REFRESH_EXPIRE',
   Months: [
