@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger, transition, animate, style } from '@angular/animations';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RootlineModalService } from 'rootline-dialog';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -25,10 +20,12 @@ export class SiginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private formService: FormService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: RootlineModalService
   ) {}
 
   ngOnInit(): void {
+    this.tryAgain = this.tryAgain.bind(this);
     this.loginForm = this.createForm();
     this.formService.handleFormError(
       this.loginForm,
@@ -59,10 +56,36 @@ export class SiginComponent implements OnInit {
       return;
     }
     const result = Object.assign({}, this.loginForm.value);
-    console.log(result);
 
-    this.authService.signin(result).subscribe((res) => {
-      console.log(res);
+    let ref = this.modalService.openConfirmationModal({
+      isLoader: true,
+      loaderText: 'Attemting to login ...',
+      disableClose: true,
     });
+
+    this.authService.signin(result).subscribe(
+      (res) => {
+        ref.close();
+        this.modalService.dispose();
+      },
+      (err) => {
+        ref.close();
+        this.modalService.dispose();
+        this.errorModal();
+      }
+    );
+  }
+
+  errorModal() {
+    this.modalService.openConfirmationModal({
+      headerText: 'Invlaid username or password',
+      primaryButtonName: 'Try again',
+      modalWidth: '550px',
+      primaryEvent: this.tryAgain,
+    });
+  }
+
+  tryAgain(event) {
+    this.modalService.dispose();
   }
 }

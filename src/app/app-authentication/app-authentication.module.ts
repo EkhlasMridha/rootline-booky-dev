@@ -6,6 +6,7 @@ import { SharedMaterialModule } from '../shared-modules/shared-materials/shared-
 import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-material/forms-material.module';
 import { AuthGuardService } from '../shared-services/route-guards/auth-guard.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { RootlineDialogModule } from 'rootline-dialog';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsMaterialModule,
     MatToolbarModule,
+    RootlineDialogModule.forChild(),
   ],
 })
 export class AppAuthenticationModule {}
