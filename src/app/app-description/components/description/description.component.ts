@@ -19,8 +19,7 @@ import { BookingModel } from 'src/app/app-calender/models/booking.model';
 import { MatDialog } from '@angular/material/dialog';
 import { EditBookingComponent } from '../../modals/edit-booking/edit-booking.component';
 import { EditCustomerComponent } from '../../modals/edit-customer/edit-customer.component';
-import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
-
+import { RootlineModalService } from 'rootline-dialog';
 @Component({
   selector: 'app-description',
   templateUrl: './description.component.html',
@@ -51,7 +50,7 @@ export class DescriptionComponent implements OnInit {
     private descriptionAPI: DescriptionApiService,
     private timelineControler: TimelineControlService,
     private dialog: MatDialog,
-    private confirmationModal: ConfirmationStatusService
+    private confirmationModal: RootlineModalService
   ) {
     this.popConfig = token.config;
     this.data = token.config.data.booked;
@@ -136,6 +135,7 @@ export class DescriptionComponent implements OnInit {
     let dialogRef = this.confirmationModal.openConfirmationModal({
       isLoader: true,
       loaderText: 'Deleting booking ...',
+      disableClose: true,
     });
 
     this.descriptionAPI.deleteBookedRoom(booked).subscribe((res) => {

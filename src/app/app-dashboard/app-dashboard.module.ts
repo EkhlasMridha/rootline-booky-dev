@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './components/home/home.component';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedMaterialModule } from '../shared-modules/shared-materials/shared-material/shared-material.module';
-import { ConfirmationStatusModalModule } from '../shared-modules/confirmation-status-modal/confirmation-status-modal.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AppCalenderModule } from '../app-calender/app-calender.module';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CalendarPopupModule } from '../shared-modules/calendar-popup/calendar-popup.module';
-import { MatNativeDateModule, NativeDateModule } from '@angular/material/core';
 
 const routes: Routes = [
   {
@@ -26,9 +22,6 @@ const routes: Routes = [
     CommonModule,
     SharedMaterialModule,
     HttpClientModule,
-    ConfirmationStatusModalModule.forChild({
-      modalWidth: '500px',
-    }),
     AppCalenderModule,
     RouterModule.forChild(routes),
   ],
