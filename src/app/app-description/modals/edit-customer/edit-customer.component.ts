@@ -111,6 +111,7 @@ export class EditCustomerComponent implements OnInit {
   errorModal() {
     this.modalService.openConfirmationModal({
       matIcon: 'error_outline',
+      type: 'error',
       headerText: 'Error ocurred while updating customer',
       primaryButtonName: 'Try again',
       modalWidth: '550px',

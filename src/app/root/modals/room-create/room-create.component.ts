@@ -92,6 +92,7 @@ export class RoomCreateComponent implements OnInit {
   errorModal() {
     this.modalService.openConfirmationModal({
       matIcon: 'error_outline',
+      type: 'error',
       headerText: 'Error ocurred while Creating room',
       primaryButtonName: 'Try again',
       modalWidth: '550px',
