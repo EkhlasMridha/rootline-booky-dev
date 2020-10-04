@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { ValidatorsService } from '../../services/validators.service';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { RoomApiService } from '../../services/room-api.service';
+import { RootlineModalService } from 'rootline-dialog';
 
 @Component({
   selector: 'app-create-customer',
@@ -26,7 +27,8 @@ export class CreateCustomerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private formService: FormService,
     private apiService: RoomApiService,
-    private validators: ValidatorsService
+    private validators: ValidatorsService,
+    private modalService: RootlineModalService
   ) {
     this.data = data;
   }
@@ -88,9 +90,36 @@ export class CreateCustomerComponent implements OnInit {
       return;
     }
     const customer = Object.assign({}, this.customerForm.value);
-    this.apiService.createCustomer(customer).subscribe((res) => {
-      this.dialogRef.close();
+    let modalRef = this.modalService.openConfirmationModal({
+      isLoader: true,
+      loaderText: 'Creating customer ...',
     });
+    this.apiService.createCustomer(customer).subscribe(
+      (res) => {
+        this.dialogRef.close();
+        modalRef.close();
+        this.modalService.dispose();
+      },
+      (err) => {
+        modalRef.close;
+        this.modalService.dispose();
+        this.errorModal();
+      }
+    );
+  }
+
+  errorModal() {
+    this.modalService.openConfirmationModal({
+      matIcon: 'error_outline',
+      headerText: 'Error ocurred while creating customer',
+      primaryButtonName: 'Try again',
+      modalWidth: 'auto',
+      primaryEvent: this.tryAgain,
+    });
+  }
+
+  tryAgain(event) {
+    this.modalService.dispose();
   }
 
   close() {
