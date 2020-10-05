@@ -8,6 +8,7 @@ import { DayModel } from '../../models/day.model';
 import { RoomModel } from '../../models/room.model';
 import { TimelineModel } from '../../models/timeline.model';
 import { TimelineService } from '../../services/timeline.service';
+import * as lds from 'lodash-es';
 
 @Component({
   selector: 'individual-room',
@@ -102,7 +103,7 @@ export class IndividualRoomComponent {
 
   mapBookingData(data: any) {
     let bookings: Partial<BookedModel> = {};
-    bookings.booking = data;
+    bookings.booking = lds.cloneDeep(data);
     bookings.booking.bookedRoom = [];
     data.bookedRoom.forEach((booked) => {
       if (booked.roomId == this.hotelRoom.id) {
