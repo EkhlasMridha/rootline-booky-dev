@@ -10,9 +10,6 @@ export class RoomApiService {
   constructor(private http: HttpClient) {}
 
   createRoom(payload: any) {
-    return this.http.post('room', payload).pipe(
-      retry(3),
-      catchError((err) => throwError(err))
-    );
+    return this.http.post('room', payload).pipe(retry(3));
   }
 }
