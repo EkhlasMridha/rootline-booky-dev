@@ -23,9 +23,6 @@ export class AuthService {
   signin(payload: any) {
     return this.http.post<TokenModel>('identity/signin', payload).pipe(
       retry(3),
-      catchError((err) => {
-        return throwError(err);
-      }),
       tap((res) => {
         this.tokenService.storeToken(res);
         this.router.navigate(['']);
