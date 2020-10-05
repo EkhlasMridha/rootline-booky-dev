@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { BookedModel } from 'src/app/app-calender/models/booked.model';
-import { TypeColor } from 'src/app/app-calender/models/type.color';
 import { TimelineControlService } from 'src/app/shared-services/timeline-control.service';
 import { DomainService } from 'src/app/shared-services/utilities/domain.service';
 import {
@@ -11,6 +10,7 @@ import {
 import { DateModel } from '../../models/date.model';
 import { UpdateModel } from '../../models/update.model';
 import { DescriptionApiService } from '../../services/description-api.service';
+import * as lds from 'lodash-es';
 
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -55,7 +55,7 @@ export class DescriptionComponent implements OnInit {
   ) {
     this.popConfig = token.config;
     this.data = token.config.data.booked;
-    this.timelineData = Object.assign({}, token.config.data);
+    this.timelineData = lds.cloneDeep(token.config.data);
     this.editBookingData = token.config.data;
     this.months = DomainService.domains.Months;
     this.stateColors = DomainService.domains.StateColors;
@@ -86,7 +86,7 @@ export class DescriptionComponent implements OnInit {
   }
 
   updateTimelineData() {
-    let pre = Object.assign({}, this.timelineData.booked);
+    let pre = lds.cloneDeep(this.timelineData.booked);
     this.timelineData.booked = this.data;
     let cur = this.timelineData;
 
@@ -252,7 +252,7 @@ export class DescriptionComponent implements OnInit {
   updateState(state) {
     let info: Partial<UpdateModel> = {};
 
-    let updateData = Object.assign({}, this.timelineData);
+    let updateData = lds.cloneDeep(this.timelineData);
     updateData.booked.booking.state = state;
     updateData.booked.booking.stateId = state.id;
 
