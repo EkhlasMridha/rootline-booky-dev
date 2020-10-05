@@ -6,7 +6,8 @@ import { SharedMaterialModule } from '../shared-modules/shared-materials/shared-
 import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-material/forms-material.module';
 import { AuthGuardService } from '../shared-services/route-guards/auth-guard.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RootlineDialogModule } from 'rootline-dialog';
+import { ConfirmationStatusModalModule } from '../shared-modules/confirmation-status-modal/confirmation-status-modal.module';
+// import { RootlineDialogModule } from 'rootline-dialog';
 
 const routes: Routes = [
   {
@@ -27,7 +28,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsMaterialModule,
     MatToolbarModule,
-    RootlineDialogModule.forChild(),
+    // RootlineDialogModule.forChild(),
+    ConfirmationStatusModalModule.forChild(),
   ],
 })
 export class AppAuthenticationModule {}

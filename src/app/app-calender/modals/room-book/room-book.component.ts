@@ -17,7 +17,6 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
-import * as _ from 'lodash';
 import { BookedModel } from '../../models/booked.model';
 import { BookingModel } from '../../models/booking.model';
 import { CustomerModel } from 'src/app/shared-modules/models/customer.model';
@@ -29,7 +28,8 @@ import { CreateCustomerComponent } from '../create-customer/create-customer.comp
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-import { RootlineModalService } from 'rootline-dialog';
+import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
+// import { RootlineModalService } from 'rootline-dialog';
 
 @Component({
   selector: 'app-room-book',
@@ -69,7 +69,7 @@ export class RoomBookComponent implements OnInit {
     private iconService: IconService,
     private dialog: MatDialog,
     private caledarControl: CalendarControlService,
-    private modalService: RootlineModalService
+    private modalService: ConfirmationStatusService
   ) {
     this.data = data;
     this.iconService.loadIcons(['user']);
@@ -79,7 +79,7 @@ export class RoomBookComponent implements OnInit {
     this.bookedDates = this.bookedDates.bind(this);
     this.errorDialogEvent = this.errorDialogEvent.bind(this);
 
-    this.bookedRooms = _.cloneDeep(this.data.data.bookedRooms);
+    this.bookedRooms = { ...this.bookedRooms, ...this.data.data.bookedRooms };
     this.startDate = new Date(
       this.data.date.year,
       this.data.date.month,
@@ -166,7 +166,7 @@ export class RoomBookComponent implements OnInit {
       this.formService.checkFormStatus(this.bookingForm);
       return;
     }
-    const result = _.cloneDeep(this.bookingForm.value);
+    const result = Object.assign({}, this.bookingForm.value);
     result.customerId = this.bookingForm.value.customerId.id;
 
     let payload = this.prepareBookingPayload(result);

@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { debounce } from 'lodash';
 import { throwError } from 'rxjs';
 import { catchError, debounceTime, retry } from 'rxjs/operators';
 

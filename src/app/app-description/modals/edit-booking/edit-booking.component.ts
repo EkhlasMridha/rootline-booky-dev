@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RootlineModalService } from 'rootline-dialog';
+// import { RootlineModalService } from 'rootline-dialog';
 import { BookingModel } from 'src/app/app-calender/models/booking.model';
+import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { DescriptionApiService } from '../../services/description-api.service';
 
@@ -28,7 +29,7 @@ export class EditBookingComponent implements OnInit {
     private formBuilder: FormBuilder,
     private formService: FormService,
     private apiService: DescriptionApiService,
-    private modalService: RootlineModalService
+    private modalService: ConfirmationStatusService
   ) {
     this.data = data;
   }

@@ -3,7 +3,6 @@ import { BookedModel } from '../models/booked.model';
 import { DayModel } from '../models/day.model';
 import { RoomModel } from '../models/room.model';
 import { TimelineModel } from '../models/timeline.model';
-import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +55,7 @@ export class TimelineService {
       }
 
       let copyTimeline: Partial<TimelineModel> = {};
-      copyTimeline = _.cloneDeep(timeline);
+      copyTimeline = { ...copyTimeline, ...timeline };
 
       timelines.push(copyTimeline);
     });

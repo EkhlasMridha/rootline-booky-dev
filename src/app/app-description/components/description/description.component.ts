@@ -11,7 +11,7 @@ import {
 import { DateModel } from '../../models/date.model';
 import { UpdateModel } from '../../models/update.model';
 import { DescriptionApiService } from '../../services/description-api.service';
-import * as _ from 'lodash';
+
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { BookedRoomModel } from '../../models/booked-room.model';
@@ -19,7 +19,8 @@ import { BookingModel } from 'src/app/app-calender/models/booking.model';
 import { MatDialog } from '@angular/material/dialog';
 import { EditBookingComponent } from '../../modals/edit-booking/edit-booking.component';
 import { EditCustomerComponent } from '../../modals/edit-customer/edit-customer.component';
-import { RootlineModalService } from 'rootline-dialog';
+import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
+// import { RootlineModalService } from 'rootline-dialog';
 @Component({
   selector: 'app-description',
   templateUrl: './description.component.html',
@@ -50,11 +51,11 @@ export class DescriptionComponent implements OnInit {
     private descriptionAPI: DescriptionApiService,
     private timelineControler: TimelineControlService,
     private dialog: MatDialog,
-    private confirmationModal: RootlineModalService
+    private confirmationModal: ConfirmationStatusService
   ) {
     this.popConfig = token.config;
     this.data = token.config.data.booked;
-    this.timelineData = _.cloneDeep(token.config.data);
+    this.timelineData = Object.assign({}, token.config.data);
     this.editBookingData = token.config.data;
     this.months = DomainService.domains.Months;
     this.stateColors = DomainService.domains.StateColors;
@@ -85,7 +86,7 @@ export class DescriptionComponent implements OnInit {
   }
 
   updateTimelineData() {
-    let pre = _.cloneDeep(this.timelineData.booked);
+    let pre = Object.assign({}, this.timelineData.booked);
     this.timelineData.booked = this.data;
     let cur = this.timelineData;
 
@@ -251,7 +252,7 @@ export class DescriptionComponent implements OnInit {
   updateState(state) {
     let info: Partial<UpdateModel> = {};
 
-    let updateData = _.cloneDeep(this.timelineData);
+    let updateData = Object.assign({}, this.timelineData);
     updateData.booked.booking.state = state;
     updateData.booked.booking.stateId = state.id;
 

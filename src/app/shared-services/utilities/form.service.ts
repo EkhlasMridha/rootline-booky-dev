@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { filter, map } from 'rxjs/operators';
-import * as _ from 'lodash';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

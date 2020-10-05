@@ -4,7 +4,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CustomerModel } from '../../models/customer.model';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { DescriptionApiService } from '../../services/description-api.service';
-import { RootlineModalService } from 'rootline-dialog';
+import { ConfirmationStatusModalModule } from 'src/app/shared-modules/confirmation-status-modal/confirmation-status-modal.module';
+import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
+// import { RootlineModalService } from 'rootline-dialog';
 
 @Component({
   selector: 'app-edit-customer',
@@ -27,7 +29,7 @@ export class EditCustomerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private formService: FormService,
     private descriptionApi: DescriptionApiService,
-    private modalService: RootlineModalService
+    private modalService: ConfirmationStatusService
   ) {
     this.data = data;
   }

@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@import "./color_variables.scss";
 
 // $accent: mat-palette($mat-arc-accent);
 html,
@@ -8,14 +7,6 @@ body {
 }
 body {
   margin: 0;
-}
-
-.primary-background {
-  background-color: $primary-default;
-}
-
-.primary-color {
-  color: $primary-default;
 }
 
 .full-width {

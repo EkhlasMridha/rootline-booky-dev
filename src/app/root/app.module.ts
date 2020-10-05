@@ -26,7 +26,8 @@ import { RoomCreateComponent } from './modals/room-create/room-create.component'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { RootlineDialogModule } from 'rootline-dialog';
+import { ConfirmationStatusModalModule } from '../shared-modules/confirmation-status-modal/confirmation-status-modal.module';
+// import { RootlineDialogModule } from 'rootline-dialog';
 
 export function initializer(domainService: DomainService) {
   return () => {
@@ -67,7 +68,8 @@ export function initializer(domainService: DomainService) {
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-    RootlineDialogModule.forChild(),
+    // RootlineDialogModule.forChild(),
+    ConfirmationStatusModalModule.forChild(),
   ],
   providers: [
     JwtHelperService,

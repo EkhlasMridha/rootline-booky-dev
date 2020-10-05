@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RootlineModalService } from 'rootline-dialog';
+import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
+// import { RootlineModalService } from 'rootline-dialog';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -21,7 +22,7 @@ export class SiginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private formService: FormService,
     private authService: AuthService,
-    private modalService: RootlineModalService
+    private modalService: ConfirmationStatusService
   ) {}
 
   ngOnInit(): void {

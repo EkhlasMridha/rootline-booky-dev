@@ -12,12 +12,6 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
-    "lib": ["es2018", "dom"],
-    "paths": {
-      "rootline-dialog": [
-        "lib/rootline-dialog/rootline-dialog",
-        "lib/rootline-dialog"
-      ]
-    }
+    "lib": ["es2018", "dom"]
   }
 }

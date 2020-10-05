@@ -16,7 +16,8 @@ import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-ma
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { RootlineDialogModule, RootlineModalService } from 'rootline-dialog';
+import { ConfirmationStatusModalModule } from '../shared-modules/confirmation-status-modal/confirmation-status-modal.module';
+// import { RootlineDialogModule, RootlineModalService } from 'rootline-dialog';
 
 export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
   ...DEFAULT_CONFIG,
@@ -37,10 +38,9 @@ export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
     MatDatepickerModule,
     MatNativeDateModule,
     NgxSkeletonLoaderModule,
-    RootlineDialogModule.forChild({ warnColor: '#ce4e05' }),
+    // RootlineDialogModule.forChild({ warnColor: '#ce4e05' }),
+    ConfirmationStatusModalModule.forChild({ warnColor: '#ce4e05' }),
   ],
-  exports: [DescriptionComponent, OverlayModule],
-  providers: [DescriptionService],
   entryComponents: [DescriptionComponent],
 })
 export class AppDescriptionModule {
