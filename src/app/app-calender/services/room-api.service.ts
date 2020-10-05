@@ -10,12 +10,7 @@ export class RoomApiService {
   constructor(private http: HttpClient) {}
 
   getAllRoomData() {
-    return this.http.get<any[]>('room').pipe(
-      retry(3),
-      catchError((err) => {
-        return throwError(err);
-      })
-    );
+    return this.http.get<any[]>('room').pipe(retry(3));
   }
 
   createBooking(payload: any) {
@@ -27,10 +22,7 @@ export class RoomApiService {
   }
 
   getAllStates() {
-    return this.http.get<any[]>('booking/states').pipe(
-      retry(3),
-      catchError((err) => throwError(err))
-    );
+    return this.http.get<any[]>('booking/states').pipe(retry(3));
   }
 
   getCustomerByquery(query: string) {
