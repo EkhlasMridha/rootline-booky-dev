@@ -20,8 +20,4 @@ export class HomeComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  onSelect(event) {
-    console.log(event);
-  }
 }

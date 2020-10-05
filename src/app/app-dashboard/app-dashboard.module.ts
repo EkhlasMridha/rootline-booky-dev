@@ -18,12 +18,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [
-    CommonModule,
-    SharedMaterialModule,
-    HttpClientModule,
-    AppCalenderModule,
-    RouterModule.forChild(routes),
-  ],
+  imports: [CommonModule, AppCalenderModule, RouterModule.forChild(routes)],
 })
 export class AppDashboardModule {}

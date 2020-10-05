@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { filter, map } from 'rxjs/operators';
-import * as _ from 'lodash';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +17,6 @@ export class FormService {
       errorObservers[field] = formGorup.controls[field].statusChanges.pipe(
         filter((status) => status === 'INVALID'),
         map(() => {
-          // console.log(formGorup.controls[field]);
           if (!formGorup.controls[field].errors) {
             return null;
           }
