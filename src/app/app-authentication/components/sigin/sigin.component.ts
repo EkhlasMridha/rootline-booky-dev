@@ -80,7 +80,7 @@ export class SiginComponent implements OnInit {
     this.modalService.openConfirmationModal({
       headerText: 'Invlaid username or password',
       primaryButtonName: 'Try again',
-      modalWidth: '550px',
+      modalWidth: 'auto',
       primaryEvent: this.tryAgain,
     });
   }

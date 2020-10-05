@@ -16,6 +16,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { RootlineDialogModule } from 'rootline-dialog';
+import { DescriptionService } from './services/DescriptionService';
 
 export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
   ...DEFAULT_CONFIG,
@@ -38,6 +39,7 @@ export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
     NgxSkeletonLoaderModule,
     RootlineDialogModule.forChild({ warnColor: '#ce4e05' }),
   ],
+  providers: [DescriptionService],
   entryComponents: [DescriptionComponent],
 })
 export class AppDescriptionModule {

@@ -174,7 +174,7 @@ export class RoomBookComponent implements OnInit {
       loaderText: 'Creating booking ...',
       disableClose: true,
     });
-
+    debugger;
     this.bookingService.createBooking(payload).subscribe(
       (res) => {
         this.caledarControl.updateCaledar(res);
