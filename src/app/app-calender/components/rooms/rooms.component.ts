@@ -66,9 +66,7 @@ export class RoomsComponent implements OnInit {
         this.preloaderService.stopAppLoader();
       },
       (error) => {
-        if (error.status != 500) {
-          this.preloaderService.stopAppLoader();
-        }
+        this.preloaderService.stopAppLoader();
       }
     );
   }
