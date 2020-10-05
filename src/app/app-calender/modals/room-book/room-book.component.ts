@@ -27,8 +27,7 @@ import { IconService } from 'src/app/shared-services/utilities/icon.service';
 import { CreateCustomerComponent } from '../create-customer/create-customer.component';
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import * as lds from 'lodash-es';
-import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
-// import { RootlineModalService } from 'rootline-dialog';
+import { RootlineModalService } from 'rootline-dialog';
 
 @Component({
   selector: 'app-room-book',
@@ -68,7 +67,7 @@ export class RoomBookComponent implements OnInit {
     private iconService: IconService,
     private dialog: MatDialog,
     private caledarControl: CalendarControlService,
-    private modalService: ConfirmationStatusService
+    private modalService: RootlineModalService
   ) {
     this.data = data;
     this.iconService.loadIcons(['user']);

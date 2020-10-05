@@ -16,8 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { CreateCustomerComponent } from './modals/create-customer/create-customer.component';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { ConfirmationStatusModalModule } from '../shared-modules/confirmation-status-modal/confirmation-status-modal.module';
-// import { RootlineDialogModule } from 'rootline-dialog';
+import { RootlineDialogModule } from 'rootline-dialog';
 
 @NgModule({
   declarations: [
@@ -40,8 +39,7 @@ import { ConfirmationStatusModalModule } from '../shared-modules/confirmation-st
     MatNativeDateModule,
     MatSelectModule,
     NgxMatSelectSearchModule,
-    // RootlineDialogModule.forChild(),
-    ConfirmationStatusModalModule.forChild(),
+    RootlineDialogModule.forChild(),
   ],
   exports: [CalendarComponent],
 })

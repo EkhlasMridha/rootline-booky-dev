@@ -8,7 +8,6 @@ import {
   FilePreviewDialogConfig,
   DEFAULT_CONFIG,
 } from './description.config';
-import { DescriptionService } from './services/DescriptionService';
 import { MatRadioModule } from '@angular/material/radio';
 import { EditCustomerComponent } from './modals/edit-customer/edit-customer.component';
 import { EditBookingComponent } from './modals/edit-booking/edit-booking.component';
@@ -16,8 +15,7 @@ import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-ma
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { ConfirmationStatusModalModule } from '../shared-modules/confirmation-status-modal/confirmation-status-modal.module';
-// import { RootlineDialogModule, RootlineModalService } from 'rootline-dialog';
+import { RootlineDialogModule } from 'rootline-dialog';
 
 export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
   ...DEFAULT_CONFIG,
@@ -38,8 +36,7 @@ export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
     MatDatepickerModule,
     MatNativeDateModule,
     NgxSkeletonLoaderModule,
-    // RootlineDialogModule.forChild({ warnColor: '#ce4e05' }),
-    ConfirmationStatusModalModule.forChild({ warnColor: '#ce4e05' }),
+    RootlineDialogModule.forChild({ warnColor: '#ce4e05' }),
   ],
   entryComponents: [DescriptionComponent],
 })

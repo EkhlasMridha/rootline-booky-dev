@@ -11,8 +11,7 @@ import { Observable } from 'rxjs';
 import { ValidatorsService } from '../../services/validators.service';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { RoomApiService } from '../../services/room-api.service';
-import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
-// import { RootlineModalService } from 'rootline-dialog';
+import { RootlineModalService } from 'rootline-dialog';
 
 @Component({
   selector: 'app-create-customer',
@@ -29,7 +28,7 @@ export class CreateCustomerComponent implements OnInit {
     private formService: FormService,
     private apiService: RoomApiService,
     private validators: ValidatorsService,
-    private modalService: ConfirmationStatusService
+    private modalService: RootlineModalService
   ) {
     this.data = data;
   }

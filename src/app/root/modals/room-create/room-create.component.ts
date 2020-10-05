@@ -4,8 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { RoomApiService } from '../services/room-api.service';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { StateControlService } from 'src/app/shared-services/state-control.service';
-import { ConfirmationStatusService } from 'src/app/shared-modules/confirmation-status-modal/services/confirmation-status.service';
-// import { RootlineModalService } from 'rootline-dialog';
+import { RootlineModalService } from 'rootline-dialog';
 
 @Component({
   selector: 'app-room-create',
@@ -25,7 +24,7 @@ export class RoomCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private formService: FormService,
     private stateControler: StateControlService,
-    private modalService: ConfirmationStatusService
+    private modalService: RootlineModalService
   ) {}
 
   ngOnInit(): void {
