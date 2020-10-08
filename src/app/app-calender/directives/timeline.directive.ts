@@ -1,20 +1,16 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Directive,
   ElementRef,
   HostListener,
   Inject,
   Input,
-  NgZone,
   OnChanges,
   Renderer2,
   SimpleChanges,
 } from '@angular/core';
 import { DomainService } from 'src/app/shared-services/utilities/domain.service';
 import { TimelineModel } from '../models/timeline.model';
-import { TypeColor } from '../models/type.color';
 
 @Directive({
   selector: '[appTimeline]',

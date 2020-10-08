@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { PreloaderService } from 'src/app/app-tools/app-loader/service/preloader.service';
-import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { StateControlService } from 'src/app/shared-services/state-control.service';
 import { DomainService } from 'src/app/shared-services/utilities/domain.service';
 import { RoomApiService } from '../../services/room-api.service';

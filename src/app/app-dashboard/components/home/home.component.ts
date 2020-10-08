@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IconService } from 'src/app/shared-services/utilities/icon.service';
-import { formatDate } from '@angular/common';
-import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 
 @Component({
   selector: 'app-home',

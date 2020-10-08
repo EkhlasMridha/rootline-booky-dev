@@ -3,7 +3,6 @@ import {
   Component,
   Inject,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import {
   FormBuilder,
