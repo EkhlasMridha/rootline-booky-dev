@@ -12,6 +12,7 @@ import { ValidatorsService } from '../../services/validators.service';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { RoomApiService } from '../../services/room-api.service';
 import { RootlineModalService } from 'rootline-dialog';
+import { BexioCustomer } from '../../models/bexio-customer.model';
 
 @Component({
   selector: 'app-create-customer',
@@ -34,10 +35,10 @@ export class CreateCustomerComponent implements OnInit {
   }
 
   errorObservers$ = {
-    firstname: '',
-    lastname: '',
-    email: '',
-    phoneNumber: '',
+    name_1: '',
+    name_2: '',
+    mail: '',
+    phone_mobile: '',
   };
 
   ngOnInit(): void {
@@ -52,11 +53,11 @@ export class CreateCustomerComponent implements OnInit {
 
   errorTagSetter(type: string, owner: string) {
     switch (owner) {
-      case 'firstname':
+      case 'name_1':
         return 'First name is required';
-      case 'lastname':
+      case 'name_2':
         return 'Last name is required';
-      case 'email':
+      case 'mail':
         if (type == 'required') {
           return 'Email is required';
         } else if (type == 'isExists') {
@@ -64,7 +65,7 @@ export class CreateCustomerComponent implements OnInit {
         } else {
           return 'Invalid email';
         }
-      case 'phoneNumber':
+      case 'phone_mobile':
         if (type == 'isExists') {
           return 'Already has a user with this phone number';
         }
@@ -74,14 +75,14 @@ export class CreateCustomerComponent implements OnInit {
 
   createForm() {
     return this.formBuilder.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      email: [
+      name_1: ['', Validators.required],
+      name_2: ['', Validators.required],
+      mail: [
         '',
         Validators.compose([Validators.required, Validators.email]),
         this.checkMail.bind(this),
       ],
-      phoneNumber: [
+      phone_mobile: [
         '',
         Validators.compose([Validators.required, Validators.minLength(8)]),
         this.checkPhone.bind(this),
@@ -95,11 +96,19 @@ export class CreateCustomerComponent implements OnInit {
       return;
     }
     const customer = Object.assign({}, this.customerForm.value);
+    let bexioContact = new BexioCustomer();
+    // bexioContact = customer;
+    bexioContact.name_1 = customer.name_1;
+    bexioContact.name_2 = customer.name_2;
+    bexioContact.mail = customer.mail;
+    bexioContact.phone_mobile = customer.phone_mobile
+    console.log(bexioContact);
     let modalRef = this.modalService.openConfirmationModal({
       isLoader: true,
       loaderText: 'Creating customer ...',
+      disableClose:true
     });
-    this.apiService.createCustomer(customer).subscribe(
+    this.apiService.createCustomer(bexioContact).subscribe(
       (res) => {
         this.dialogRef.close();
         modalRef.close();
