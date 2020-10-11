@@ -11,7 +11,7 @@ export class DescriptionApiService {
   constructor(private http: HttpClient) {}
 
   getCustomer(id: number) {
-    return this.http.get(`room/customer/${id}`).pipe(
+    return this.http.get(`customer/${id}`).pipe(
       retry(2),
       catchError((err) => throwError(err))
     );

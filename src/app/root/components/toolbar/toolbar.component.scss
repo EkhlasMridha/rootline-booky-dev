@@ -24,3 +24,9 @@ mat-toolbar {
 .calendar-control {
   margin-left: 7rem;
 }
+
+.item-border::after {
+  content: "";
+  border-right: 1px solid #242424;
+  height: 45px;
+}

@@ -1,6 +1,6 @@
 <mat-toolbar #matToolbar fxLayout="row">
   <mat-toolbar-row>
-    <div>
+    <div class="remove-outline cursor-pointer" (click)="goToPath('dashboard')">
       <span>{{ appName }}</span>
     </div>
     <div
@@ -27,25 +27,24 @@
     </div>
     <div class="spacer"></div>
     <div
-      class="nav-items"
+      class="full-height"
       fxLayout="row"
-      fxLayoutGap="100px"
-      fxLayoutGap.xs="40px"
+      fxLayoutAlign="center center"
+      fxLayoutGap="5px"
     >
-      <div>
-        <button mat-raised-button fxLayout="row" (click)="addRoom()">
-          <mat-icon>add</mat-icon><span>Add Room</span>
+        <button mat-icon-button fxLayout="row" fxLayoutAlign="center center" (click)="addRoom()">
+          <mat-icon>playlist_add</mat-icon>
         </button>
-      </div>
-      <div
-        class="item"
-        fxLayout="row"
-        fxLayoutGap="5px"
-        fxLayoutAlign="center center"
-        (click)="signoutUser()"
-      >
-        <mat-icon svgIcon="signout" class="color-icon"></mat-icon>
-      </div>
+        <div class="item-border"></div>
+        <button mat-icon-button fxLayout="row" fxLayoutAlign="center center" (click)="goToPath('settings')">
+          <mat-icon>settings</mat-icon>
+        </button>
+        <div class="item-border"></div>
+        <div class="nav-items">
+          <button mat-icon-button (click)="signoutUser()">
+            <mat-icon svgIcon="signout" class="color-icon"></mat-icon>
+          </button>
+        </div>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

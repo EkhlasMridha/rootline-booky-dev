@@ -29,3 +29,10 @@ $custom-theme: mat-light-theme(
 
 @include mat-icon-theme($custom-theme);
 @include mat-input-theme($custom-theme);
+
+
+$primary-color:map-get($custom-theme, accent );
+
+.primary-color{
+color: mat-color($primary-color,default);
+}

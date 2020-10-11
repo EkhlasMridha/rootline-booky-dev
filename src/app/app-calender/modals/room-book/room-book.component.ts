@@ -27,6 +27,7 @@ import { CreateCustomerComponent } from '../create-customer/create-customer.comp
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import * as lds from 'lodash-es';
 import { RootlineModalService } from 'rootline-dialog';
+import { SearchCriteria } from '../../models/search-criteria.model';
 
 @Component({
   selector: 'app-room-book',
@@ -104,11 +105,34 @@ export class RoomBookComponent implements OnInit {
       tap(() => (this.searching = true)),
       debounceTime(200),
       mergeMap((res) => {
+        let criteriaList = this.createSearchPayload(res);
         return this.bookingService
-          .getCustomerByquery(res)
+          .getBexioCustomer(criteriaList)
           .pipe(tap(() => (this.searching = false)));
       })
     );
+  }
+
+  createSearchPayload(text:string){
+    let criteriaList:SearchCriteria[]=[];
+
+    let crteria1 = new SearchCriteria();
+    // let criteria2 = new SearchCriteria();
+    // let criteria3 = new SearchCriteria();
+
+    crteria1.field="name_1";
+    crteria1.value=text;
+    criteriaList.push(crteria1);
+
+    // criteria2.field="mail";
+    // criteria2.value=text;
+    // criteriaList.push(criteria2);
+
+    // criteria3.field = "phone_mobile";
+    // criteria3.value=text;
+    // criteriaList.push(criteria3);
+
+    return criteriaList;
   }
 
   errorTypeGenerator(type: string, owner: string) {
@@ -167,13 +191,13 @@ export class RoomBookComponent implements OnInit {
     result.customerId = this.bookingForm.value.customerId.id;
 
     let payload = this.prepareBookingPayload(result);
-
+    console.log(payload);
     let dialogRef = this.modalService.openConfirmationModal({
       isLoader: true,
       loaderText: 'Creating booking ...',
       disableClose: true,
     });
-    debugger;
+
     this.bookingService.createBooking(payload).subscribe(
       (res) => {
         this.caledarControl.updateCaledar(res);

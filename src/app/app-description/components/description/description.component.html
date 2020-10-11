@@ -25,7 +25,7 @@
       <div fxLayout="column" fxLayoutAlign="start start">
         <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
           <span class="customer"
-            >{{ customer.firstname }} {{ customer.lastname }}</span
+            >{{ customer.name_1 }} {{ customer.name_2 }}</span
           >
           <button
             fxLayoutAlign="center center"
@@ -37,8 +37,8 @@
           </button>
         </div>
         <span class="booked-date">Booked {{ bookedDate }}</span>
-        <span class="booked-date">Email: {{ customer.email }}</span>
-        <span class="booked-date"> Phone: {{ customer.phoneNumber }}</span>
+        <span class="booked-date" *ngIf="customer.mail!=''">Email: {{ customer.mail }}</span>
+        <span class="booked-date" *ngIf="customer.phone_mobile!=''"> Phone: {{ customer.phone_mobile }}</span>
       </div>
     </div>
     <div class="border-line"></div>

@@ -1,0 +1,26 @@
+<div class="pages">
+    <div class="contents-area" fxLayout="column" fxLayoutGap="25px">
+        <div class="full-width " fxLayoutAlign="center center">
+            <span class="title border primary-color full-width text-center">Configure your settings</span>
+        </div>
+        <div fxLayout="column" fxLayoutGap="20px" class="full-width">
+            <div fxLayout="column" fxLayoutAlign="start start">
+                <span class="setting-name primary-color">Reset your password:</span>
+                <div fxLayout="row">
+                    <app-reset-password></app-reset-password>
+                </div>
+            </div>
+
+            <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start start">
+                <span class="setting-name primary-color">Add bexio token:</span>
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px" class="full-width">
+                    <button mat-stroked-button color="accent" (click)="saveToken()">Save</button>
+                    <div class="input-area">
+                        <input placeholder="place your bexio token here" [(ngModel)]="bexioToken" class="full-width token-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,13 +1,13 @@
-const authRoutes: string[] = ['/dashboard'];
+const authRoutes: string[] = ['/dashboard','/settings'];
 
 export function isAuhtRoute(url: string) {
-  let refinedRoute = getRifinedRoute(url);
+  let refinedRoute = getRefinedRoute(url);
   let check = authRoutes.includes(refinedRoute);
 
   return check;
 }
 
-function getRifinedRoute(url: string) {
+function getRefinedRoute(url: string) {
   let route = url.split('?');
 
   let refined = route[0];

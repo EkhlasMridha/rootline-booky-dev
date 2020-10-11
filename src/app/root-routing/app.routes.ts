@@ -18,6 +18,14 @@ const routes: Routes = [
     },
     canActivateChild: [AuthGuardService],
   },
+  {
+    path:"settings",
+    loadChildren:()=>import("../app-settings/app-settings.module").then(m=>m.AppSettingsModule),
+    data: {
+      breadCrumb: 'Settings',
+    },
+    canActivateChild: [AuthGuardService],
+  }
 ];
 
 export function getBusinessRoutes() {

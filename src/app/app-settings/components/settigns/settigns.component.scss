@@ -1,0 +1,41 @@
+.pages {
+  width: 100%;
+  padding: 20px;
+  .contents-area {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    .title {
+      font-size: 25px;
+      font-weight: 600;
+      line-height: 40px;
+    }
+
+    .border {
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .setting-name {
+      font-size: 14px;
+      font-style: italic;
+      line-height: 16px;
+      border-bottom: 1px solid #918f8f;
+    }
+
+    .input-area {
+      border: 1px solid #919191;
+      width: 100%;
+      padding: 5px;
+      height: 25px;
+      border-radius: 4px;
+      .token-input {
+        height: 100%;
+        border: none;
+      }
+
+      .token-input:focus {
+        outline: none;
+      }
+    }
+  }
+}

@@ -110,4 +110,8 @@ export class ToolbarComponent implements OnInit {
       subscription.unsubscribe();
     });
   }
+
+  goToPath(path:string){
+    this.router.navigate([path]);
+  }
 }

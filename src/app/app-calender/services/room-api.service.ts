@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, debounceTime, retry } from 'rxjs/operators';
+import { SearchCriteria } from '../models/search-criteria.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,5 +31,9 @@ export class RoomApiService {
       debounceTime(500),
       catchError((err) => throwError(err))
     );
+  }
+
+  getBexioCustomer(criteria:SearchCriteria[]){
+    return this.http.post<any[]>("customer/search",criteria).pipe(debounceTime(500),catchError(err=>throwError(err)))
   }
 }
