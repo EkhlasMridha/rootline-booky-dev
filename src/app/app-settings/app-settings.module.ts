@@ -5,6 +5,7 @@ import { SharedMaterialModule } from '../shared-modules/shared-materials/shared-
 import { RouterModule, Routes } from '@angular/router';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-material/forms-material.module';
+import { RootlineDialogModule } from 'rootline-dialog';
 
 const routes:Routes=[
   {
@@ -22,6 +23,7 @@ const routes:Routes=[
     CommonModule,
     SharedMaterialModule,
     FormsMaterialModule,
+    RootlineDialogModule.forChild(),
     RouterModule.forChild(routes)
   ]
 })
