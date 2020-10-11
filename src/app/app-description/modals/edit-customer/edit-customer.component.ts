@@ -5,6 +5,7 @@ import { CustomerModel } from '../../models/customer.model';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { DescriptionApiService } from '../../services/description-api.service';
 import { RootlineModalService } from 'rootline-dialog';
+import { BexioContact } from '../../models/bexio-contact.model';
 
 @Component({
   selector: 'app-edit-customer',
@@ -12,7 +13,7 @@ import { RootlineModalService } from 'rootline-dialog';
   styleUrls: ['./edit-customer.component.scss'],
 })
 export class EditCustomerComponent implements OnInit {
-  data: CustomerModel;
+  data: BexioContact;
   editForm: FormGroup;
 
   error$ = {
@@ -30,6 +31,7 @@ export class EditCustomerComponent implements OnInit {
     private modalService: RootlineModalService
   ) {
     this.data = data;
+    console.log(data)
   }
 
   ngOnInit(): void {
@@ -61,13 +63,13 @@ export class EditCustomerComponent implements OnInit {
 
   createForm() {
     return this.formBuilder.group({
-      firstname: [this.data.firstname, Validators.required],
-      lastname: [this.data.lastname, Validators.required],
+      firstname: [this.data.name_1, Validators.required],
+      lastname: [this.data.name_2, Validators.required],
       email: [
-        this.data.email,
+        this.data.mail,
         Validators.compose([Validators.required, Validators.email]),
       ],
-      phoneNumber: [this.data.phoneNumber, Validators.required],
+      phoneNumber: [this.data.phone_mobile, Validators.required],
     });
   }
 
@@ -82,10 +84,12 @@ export class EditCustomerComponent implements OnInit {
     }
 
     const result = Object.assign({}, this.editForm.value);
-    this.data.firstname = result.firstname;
-    this.data.lastname = result.lastname;
-    this.data.email = result.email;
-    this.data.phoneNumber = result.phoneNumber;
+    this.data.name_1 = result.firstname;
+    this.data.name_2 = result.lastname;
+    this.data.mail = result.email;
+    this.data.phone_mobile = result.phoneNumber;
+
+    console.log(this.data);
 
     let ref = this.modalService.openConfirmationModal({
       isLoader: true,
