@@ -1,5 +1,8 @@
 <div class="rooms room-decorator" fxLayout="row" *ngIf="hotelRoom">
-  <span class="room-label">{{ hotelRoom.roomname }}</span>
+  <div class="room-label cursor-pointer" fxLayout="column" (click)="configureRoom()">
+    <span class="name">{{ hotelRoom.roomname }}</span>
+    <span class="details">Capacity: {{ hotelRoom.capacity }}</span>
+  </div>
 
   <div style="display: flex; width: 100%">
     <div

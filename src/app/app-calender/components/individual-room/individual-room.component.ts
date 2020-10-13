@@ -120,4 +120,8 @@ export class IndividualRoomComponent {
 
     return bookings;
   }
+
+  configureRoom(){
+    console.log(this.hotelRoom)
+  }
 }

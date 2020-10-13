@@ -3,7 +3,17 @@
   .room-label {
     position: absolute;
     left: -5.5rem;
-    top: 30%;
+    top: 25%;
+    .name {
+      font-size: 12px;
+      color: #242424;
+      line-height: 13px;
+    }
+    .details {
+      font-size: 8px;
+      color: #838383;
+      line-height: 9px;
+    }
   }
 }
 
