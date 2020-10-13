@@ -14,6 +14,7 @@ export class ResetPasswordComponent implements OnInit {
   resetForm:FormGroup;
 
   error$={
+    username:"",
     password:"",
     confirmPassword:""
   }
@@ -30,6 +31,10 @@ export class ResetPasswordComponent implements OnInit {
 
   errorNameGenerator(type:string,owner:string){
     switch(owner){
+      case 'username' : if(type=="minlength"){
+        return "Minimum length is 3"
+      }
+      return "Username is required"
       case "password": return "Password is required"
       case "confirmPassword": 
         if(type=="mustMatch"){
@@ -41,6 +46,7 @@ export class ResetPasswordComponent implements OnInit {
 
   createForm(){
     return this.formBuilder.group({
+      username:["",Validators.compose([Validators.required,Validators.minLength(3)])],
       password:["",Validators.required],
       confirmPassword:["",Validators.required]
     },
@@ -76,12 +82,13 @@ export class ResetPasswordComponent implements OnInit {
     let password:Partial<ResetPassword>={};
 
     console.log(result);
+    password.userName = result.username;
     password.password = result.password;
 
     let ref = this.dialogService.openConfirmationModal({isLoader:true,loaderText:"Updating password ...",disableClose:true})
     this.settings.resetPassword(password).subscribe(res=>{
       ref.close();
-      this.dialogService.dispose()
+      this.dialogService.dispose();
     },err=>{
       ref.close();
       this.dialogService.dispose();
