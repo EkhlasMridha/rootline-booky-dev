@@ -9,6 +9,7 @@ import { RoomModel } from '../../models/room.model';
 import { TimelineModel } from '../../models/timeline.model';
 import { TimelineService } from '../../services/timeline.service';
 import * as lds from 'lodash-es';
+import { RootlineDialogModule, RootlineModalService } from 'rootline-dialog';
 
 @Component({
   selector: 'individual-room',
@@ -26,10 +27,13 @@ export class IndividualRoomComponent {
     private timlineService: TimelineService,
     private timelineControler: TimelineControlService,
     private dialog: MatDialog,
-    private caledarControl: CalendarControlService
+    private caledarControl: CalendarControlService,
+    private rootlineModal:RootlineModalService
   ) {}
 
   ngOnInit(): void {
+    this.cancelButton = this.cancelButton.bind(this);
+    this.deleteRoomNow = this.deleteRoomNow.bind(this);
     this.updateTimeline();
     this.deleteTimeline();
     this.updateCalendarData();
@@ -121,7 +125,30 @@ export class IndividualRoomComponent {
     return bookings;
   }
 
-  configureRoom(){
-    console.log(this.hotelRoom)
+  deleteRoom(){
+    this.rootlineModal.openConfirmationModal({
+      type:"warn",
+      matIcon:"delete_forever",
+      headerText:"Do you want to delete this room?",
+      description:"This room will be deleted permanantly. You won't be able to retrieve the data again.",
+      primaryButtonName:"Yes",
+      secondaryButtonName:"No",
+      modalWidth:"550px",
+      primaryEvent:this.deleteRoomNow,
+      secondaryEvent:this.cancelButton
+    })
+  }
+
+  deleteRoomNow(){
+    this.rootlineModal.dispose();
+
+  }
+
+  cancelButton(){
+    this.rootlineModal.dispose();
+  }
+
+  editRoom(){
+
   }
 }
