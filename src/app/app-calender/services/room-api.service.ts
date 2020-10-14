@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, debounceTime, retry } from 'rxjs/operators';
+import { AppDataQuery } from '../models/data-get.model';
 import { RoomModel } from '../models/room.model';
 import { SearchCriteria } from '../models/search-criteria.model';
 
@@ -44,5 +45,9 @@ export class RoomApiService {
 
   deleteRoom(payload:RoomModel){
     return this.http.post("room/delete",payload).pipe(retry(3));
+  }
+
+  getRoomDataByMonth(date:AppDataQuery) {
+    return this.http.post<any[]>("room/bymonth", date).pipe(retry(3));
   }
 }

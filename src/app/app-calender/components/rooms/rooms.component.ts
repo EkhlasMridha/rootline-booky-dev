@@ -5,6 +5,7 @@ import { PreloaderService } from 'src/app/app-tools/app-loader/service/preloader
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { StateControlService } from 'src/app/shared-services/state-control.service';
 import { DomainService } from 'src/app/shared-services/utilities/domain.service';
+import { AppDataQuery } from '../../models/data-get.model';
 import { RoomApiService } from '../../services/room-api.service';
 
 @Component({
@@ -34,6 +35,14 @@ export class RoomsComponent implements OnInit {
     this.deleteRoomListener();
     this.roomCreationListener();
     this.updateData();
+    
+  }
+
+  getAppDataByMonth(date:Date) {
+    let currentDate:AppDataQuery={query:new Date(date)}
+    this.roomService.getRoomDataByMonth(currentDate).subscribe(res => {
+      this.guestRooms = res;
+    })
   }
 
   getView(date: number) {
@@ -55,8 +64,9 @@ export class RoomsComponent implements OnInit {
   }
 
   getData() {
+    let currentDate:AppDataQuery={query:new Date()}
     let apis = [
-      this.roomService.getAllRoomData().pipe(
+      this.roomService.getRoomDataByMonth(currentDate).pipe(
         tap((res) => {
           this.guestRooms = res;
         })
@@ -82,8 +92,9 @@ export class RoomsComponent implements OnInit {
   }
 
   updateData(){
-    this.calendarControler.updateDateObserver$.subscribe(res=>{
-      console.log(res);
+    this.calendarControler.updateDateObserver$.subscribe(res => {
+      let date = new Date(res);
+      this.getAppDataByMonth(date);
     })
   }
 }

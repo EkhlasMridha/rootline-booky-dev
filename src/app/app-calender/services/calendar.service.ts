@@ -15,12 +15,14 @@ export class CalendarService {
     let weekCount: number = 1;
     let dayMap: DayModel[] = [];
     let day: DayModel = { WeekDay: null, Day: null };
+    let isFirstWeek: boolean = true;
 
     for (let i = 0; i < totalDays; ++i) {
       let weekDay = new Date(year, month, i + 1).getDay();
-      if (weekDay == 0) {
+      if (weekDay == 0 && !isFirstWeek) {
         weekCount = weekCount + 1;
       }
+      isFirstWeek = false;
       day.WeekDay = weekDay;
       day.Day = i + 1;
       day.weekNumber = weekCount;
