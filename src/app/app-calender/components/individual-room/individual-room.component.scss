@@ -15,6 +15,12 @@
       line-height: 9px;
     }
   }
+
+  .room-label:hover{
+    .name{
+      color: #418de4;
+    }
+  }
 }
 
 .rooms {
