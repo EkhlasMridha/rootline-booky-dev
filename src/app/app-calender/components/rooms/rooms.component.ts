@@ -31,6 +31,7 @@ export class RoomsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.deleteRoomListener();
     this.roomCreationListener();
     this.updateData();
   }
@@ -44,6 +45,13 @@ export class RoomsComponent implements OnInit {
     this.stateControler.roomCreationObserver$.subscribe((res) => {
       this.guestRooms.push(res);
     });
+  }
+
+  deleteRoomListener() {
+    this.stateControler.deleteRoomListener$.subscribe(res => {
+      let deleteIndex = this.guestRooms.indexOf(res);
+      this.guestRooms.splice(deleteIndex, 1);
+    })
   }
 
   getData() {
