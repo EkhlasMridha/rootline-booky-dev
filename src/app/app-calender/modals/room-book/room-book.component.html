@@ -10,6 +10,16 @@
       fxLayoutGap="10px"
       fxLayout="column"
     >
+    <div fxLayout="column">
+      <div class="full-width" fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="5px">
+        <span class="search-criteria">Search by:</span>
+        <span class="search-criteria primary-color cursor-pointer"
+          [matMenuTriggerFor]="menu">{{selectedCriteria.value}}</span>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item *ngFor="let criteria of searchCriterias"
+            (click)="setCriteria(criteria)">{{criteria.value}}</button>
+        </mat-menu>
+      </div>
       <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
         <div fxLayout="row" fxLayoutGap="5px">
           <button
@@ -20,13 +30,6 @@
           >
             <mat-icon svgIcon="user" style="transform: scale(0.8)"></mat-icon>
           </button>
-          <button mat-icon-button [matMenuTriggerFor]="menu" type="button" fxLayoutAlign="center center">
-            <mat-icon>menu</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Item 1</button>
-            <button mat-menu-item>Item 2</button>
-          </mat-menu>
         </div>
         <mat-form-field class="full-width" color="accent">
           <mat-label>Select Customer</mat-label>
@@ -40,7 +43,7 @@
               <ngx-mat-select-search
                 [formControl]="customerListFilterCtrl"
                 [searching]="searching"
-                placeholderLabel="Search for customer"
+                placeholderLabel="Search by {{selectedCriteria.value}}"
                 noEntriesFoundLabel="No customer found"
               ></ngx-mat-select-search>
             </mat-option>
@@ -62,6 +65,7 @@
           <mat-error>{{ errorObservers$.customerId | async }}</mat-error>
         </mat-form-field>
       </div>
+    </div>
 
       <div>
         <mat-form-field color="accent" class="full-width">

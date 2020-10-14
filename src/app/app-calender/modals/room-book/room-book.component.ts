@@ -39,6 +39,25 @@ export class RoomBookComponent implements OnInit {
   data: any;
   customer: any;
   bookingForm: FormGroup;
+  selectedCriteria: any;
+  searchCriterias: any[] = [
+    {
+      key: "name_1",
+      value:"First name"
+    },
+    {
+      key: "name_2",
+      value:"Last name"
+    },
+    {
+      key: "mail",
+      value: "Email",
+    },
+    {
+      key: "phone_mobile",
+      value:"Phone"
+    }
+  ]
 
   startDate: Date;
   public bookedRooms: BookedModel[] = [];
@@ -71,6 +90,7 @@ export class RoomBookComponent implements OnInit {
   ) {
     this.data = data;
     this.iconService.loadIcons(['user']);
+    this.selectedCriteria = this.searchCriterias[0];
   }
 
   ngOnInit(): void {
@@ -117,20 +137,10 @@ export class RoomBookComponent implements OnInit {
     let criteriaList:SearchCriteria[]=[];
 
     let crteria1 = new SearchCriteria();
-    // let criteria2 = new SearchCriteria();
-    // let criteria3 = new SearchCriteria();
 
-    crteria1.field="name_1";
+    crteria1.field=this.selectedCriteria.key;
     crteria1.value=text;
     criteriaList.push(crteria1);
-
-    // criteria2.field="mail";
-    // criteria2.value=text;
-    // criteriaList.push(criteria2);
-
-    // criteria3.field = "phone_mobile";
-    // criteria3.value=text;
-    // criteriaList.push(criteria3);
 
     return criteriaList;
   }
@@ -314,5 +324,9 @@ export class RoomBookComponent implements OnInit {
       }
     });
     return enabled;
+  }
+
+  setCriteria(data: any) {
+    this.selectedCriteria = data;
   }
 }
