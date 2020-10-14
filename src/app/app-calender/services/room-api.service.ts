@@ -39,7 +39,7 @@ export class RoomApiService {
   }
 
   updateRoom(payload:RoomModel){
-    return this.http.put("room",payload).pipe(retry(2));
+    return this.http.put<RoomModel>("room",payload).pipe(retry(2));
   }
 
   deleteRoom(payload:RoomModel){

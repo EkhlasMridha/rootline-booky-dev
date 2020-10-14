@@ -12,6 +12,7 @@ import * as lds from 'lodash-es';
 import { RootlineDialogModule, RootlineModalService } from 'rootline-dialog';
 import { RoomApiService } from '../../services/room-api.service';
 import { StateControlService } from 'src/app/shared-services/state-control.service';
+import { EditRoomComponent } from '../../modals/edit-room/edit-room.component';
 
 @Component({
   selector: 'individual-room',
@@ -165,6 +166,10 @@ export class IndividualRoomComponent {
   }
 
   editRoom(){
-
+    let modalRef = this.dialog.open(EditRoomComponent, {
+      width: "300px",
+      panelClass:"modal-body",
+      data:this.hotelRoom
+    })
   }
 }
