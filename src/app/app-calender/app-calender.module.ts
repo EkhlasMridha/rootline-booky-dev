@@ -17,7 +17,8 @@ import { CreateCustomerComponent } from './modals/create-customer/create-custome
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { RootlineDialogModule } from 'rootline-dialog';
-
+import {MatMenuModule} from "@angular/material/menu";
+import { EditRoomComponent } from './modals/edit-room/edit-room.component'
 @NgModule({
   declarations: [
     CalendarComponent,
@@ -27,6 +28,7 @@ import { RootlineDialogModule } from 'rootline-dialog';
     CustomTimelineComponent,
     RoomBookComponent,
     CreateCustomerComponent,
+    EditRoomComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,7 @@ import { RootlineDialogModule } from 'rootline-dialog';
     MatNativeDateModule,
     MatSelectModule,
     NgxMatSelectSearchModule,
+    MatMenuModule,
     RootlineDialogModule.forChild(),
   ],
   exports: [CalendarComponent],

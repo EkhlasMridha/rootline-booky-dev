@@ -9,6 +9,10 @@ import { RoomModel } from '../../models/room.model';
 import { TimelineModel } from '../../models/timeline.model';
 import { TimelineService } from '../../services/timeline.service';
 import * as lds from 'lodash-es';
+import { RootlineDialogModule, RootlineModalService } from 'rootline-dialog';
+import { RoomApiService } from '../../services/room-api.service';
+import { StateControlService } from 'src/app/shared-services/state-control.service';
+import { EditRoomComponent } from '../../modals/edit-room/edit-room.component';
 
 @Component({
   selector: 'individual-room',
@@ -26,10 +30,15 @@ export class IndividualRoomComponent {
     private timlineService: TimelineService,
     private timelineControler: TimelineControlService,
     private dialog: MatDialog,
-    private caledarControl: CalendarControlService
+    private caledarControl: CalendarControlService,
+    private rootlineModal: RootlineModalService,
+    private roomApiService: RoomApiService,
+    private stateControler:StateControlService
   ) {}
 
   ngOnInit(): void {
+    this.cancelButton = this.cancelButton.bind(this);
+    this.deleteRoomNow = this.deleteRoomNow.bind(this);
     this.updateTimeline();
     this.deleteTimeline();
     this.updateCalendarData();
@@ -119,5 +128,48 @@ export class IndividualRoomComponent {
     });
 
     return bookings;
+  }
+
+  deleteRoom(){
+    this.rootlineModal.openConfirmationModal({
+      type:"warn",
+      matIcon:"delete_forever",
+      headerText:"Do you want to delete this room ?",
+      description: `This room will be deleted permanantly. 
+      You won't be able to retrieve this room again.
+      But the related booking data will still be available.`,
+      primaryButtonName:"Yes",
+      secondaryButtonName:"No",
+      modalWidth:"550px",
+      primaryEvent:this.deleteRoomNow,
+      secondaryEvent:this.cancelButton
+    })
+  }
+
+  deleteRoomNow(){
+    this.rootlineModal.dispose();
+    this.roomApiService.deleteRoom(this.hotelRoom).subscribe(res => {
+      this.stateControler.deleteRoomSignal(this.hotelRoom);
+    }, err => {
+        this.rootlineModal.openConfirmationModal({
+          type: "error",
+          matIcon: "error_outline",
+          headerText: "Room deletion failed",
+          primaryButtonName: "Try again",
+          primaryEvent:this.cancelButton
+        })
+    })
+  }
+
+  cancelButton(){
+    this.rootlineModal.dispose();
+  }
+
+  editRoom(){
+    let modalRef = this.dialog.open(EditRoomComponent, {
+      width: "300px",
+      panelClass:"modal-body",
+      data:this.hotelRoom
+    })
   }
 }

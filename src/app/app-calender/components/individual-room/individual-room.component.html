@@ -1,5 +1,13 @@
 <div class="rooms room-decorator" fxLayout="row" *ngIf="hotelRoom">
-  <span class="room-label">{{ hotelRoom.roomname }}</span>
+  <div class="room-label cursor-pointer" [matMenuTriggerFor]="menu" fxLayout="column">
+    <span class="name">{{ hotelRoom.roomname }}</span>
+    <span class="details">Capacity: {{ hotelRoom.capacity }}</span>
+  </div>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="editRoom()">Edit</button>
+    <button mat-menu-item (click)="deleteRoom()">Delete</button>
+  </mat-menu>
 
   <div style="display: flex; width: 100%">
     <div
