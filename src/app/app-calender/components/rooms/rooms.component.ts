@@ -20,12 +20,13 @@ export class RoomsComponent implements OnInit {
   allStates: any[];
   stateColors: any[];
   isLoading: boolean;
+  currentDate: Date;
 
   constructor(
     private roomService: RoomApiService,
     private stateControler: StateControlService,
     private preloaderService: PreloaderService,
-    private calendarControler:CalendarControlService
+    private calendarControler: CalendarControlService,
   ) {
     this.getData();
     this.stateColors = DomainService.domains.StateColors;
@@ -35,15 +36,15 @@ export class RoomsComponent implements OnInit {
     this.deleteRoomListener();
     this.roomCreationListener();
     this.updateData();
-    
+    this.currentDate = new Date();
   }
 
   getAppDataByMonth(date:Date) {
-    let currentDate: AppDataQuery = { query: new Date(date) }
-    this.stateControler.updateLoadingState(true);
+    let currentDate: AppDataQuery = { query: new Date(date) };
+    this.preloaderService.startAppLoader();
     this.roomService.getRoomDataByMonth(currentDate).subscribe(res => {
       this.guestRooms = res;
-      this.stateControler.updateLoadingState(false);
+      this.preloaderService.stopAppLoader();
     })
   }
 
@@ -94,8 +95,17 @@ export class RoomsComponent implements OnInit {
 
   updateData(){
     this.calendarControler.updateDateObserver$.subscribe(res => {
-      let date = new Date(res);
-      this.getAppDataByMonth(date);
+      let updatedDate = new Date(res);
+      let currenM = this.currentDate.getMonth();
+      let currentY = this.currentDate.getFullYear();
+
+      let previousM = updatedDate.getMonth();
+      let previousY = updatedDate.getFullYear();
+      if (currenM == previousM && currentY == previousY) {
+        return;
+      }
+      this.currentDate = updatedDate;
+      this.getAppDataByMonth(updatedDate);
     })
   }
 }

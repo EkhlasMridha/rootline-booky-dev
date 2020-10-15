@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
 import { StateControlService } from 'src/app/shared-services/state-control.service';
 import { DomainService } from 'src/app/shared-services/utilities/domain.service';
@@ -22,7 +22,6 @@ export class CalendarComponent implements OnInit {
   substituteDate: any[] = [null, null, null, null, null, null, null];
   currentDate: any = new Date().getDate();
   data: any;
-  isLoading: boolean;
   bookingStates: any[];
   stateColors: any[];
 
@@ -33,7 +32,7 @@ export class CalendarComponent implements OnInit {
   constructor(
     private calendarService: CalendarService,
     private caledarControl: CalendarControlService,
-    private stateControler: StateControlService
+    private stateControler: StateControlService,
   ) {
     this.stateColors = DomainService.domains.StateColors;
   }
@@ -45,13 +44,6 @@ export class CalendarComponent implements OnInit {
     this.today();
     this.updateCalendar();
     this.getStates();
-    this.dataLoader();
-  }
-
-  dataLoader() {
-    this.stateControler.loadingObserver$.subscribe(res => {
-      this.isLoading = res;
-    })
   }
 
   getStates() {
