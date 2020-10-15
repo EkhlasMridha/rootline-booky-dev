@@ -8,10 +8,12 @@ export class StateControlService {
   private state: Subject<any> = new Subject<any>();
   private roomCreation: Subject<any> = new Subject<any>();
   private deleteRoom: Subject<any> = new Subject<any>();
+  private loadingState: Subject<boolean> = new Subject<boolean>();
 
   stateObserver$ = this.state.asObservable();
   roomCreationObserver$ = this.roomCreation.asObservable();
   deleteRoomListener$ = this.deleteRoom.asObservable();
+  loadingObserver$ = this.loadingState.asObservable();
   constructor() {}
 
   sendState(data: any) {
@@ -24,5 +26,9 @@ export class StateControlService {
 
   deleteRoomSignal(data:any) {
     this.deleteRoom.next(data);
+  }
+
+  updateLoadingState(state: boolean) {
+    this.loadingState.next(state);
   }
 }

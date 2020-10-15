@@ -34,6 +34,7 @@ export class CalendarControlService {
 
   today() {
     this.todayPage.next();
+    this.updateDate(new Date());
   }
 
   updateDate(date: any) {

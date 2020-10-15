@@ -15,7 +15,7 @@ import { RoomApiService } from '../../services/room-api.service';
 })
 export class RoomsComponent implements OnInit {
   @Input() substituteDate: any;
-  weekDayName: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
   guestRooms: any[];
   allStates: any[];
   stateColors: any[];
@@ -39,9 +39,11 @@ export class RoomsComponent implements OnInit {
   }
 
   getAppDataByMonth(date:Date) {
-    let currentDate:AppDataQuery={query:new Date(date)}
+    let currentDate: AppDataQuery = { query: new Date(date) }
+    this.stateControler.updateLoadingState(true);
     this.roomService.getRoomDataByMonth(currentDate).subscribe(res => {
       this.guestRooms = res;
+      this.stateControler.updateLoadingState(false);
     })
   }
 
@@ -81,7 +83,6 @@ export class RoomsComponent implements OnInit {
     this.preloaderService.startAppLoader();
     forkJoin(apis).subscribe(
       (res) => {
-        this.isLoading = false;
         this.stateControler.sendState(this.allStates);
         this.preloaderService.stopAppLoader();
       },

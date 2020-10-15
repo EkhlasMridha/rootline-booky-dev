@@ -1,4 +1,4 @@
-<div class="calendar-body" fxLayout="column" fxLayoutGap="10px">
+<div class="calendar-body" fxLayout="column" fxLayoutGap="10px" *ngIf="!isLoading">
   <div
     fxLayout="row wrap"
     fxLayoutGap="20px"
@@ -54,4 +54,29 @@
       <app-rooms [substituteDate]="substituteDate"></app-rooms>
     </div>
   </div>
+</div>
+
+<div fxLayout="column" *ngIf="isLoading">
+  <div fxLayout="row" fxLayoutGap="20px">
+    <ngx-skeleton-loader count="1" appearance="line" [theme]="{
+      'border-radius': '2px',
+      height: '10px',
+      width: '100px'
+    }"></ngx-skeleton-loader>
+    <ngx-skeleton-loader count="1" appearance="line" [theme]="{
+      'border-radius': '2px',
+      height: '10px',
+      width: '100px'
+    }"></ngx-skeleton-loader>
+    <ngx-skeleton-loader count="1" appearance="line" [theme]="{
+      'border-radius': '2px',
+      height: '10px',
+      width: '100px'
+    }"></ngx-skeleton-loader>
+  </div>
+  <ngx-skeleton-loader count="1" appearance="line" [theme]="{
+    'border-radius': '2px',
+    height: '300px',
+    width: '100%'
+  }"></ngx-skeleton-loader>
 </div>

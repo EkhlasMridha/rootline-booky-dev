@@ -89,7 +89,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   addRoom() {
-    let dialogRef = this.dialog.open(RoomCreateComponent, {
+   this.dialog.open(RoomCreateComponent, {
       width: '350px',
     });
   }

@@ -45,6 +45,13 @@ export class CalendarComponent implements OnInit {
     this.today();
     this.updateCalendar();
     this.getStates();
+    this.dataLoader();
+  }
+
+  dataLoader() {
+    this.stateControler.loadingObserver$.subscribe(res => {
+      this.isLoading = res;
+    })
   }
 
   getStates() {

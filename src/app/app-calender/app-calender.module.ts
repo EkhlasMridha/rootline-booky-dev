@@ -19,6 +19,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { RootlineDialogModule } from 'rootline-dialog';
 import {MatMenuModule} from "@angular/material/menu";
 import { EditRoomComponent } from './modals/edit-room/edit-room.component'
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 @NgModule({
   declarations: [
     CalendarComponent,
@@ -42,6 +43,7 @@ import { EditRoomComponent } from './modals/edit-room/edit-room.component'
     MatSelectModule,
     NgxMatSelectSearchModule,
     MatMenuModule,
+    NgxSkeletonLoaderModule,
     RootlineDialogModule.forChild(),
   ],
   exports: [CalendarComponent],

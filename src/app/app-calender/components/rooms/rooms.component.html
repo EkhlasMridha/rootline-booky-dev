@@ -1,4 +1,4 @@
-<div fxLayout="column">
+<div fxLayout="column" *ngIf="!isLoading">
   <individual-room
     *ngFor="let room of guestRooms"
     [hotelRoom]="room"
