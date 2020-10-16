@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, debounceTime, retry } from 'rxjs/operators';
@@ -35,7 +35,7 @@ export class RoomApiService {
     );
   }
 
-  getBexioCustomer(criteria:SearchCriteria[]){
+  getBexioCustomer(criteria: SearchCriteria[]) {
     return this.http.post<any[]>("customer/search",criteria).pipe(debounceTime(500),catchError(err=>throwError(err)))
   }
 

@@ -63,17 +63,19 @@ export class SiginComponent implements OnInit {
       disableClose: true,
     });
 
-    this.authService.signin(result).subscribe(
-      (res) => {
-        ref.close();
-        this.modalService.dispose();
-      },
-      (err) => {
-        ref.close();
-        this.modalService.dispose();
-        this.errorModal();
-      }
-    );
+    this.authService.signin(result).then(value => {
+     value.subscribe(
+        (res) => {
+          ref.close();
+          this.modalService.dispose();
+        },
+        (err) => {
+          ref.close();
+          this.modalService.dispose();
+          this.errorModal();
+        }
+      );
+    })
   }
 
   errorModal() {

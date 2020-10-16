@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { SignUpModel } from '../models/signup.model';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { tap, retry, catchError } from 'rxjs/operators';
 import {
   TokenService,
   TokenModel,
 } from 'src/app/shared-services/utilities/token.service';
 import { throwError, of } from 'rxjs';
-import { ErrorHandlerService } from 'src/app/shared-services/utilities/error-handler.service';
 import { Router } from '@angular/router';
+import * as fg from "@fingerprintjs/fingerprintjs";
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +19,10 @@ export class AuthService {
     private router: Router
   ) {}
 
-  signin(payload: any) {
-    return this.http.post<TokenModel>('identity/signin', payload).pipe(
+  async signin(payload: any) {
+    let id = await this.getFingerPrintId();
+    let header = new HttpHeaders({ "bfg": id });
+    return this.http.post<TokenModel>('identity/signin', payload,{headers:header}).pipe(
       retry(3),
       tap((res) => {
         this.tokenService.storeToken(res);
@@ -61,5 +62,14 @@ export class AuthService {
         return throwError(err);
       })
     );
+  }
+
+  private async getFingerPrintId():Promise<string> {
+    let agent = await fg.load();
+    let data = await agent.get();
+
+    let id: string = data.visitorId;
+    
+    return id;
   }
 }
