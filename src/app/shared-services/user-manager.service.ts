@@ -21,6 +21,7 @@ export class UserManagerService {
       }),
       tap((result) => {
         this.tokenService.removeToken();
+        this.tokenService.removeBrowserId();
       })
     );
   }

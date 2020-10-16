@@ -80,4 +80,8 @@ export class TokenService {
   saveBrowserId(id: string) {
     localStorage.setItem(this.bfg, id);
   }
+
+  removeBrowserId() {
+    localStorage.removeItem(this.bfg);
+  }
 }
