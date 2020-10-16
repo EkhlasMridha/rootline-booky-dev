@@ -26,6 +26,7 @@ export class AuthService {
       retry(3),
       tap((res) => {
         this.tokenService.storeToken(res);
+        this.tokenService.saveBrowserId(id);
         this.router.navigate(['']);
       })
     );

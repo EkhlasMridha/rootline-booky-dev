@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as fg from "@fingerprintjs/fingerprintjs";
 
 export interface TokenModel {
   accessToken: string;
@@ -13,6 +14,7 @@ export interface TokenModel {
 export class TokenService {
   private readonly accessToken: string = 'accessToken';
   private readonly refreshToken: string = 'refreshToken';
+  private readonly bfg: string = "bfg";
   constructor(private jwtService: JwtHelperService, private http: HttpClient) {}
 
   storeToken(token: TokenModel) {
@@ -45,13 +47,14 @@ export class TokenService {
     return this.jwtService.isTokenExpired(access);
   }
 
-  refreshAccessToken() {
+   refreshAccessToken() {
     let token = this.getToken();
     if (token == null) {
       return null;
     }
-
-    return this.http.post('identity/refresh', this.getToken());
+    let id = this.getBrowserIdFromStore();
+    let header = new HttpHeaders({ "bfg": id });
+    return this.http.post('identity/refresh', token,{headers:header});
   }
 
   hasToken() {
@@ -60,5 +63,21 @@ export class TokenService {
     }
 
     return true;
+  }
+
+  async getBrowserId() {
+    let agent = await fg.load();
+    let data = await agent.get();
+
+    return data.visitorId;
+  }
+
+  getBrowserIdFromStore() {
+    let bfg = localStorage.getItem(this.bfg);
+    return bfg;
+  }
+
+  saveBrowserId(id: string) {
+    localStorage.setItem(this.bfg, id);
   }
 }
