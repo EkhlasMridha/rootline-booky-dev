@@ -28,13 +28,6 @@ export class RoomApiService {
     return this.http.get<any[]>('booking/states').pipe(retry(3));
   }
 
-  getCustomerByquery(query: string) {
-    return this.http.get<any[]>(`customer?searchParam=${query}`).pipe(
-      debounceTime(500),
-      catchError((err) => throwError(err))
-    );
-  }
-
   getBexioCustomer(criteria: SearchCriteria[]) {
     return this.http.post<any[]>("customer/search",criteria).pipe(debounceTime(500),catchError(err=>throwError(err)))
   }
