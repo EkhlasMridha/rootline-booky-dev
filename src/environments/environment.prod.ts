@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
 
-  apiHost: 'http://160.153.235.165:8888/v1/',
+  apiHost: 'https://booky.schwendilodge.ch:8888/v1/',
 
   AppName: 'Booky',
   RefreshError: 'REFRESH_EXPIRE',
