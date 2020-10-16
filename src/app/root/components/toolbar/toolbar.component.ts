@@ -67,9 +67,11 @@ export class ToolbarComponent implements OnInit {
   }
 
   signoutUser() {
-    this.userManagerService.signout().subscribe((res) => {
-      this.router.navigate(['signin']);
-    });
+    this.userManagerService.signout().then(value => {
+      value.subscribe((res) => {
+        this.router.navigate(['signin']);
+      });
+    })
   }
 
   observeCalendarDateChange() {
