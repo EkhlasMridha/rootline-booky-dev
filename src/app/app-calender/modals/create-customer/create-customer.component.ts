@@ -1,13 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { ValidatorsService } from '../../services/validators.service';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { RoomApiService } from '../../services/room-api.service';
@@ -80,12 +77,10 @@ export class CreateCustomerComponent implements OnInit {
       mail: [
         '',
         Validators.compose([Validators.required, Validators.email]),
-        this.checkMail.bind(this),
       ],
       phone_mobile: [
         '',
         Validators.compose([Validators.required, Validators.minLength(8)]),
-        this.checkPhone.bind(this),
       ],
     });
   }
@@ -97,7 +92,7 @@ export class CreateCustomerComponent implements OnInit {
     }
     const customer = Object.assign({}, this.customerForm.value);
     let bexioContact = new BexioCustomer();
-    // bexioContact = customer;
+
     bexioContact.name_1 = customer.name_1;
     bexioContact.name_2 = customer.name_2;
     bexioContact.mail = customer.mail;
@@ -139,13 +134,5 @@ export class CreateCustomerComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
-  }
-
-  checkMail({ value }: AbstractControl): Observable<ValidationErrors | null> {
-    return this.validators.isMailExists(value);
-  }
-
-  checkPhone({ value }: AbstractControl): Observable<ValidationErrors | null> {
-    return this.validators.isPhoneExists(value);
   }
 }
