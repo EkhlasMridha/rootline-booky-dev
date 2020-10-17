@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, debounceTime, retry } from 'rxjs/operators';
+import { BexioCountry } from '../models/bexio-country.model';
 import { AppDataQuery } from '../models/data-get.model';
 import { RoomModel } from '../models/room.model';
 import { SearchCriteria } from '../models/search-criteria.model';
@@ -42,5 +43,9 @@ export class RoomApiService {
 
   getRoomDataByMonth(date:AppDataQuery) {
     return this.http.post<any[]>("room/bymonth", date).pipe(retry(3));
+  }
+
+  getBexioCountry() {
+    return this.http.get<BexioCountry[]>("customer/country").pipe(retry(2));
   }
 }
