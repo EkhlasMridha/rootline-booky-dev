@@ -63,8 +63,8 @@ export class EditCustomerComponent implements OnInit {
 
   createForm() {
     return this.formBuilder.group({
-      firstname: [this.data.name_1, Validators.required],
-      lastname: [this.data.name_2, Validators.required],
+      firstname: [this.data.name_2, Validators.required],
+      lastname: [this.data.name_1, Validators.required],
       email: [
         this.data.mail,
         Validators.compose([Validators.required, Validators.email]),
@@ -84,8 +84,8 @@ export class EditCustomerComponent implements OnInit {
     }
 
     const result = Object.assign({}, this.editForm.value);
-    this.data.name_1 = result.firstname;
-    this.data.name_2 = result.lastname;
+    this.data.name_2 = result.firstname;
+    this.data.name_1 = result.lastname;
     this.data.mail = result.email;
     this.data.phone_mobile = result.phoneNumber;
 

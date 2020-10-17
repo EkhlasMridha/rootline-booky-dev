@@ -167,7 +167,7 @@ export class CreateCustomerComponent implements OnInit {
         this.modalService.dispose();
       },
       (err) => {
-        modalRef.close;
+        modalRef.close();
         this.modalService.dispose();
         this.errorModal();
       }
