@@ -5,11 +5,20 @@
   <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
     <div fxLayout="column" fxLayoutGap="10px" class="form-content">
       <div
-        fxLayout="row"
-        fxLayoutGap="15px"
-        fxLayoutAlign="space-between center"
+        fxLayout="column"
+        fxLayoutAlign="start start"
       >
-        <mat-form-field color="accent">
+      <mat-form-field fxFlex="50" color="accent">
+        <mat-label>Salutation</mat-label>
+        <mat-select formControlName="salutation_id">
+          <mat-select-trigger *ngIf="selectedSalutation && selectedSalutation.value">{{selectedSalutation.value.value}}
+          </mat-select-trigger>
+          <mat-option *ngFor="let salutation of salutationList" [value]="salutation">{{salutation.value}}</mat-option>
+        </mat-select>
+        <mat-error>{{ errorObservers$.salutation_id | async }}</mat-error>
+      </mat-form-field>
+      <div class="full-width" fxLayout="row" fxLayoutGap="20px">
+        <mat-form-field color="accent" class="full-width">
           <mat-label>First name</mat-label>
           <input
             matInput
@@ -18,27 +27,39 @@
           />
           <mat-error>{{ errorObservers$.name_1 | async }}</mat-error>
         </mat-form-field>
-        <mat-form-field color="accent">
+        <mat-form-field color="accent" class="full-width">
           <mat-label>Last name</mat-label>
           <input matInput formControlName="name_2" placeholder="last name" />
           <mat-error>{{ errorObservers$.name_2 | async }}</mat-error>
         </mat-form-field>
+        </div>
       </div>
 
-      <mat-form-field color="accent">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="mail" placeholder="email" />
-        <mat-error>{{ errorObservers$.mail | async }}</mat-error>
-      </mat-form-field>
-      <mat-form-field color="accent">
-        <mat-label>Phone</mat-label>
-        <input
-          matInput
-          formControlName="phone_mobile"
-          placeholder="phone number"
-        />
-        <mat-error>{{ errorObservers$.phone_mobile | async }}</mat-error>
-      </mat-form-field>
+      <div fxLayout="row" class="full-width" fxLayoutGap="20px">
+        <mat-form-field color="accent" class="full-width">
+          <mat-label>Country</mat-label>
+          <mat-select formControlName="country">
+            <mat-select-trigger *ngIf="selectedCountry && selectedCountry.value">{{selectedCountry.value.name}}
+            </mat-select-trigger>
+            <mat-option *ngFor="let country of countries" [value]="country">{{country.name}}</mat-option>
+          </mat-select>
+          <mat-error>{{ errorObservers$.country | async }}</mat-error>
+        </mat-form-field>
+        <mat-form-field color="accent" class="full-width">
+          <mat-label>Phone</mat-label>
+          <input
+            matInput
+            formControlName="phone_mobile"
+            placeholder="phone number"
+          />
+          <mat-error>{{ errorObservers$.phone_mobile | async }}</mat-error>
+        </mat-form-field>
+        </div>
+        <mat-form-field color="accent">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="mail" placeholder="email" />
+          <mat-error>{{ errorObservers$.mail | async }}</mat-error>
+        </mat-form-field>
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end end">
         <button mat-stroked-button type="button" (click)="close()">
           Cancel

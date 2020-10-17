@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -10,6 +11,7 @@ import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { RoomApiService } from '../../services/room-api.service';
 import { RootlineModalService } from 'rootline-dialog';
 import { BexioCustomer } from '../../models/bexio-customer.model';
+import { BexioCountry } from '../../models/bexio-country.model';
 
 @Component({
   selector: 'app-create-customer',
@@ -19,23 +21,56 @@ import { BexioCustomer } from '../../models/bexio-customer.model';
 export class CreateCustomerComponent implements OnInit {
   customerForm: FormGroup;
   data: any;
+  countries: BexioCountry[] = [];
+  isCountryLoading: boolean;
+  salutationList: any[] = [
+    {
+      key: 1,
+      value:"Mr."
+    },
+    {
+      key: 2,
+      value:"Mrs."
+    },
+    {
+      key: 3,
+      value:"Family"
+    },
+    {
+      key: 4,
+      value:"Mr. and Mrs."
+    }
+  ]
+
+  get selectedSalutation(): FormControl{
+    return this.customerForm.get("salutation_id") as FormControl;
+  }
+
+  get selectedCountry(): FormControl{
+    return this.customerForm.get("country") as FormControl;
+  }
+
+  set selectedCountry(value) {
+    this.customerForm.setValue({ "country": value });
+  }
   constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
     private dialogRef: MatDialogRef<CreateCustomerComponent>,
     private formBuilder: FormBuilder,
     private formService: FormService,
     private apiService: RoomApiService,
-    private validators: ValidatorsService,
     private modalService: RootlineModalService
   ) {
     this.data = data;
   }
 
   errorObservers$ = {
+    salutation_id:"",
     name_1: '',
     name_2: '',
     mail: '',
     phone_mobile: '',
+    country:""
   };
 
   ngOnInit(): void {
@@ -46,10 +81,21 @@ export class CreateCustomerComponent implements OnInit {
       this.errorObservers$,
       this.errorTagSetter
     );
+    this.getBexioCountries();
+  }
+
+  getBexioCountries() {
+    this.isCountryLoading = false;
+    this.apiService.getBexioCountry().subscribe(res => {
+      this.countries = res;
+      this.isCountryLoading = true;
+      this.customerForm.get("country").setValue(res[0]);
+    })
   }
 
   errorTagSetter(type: string, owner: string) {
     switch (owner) {
+      case "salutation_id": return "Salutaion is required"
       case 'name_1':
         return 'First name is required';
       case 'name_2':
@@ -67,11 +113,13 @@ export class CreateCustomerComponent implements OnInit {
           return 'Already has a user with this phone number';
         }
         return 'Phone number is required';
+      case "country": return "Country selection required";
     }
   }
 
   createForm() {
     return this.formBuilder.group({
+      salutation_id:[this.salutationList[0],Validators.required],
       name_1: ['', Validators.required],
       name_2: ['', Validators.required],
       mail: [
@@ -82,6 +130,7 @@ export class CreateCustomerComponent implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.minLength(8)]),
       ],
+      country:[0,Validators.required]
     });
   }
 
@@ -93,11 +142,13 @@ export class CreateCustomerComponent implements OnInit {
     const customer = Object.assign({}, this.customerForm.value);
     let bexioContact = new BexioCustomer();
 
-    bexioContact.name_1 = customer.name_1;
-    bexioContact.name_2 = customer.name_2;
+    bexioContact.name_2 = customer.name_1;
+    bexioContact.name_1 = customer.name_2;
     bexioContact.mail = customer.mail;
-    bexioContact.phone_mobile = customer.phone_mobile
-    console.log(bexioContact);
+    bexioContact.phone_mobile = customer.phone_mobile;
+    bexioContact.salutation_id = customer.salutation_id.key;
+    bexioContact.country_id = customer.country.id;
+
     let modalRef = this.modalService.openConfirmationModal({
       isLoader: true,
       loaderText: 'Creating customer ...',

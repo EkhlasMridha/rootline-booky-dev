@@ -42,11 +42,11 @@ export class RoomBookComponent implements OnInit {
   selectedCriteria: any;
   searchCriterias: any[] = [
     {
-      key: "name_1",
+      key: "name_2",
       value:"First name"
     },
     {
-      key: "name_2",
+      key: "name_1",
       value:"Last name"
     },
     {
@@ -186,7 +186,7 @@ export class RoomBookComponent implements OnInit {
 
   createCustomer() {
     this.dialog.open(CreateCustomerComponent, {
-      width: 'auto',
+      width:"550px",
       disableClose: true,
       panelClass: 'modal-body',
     });

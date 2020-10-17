@@ -36,8 +36,8 @@
           <mat-select #select formControlName="customerId" required>
             <mat-select-trigger
               *ngIf="selectedCustomer && selectedCustomer.value"
-              >{{ selectedCustomer.value.name_1 }}
-              {{ selectedCustomer.value.name_2 }}</mat-select-trigger
+              >{{ selectedCustomer.value.name_2 }}
+              {{ selectedCustomer.value.name_1 }}</mat-select-trigger
             >
             <mat-option>
               <ngx-mat-select-search
@@ -53,7 +53,7 @@
             >
               <div class="name" fxLayout="column">
                 <span class="name-tag"
-                  >{{ customer.name_1 }} {{ customer.name_2 }}</span
+                  >{{ customer.name_2 }} {{ customer.name_1 }}</span
                 >
                 <div fxLayout="row" fxLayoutGap="10px">
                   <span class="details" *ngIf="customer.phone_mobile!=''">Phone: {{ customer.phone_mobile }}</span>
