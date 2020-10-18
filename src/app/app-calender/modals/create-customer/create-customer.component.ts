@@ -128,13 +128,11 @@ export class CreateCustomerComponent implements OnInit {
       name_2: ['', Validators.required],
       mail: [
         '',
-        Validators.compose([Validators.required, Validators.email]),
-        this.checkMail.bind(this)
+        Validators.compose([ Validators.email]),
       ],
       phone_mobile: [
         '',
-        Validators.compose([Validators.required, Validators.minLength(8)]),
-        this.checkPhone.bind(this)
+        Validators.compose([ Validators.minLength(8)]),
       ],
       country:[0,Validators.required]
     });
@@ -193,11 +191,11 @@ export class CreateCustomerComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  checkMail({ value }: AbstractControl): Observable<ValidationErrors | null> {
-    return this.validators.isMailExists(value);
-  }
+  // checkMail({ value }: AbstractControl): Observable<ValidationErrors | null> {
+  //   return this.validators.isMailExists(value);
+  // }
 
-  checkPhone({ value }: AbstractControl): Observable<ValidationErrors | null> {
-    return this.validators.isPhoneExists(value);
-  }
+  // checkPhone({ value }: AbstractControl): Observable<ValidationErrors | null> {
+  //   return this.validators.isPhoneExists(value);
+  // }
 }

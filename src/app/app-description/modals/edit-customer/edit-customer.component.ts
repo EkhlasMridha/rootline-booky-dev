@@ -67,9 +67,9 @@ export class EditCustomerComponent implements OnInit {
       lastname: [this.data.name_1, Validators.required],
       email: [
         this.data.mail,
-        Validators.compose([Validators.required, Validators.email]),
+        Validators.compose([ Validators.email]),
       ],
-      phoneNumber: [this.data.phone_mobile, Validators.required],
+      phoneNumber: [this.data.phone_mobile],
     });
   }
 
