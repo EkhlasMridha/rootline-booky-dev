@@ -8,8 +8,8 @@ import { DayModel } from '../../models/day.model';
 import { RoomModel } from '../../models/room.model';
 import { TimelineModel } from '../../models/timeline.model';
 import { TimelineService } from '../../services/timeline.service';
-import * as lds from 'lodash-es';
-import { RootlineDialogModule, RootlineModalService } from 'rootline-dialog';
+import {cloneDeep} from 'lodash-es';
+import {  RootlineModalService } from 'rootline-dialog';
 import { RoomApiService } from '../../services/room-api.service';
 import { StateControlService } from 'src/app/shared-services/state-control.service';
 import { EditRoomComponent } from '../../modals/edit-room/edit-room.component';
@@ -112,7 +112,7 @@ export class IndividualRoomComponent {
 
   mapBookingData(data: any) {
     let bookings: Partial<BookedModel> = {};
-    bookings.booking = lds.cloneDeep(data);
+    bookings.booking = cloneDeep(data);
     bookings.booking.bookedRoom = [];
     data.bookedRoom.forEach((booked) => {
       if (booked.roomId == this.hotelRoom.id) {

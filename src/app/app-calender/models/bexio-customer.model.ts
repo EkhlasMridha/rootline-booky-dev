@@ -3,7 +3,7 @@ export class BexioCustomer{
     name_1:string= "";
     name_2:string= null;
     salutation_id = 0;
-    salutation_form:number = 0;
+    salutation_form:number = null;
     mail:string;
     phone_mobile:string;
     user_id= 1;

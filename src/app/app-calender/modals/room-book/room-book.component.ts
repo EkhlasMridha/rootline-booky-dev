@@ -25,7 +25,7 @@ import { ReplaySubject } from 'rxjs';
 import { IconService } from 'src/app/shared-services/utilities/icon.service';
 import { CreateCustomerComponent } from '../create-customer/create-customer.component';
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
-import * as lds from 'lodash-es';
+import {cloneDeep} from 'lodash-es';
 import { RootlineModalService } from 'rootline-dialog';
 import { SearchCriteria } from '../../models/search-criteria.model';
 
@@ -97,7 +97,7 @@ export class RoomBookComponent implements OnInit {
     this.bookedDates = this.bookedDates.bind(this);
     this.errorDialogEvent = this.errorDialogEvent.bind(this);
 
-    this.bookedRooms = lds.cloneDeep(this.data.data.bookedRooms);
+    this.bookedRooms = cloneDeep(this.data.data.bookedRooms);
     this.startDate = new Date(
       this.data.date.year,
       this.data.date.month,
@@ -197,7 +197,7 @@ export class RoomBookComponent implements OnInit {
       this.formService.checkFormStatus(this.bookingForm);
       return;
     }
-    const result = lds.cloneDeep(this.bookingForm.value);
+    const result = cloneDeep(this.bookingForm.value);
     result.customerId = this.bookingForm.value.customerId.id;
 
     let payload = this.prepareBookingPayload(result);

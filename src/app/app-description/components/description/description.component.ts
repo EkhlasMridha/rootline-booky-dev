@@ -10,7 +10,7 @@ import {
 import { DateModel } from '../../models/date.model';
 import { UpdateModel } from '../../models/update.model';
 import { DescriptionApiService } from '../../services/description-api.service';
-import * as lds from 'lodash-es';
+import { cloneDeep,round} from 'lodash-es';
 
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -54,7 +54,7 @@ export class DescriptionComponent implements OnInit {
   ) {
     this.popConfig = token.config;
     this.data = token.config.data.booked;
-    this.timelineData = lds.cloneDeep(token.config.data);
+    this.timelineData = cloneDeep(token.config.data);
     this.editBookingData = token.config.data;
     this.months = DomainService.domains.Months;
     this.stateColors = DomainService.domains.StateColors;
@@ -85,7 +85,7 @@ export class DescriptionComponent implements OnInit {
   }
 
   updateTimelineData() {
-    let pre = lds.cloneDeep(this.timelineData.booked);
+    let pre = cloneDeep(this.timelineData.booked);
     this.timelineData.booked = this.data;
     let cur = this.timelineData;
 
@@ -153,7 +153,7 @@ export class DescriptionComponent implements OnInit {
   initBookingInfo() {
     this.bookingDate = this.getBookingDate();
     this.nights = this.getNights();
-    this.amount = this.data.booking.amount.toPrecision(2);
+    this.amount = round(this.data.booking.amount, 3);
     this.totalCost = this.calculateTotalCost(this.nights, this.amount);
     this.bookedDate = this.getBookedDate(this.data.booking.booked_Date);
     this.bookedDate = this.createDateFormate(this.bookedDate);
@@ -161,7 +161,8 @@ export class DescriptionComponent implements OnInit {
   }
 
   calculateTotalCost(nights: number, amount: number) {
-    return nights * amount;
+    let total = round(nights * amount, 3);
+    return total;
   }
 
   getDescriptionData() {
@@ -251,7 +252,7 @@ export class DescriptionComponent implements OnInit {
   updateState(state) {
     let info: Partial<UpdateModel> = {};
 
-    let updateData = lds.cloneDeep(this.timelineData);
+    let updateData = cloneDeep(this.timelineData);
     updateData.booked.booking.state = state;
     updateData.booked.booking.stateId = state.id;
 
