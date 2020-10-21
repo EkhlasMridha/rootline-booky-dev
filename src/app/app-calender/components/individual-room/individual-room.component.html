@@ -1,6 +1,7 @@
 <div class="rooms room-decorator" fxLayout="row" *ngIf="hotelRoom">
   <div class="room-label cursor-pointer" [matMenuTriggerFor]="menu" fxLayout="column">
-    <span class="name">{{ hotelRoom.roomname }}</span>
+    <span class="name" [matTooltip]="hotelRoom.roomname"
+      matTooltipPosition="below">{{ hotelRoom.roomname | truncate:12:'...' }}</span>
     <span class="details">Capacity: {{ hotelRoom.capacity }}</span>
   </div>
 

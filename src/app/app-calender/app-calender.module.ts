@@ -19,7 +19,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { RootlineDialogModule } from 'rootline-dialog';
 import {MatMenuModule} from "@angular/material/menu";
 import { EditRoomComponent } from './modals/edit-room/edit-room.component'
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { TruncatePipe } from './pipes/truncate.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     CalendarComponent,
@@ -30,6 +31,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     RoomBookComponent,
     CreateCustomerComponent,
     EditRoomComponent,
+    TruncatePipe,
   ],
   imports: [
     CommonModule,
@@ -43,7 +45,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatSelectModule,
     NgxMatSelectSearchModule,
     MatMenuModule,
-    NgxSkeletonLoaderModule,
+    MatTooltipModule,
     RootlineDialogModule.forChild(),
   ],
   exports: [CalendarComponent],
