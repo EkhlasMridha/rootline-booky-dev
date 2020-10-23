@@ -86,44 +86,39 @@
         </mat-form-field>
       </div>
       <div
-        fxLayout="row"
-        fxLayoutGap="15px"
-        fxLayoutAlign="space-between center"
+        fxLayout="column"
+        fxLayoutAlign="start start"
       >
-      <mat-form-field required>
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="guest name">
-      </mat-form-field>
-      <mat-form-field required>
-        <mat-label>Age</mat-label>
-        <input matInput type="number" placeholder="age">
-      </mat-form-field>
-      <button mat-stroked-button color="accent" fxLayout="row" type="button">
-        <mat-icon style="height: 16px;width: 16px;font-size: 16px;">add</mat-icon><span>Add</span>
-      </button>
-      <!-- <mat-form-field class="full-width" color="accent">
-          <mat-label>Adults</mat-label>
-          <input
-            matInput
-            formControlName="adults"
-            placeholder="adults"
-            type="number"
-            min="0"
-            required
-          />
-          <mat-error>{{ errorObservers$.adults | async }}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="full-width" color="accent">
-          <mat-label>Children</mat-label>
-          <input
-            matInput
-            formControlName="children"
-            placeholder="children"
-            type="number"
-            min="0"
-          />
-          <mat-error>{{ errorObservers$.children | async }}</mat-error>
-        </mat-form-field> -->
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutGap="10px">
+            <mat-form-field color="accent" required>
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" placeholder="guest name">
+            </mat-form-field>
+            <mat-form-field color="accent" style="max-width: 80px;" required>
+              <mat-label>Age</mat-label>
+              <input matInput formControlName="age" type="number" placeholder="age">
+            </mat-form-field>
+          </div>
+          </div>
+          <button mat-stroked-button color="accent" fxLayout="row" type="button" (click)="addGuest()">
+            <mat-icon style="height: 16px;width: 16px;font-size: 16px;">add</mat-icon><span>Guest</span>
+        </button>
+      </div>
+      <div fxLayout="column" fxLayoutGap="10px">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" *ngFor="let guest of guestList">
+      
+          <mat-icon style="height: 14px;width: 14px;font-size: 14px;color: #806e6e;" class="cursor-pointer"
+            (click)="removeGuest(guest)">
+            clear
+          </mat-icon>
+          <div fxLayout="row" fxLayoutGap="15px">
+            <span class="sub-text">{{guest.name}}</span>
+            <span class="sub-text">{{guest.age}}</span>
+          </div>
+        </div>
+      </div>
       </div>
       <div>
         <mat-form-field class="full-width" color="accent">

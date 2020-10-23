@@ -1,3 +1,5 @@
+import { GuestModel } from './guest.model';
+
 export interface BookingModel {
   id: number;
   book_From: any;
@@ -10,4 +12,5 @@ export interface BookingModel {
   children: number;
   booked_Date: any;
   bookedRoom?: any[];
+  guest: Partial<GuestModel>[];
 }

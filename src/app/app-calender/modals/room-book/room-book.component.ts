@@ -25,9 +25,10 @@ import { ReplaySubject } from 'rxjs';
 import { IconService } from 'src/app/shared-services/utilities/icon.service';
 import { CreateCustomerComponent } from '../create-customer/create-customer.component';
 import { CalendarControlService } from 'src/app/shared-services/calendar-control.service';
-import {cloneDeep} from 'lodash-es';
+import {cloneDeep, random} from 'lodash-es';
 import { RootlineModalService } from 'rootline-dialog';
 import { SearchCriteria } from '../../models/search-criteria.model';
+import { GuestModel } from '../../models/guest.model';
 
 @Component({
   selector: 'app-room-book',
@@ -40,6 +41,7 @@ export class RoomBookComponent implements OnInit {
   customer: any;
   bookingForm: FormGroup;
   selectedCriteria: any;
+  guestList: Partial<GuestModel>[] = [];
   searchCriterias: any[] = [
     {
       key: "name_2",
@@ -74,6 +76,8 @@ export class RoomBookComponent implements OnInit {
     toDate: '',
     adults: '',
     children: '',
+    name: "",
+    age:'',
     chf: '',
   };
 
@@ -157,6 +161,10 @@ export class RoomBookComponent implements OnInit {
         return 'Set amount';
       case 'bookingForm':
         return `This room is for ${this.data.data.capacity} person only`;
+      case 'name':
+        return 'Guest name is required';
+      case 'age':
+        return "Set age";
     }
   }
 
@@ -165,22 +173,24 @@ export class RoomBookComponent implements OnInit {
       {
         customerId: [null, Validators.required],
         toDate: ['', Validators.required],
-        adults: [
-          0,
-          Validators.compose([Validators.required, Validators.min(1)]),
-        ],
-        children: [0],
+        // adults: [
+        //   0,
+        //   Validators.compose([Validators.required, Validators.min(1)]),
+        // ],
+        // children: [0],
+        name: [''],
+        age:[0],
         chf: ['', Validators.required],
       },
-      {
-        validators: [
-          this.validateRoomCapacity(
-            'adults',
-            'children',
-            this.data.data.capacity
-          ),
-        ],
-      }
+      // {
+      //   validators: [
+      //     this.validateRoomCapacity(
+      //       'adults',
+      //       'children',
+      //       this.data.data.capacity
+      //     ),
+      //   ],
+      // }
     );
   }
 
@@ -193,35 +203,35 @@ export class RoomBookComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.bookingForm.valid || this.bookingForm.errors != null) {
-      this.formService.checkFormStatus(this.bookingForm);
-      return;
-    }
+    // if (!this.bookingForm.valid || this.bookingForm.errors != null) {
+    //   this.formService.checkFormStatus(this.bookingForm);
+    //   return;
+    // }
     const result = cloneDeep(this.bookingForm.value);
     result.customerId = this.bookingForm.value.customerId.id;
 
     let payload = this.prepareBookingPayload(result);
     console.log(payload);
-    let dialogRef = this.modalService.openConfirmationModal({
-      isLoader: true,
-      loaderText: 'Creating booking ...',
-      disableClose: true,
-    });
+    // let dialogRef = this.modalService.openConfirmationModal({
+    //   isLoader: true,
+    //   loaderText: 'Creating booking ...',
+    //   disableClose: true,
+    // });
 
-    this.bookingService.createBooking(payload).subscribe(
-      (res) => {
-        this.caledarControl.updateCaledar(res);
-        this.dialogRef.close();
-        dialogRef.close();
-        this.modalService.dispose();
-      },
-      (err) => {
-        this.dialogRef.close();
-        dialogRef.close();
-        this.modalService.dispose();
-        this.errorModal();
-      }
-    );
+    // this.bookingService.createBooking(payload).subscribe(
+    //   (res) => {
+    //     this.caledarControl.updateCaledar(res);
+    //     this.dialogRef.close();
+    //     dialogRef.close();
+    //     this.modalService.dispose();
+    //   },
+    //   (err) => {
+    //     this.dialogRef.close();
+    //     dialogRef.close();
+    //     this.modalService.dispose();
+    //     this.errorModal();
+    //   }
+    // );
   }
 
   errorModal() {
@@ -266,6 +276,7 @@ export class RoomBookComponent implements OnInit {
     booking.stateId = 1;
     booking.booked_Date = new Date();
     booking.customerId = data.customerId;
+    booking.guest = this.guestList;
     return booking;
   }
 
@@ -328,5 +339,27 @@ export class RoomBookComponent implements OnInit {
 
   setCriteria(data: any) {
     this.selectedCriteria = data;
+  }
+
+  addGuest() {
+    let guest: Partial<GuestModel> = {};
+    let name:string = this.bookingForm.value.name;
+    let age:number = this.bookingForm.value.age;
+    if (name.length == 0 || age <= 0) {
+      return;
+    }
+    console.log("addend" + name);
+
+    guest.name = name;
+    guest.age = age;
+
+    this.guestList.push(guest);
+    this.bookingForm.get("name").setValue("");
+    this.bookingForm.get("age").setValue(0);
+  }
+
+  removeGuest(item) {
+    let index = this.guestList.indexOf(item);
+    this.guestList.splice(index, 1);
   }
 }
