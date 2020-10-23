@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RootlineModalService } from 'rootline-dialog';
 import { BookingModel } from 'src/app/app-calender/models/booking.model';
+import { GuestModel } from 'src/app/app-calender/models/guest.model';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { DescriptionApiService } from '../../services/description-api.service';
 
@@ -80,6 +81,7 @@ export class EditBookingComponent implements OnInit {
     this.booking = result;
     let preparedData = this.prepareBookingModel(this.booking);
 
+    console.log(preparedData)
     let ref = this.modalService.openConfirmationModal({
       isLoader: true,
       loaderText: 'Updating booking ...',
@@ -125,15 +127,25 @@ export class EditBookingComponent implements OnInit {
     booking.guest.splice(index, 1);
   }
 
+  addGuest() {
+    let guestList: Partial<GuestModel>[] = this.data.booked.booking.guest;
+    let guest: Partial<GuestModel> = {};
+    guest.age = this.editBooking.value.age;
+    guest.name = this.editBooking.value.name;
+    guest.bookingId = this.data.booked.booking.id;
+    guestList.push(guest);
+  }
+
   prepareBookingModel(data: BookingModel) {
-    let booking = this.data.booked.booking;
+    let booking:BookingModel = this.data.booked.booking;
     data.booked_Date = booking.booked_Date;
     data.id = booking.id;
     data.customerId = booking.customerId;
     data.stateId = booking.stateId;
     data.book_From = new Date(data.book_From).toLocaleDateString('en');
     data.leave_At = new Date(data.leave_At).toLocaleDateString('en');
-
+    data.guest = booking.guest;
+    data["tax"] = booking["tax"];
     return data;
   }
 

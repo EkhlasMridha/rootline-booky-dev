@@ -76,10 +76,10 @@ export class DescriptionComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        // this.editBookingData.booked.booking = res;
         this.bookingModel = res;
         this.bookingModel.state = this.data.booking.state;
         this.data.booking = this.bookingModel;
+        this.analyzeGuestList(this.bookingModel.guest);
         this.initBookingInfo();
         this.updateTimelineData();
       }
