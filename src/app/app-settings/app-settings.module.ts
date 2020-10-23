@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { FormsMaterialModule } from '../shared-modules/shared-materials/forms-material/forms-material.module';
 import { RootlineDialogModule } from 'rootline-dialog';
+import { SetTaxComponent } from './components/set-tax/set-tax.component';
 
 const routes:Routes=[
   {
@@ -18,7 +19,7 @@ const routes:Routes=[
 ]
 
 @NgModule({
-  declarations: [SettignsComponent, ResetPasswordComponent],
+  declarations: [SettignsComponent, ResetPasswordComponent, SetTaxComponent],
   imports: [
     CommonModule,
     SharedMaterialModule,

@@ -4,6 +4,7 @@ import { throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { AdminModel } from '../models/admin.model';
 import { ResetPassword } from '../models/reset.model';
+import { TaxModel } from '../models/tax.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,13 @@ export class SettignsService {
 
   resetPassword(payload:Partial<ResetPassword>){
     return this.http.post("identity/resetpassword",payload).pipe(retry(2));
+  }
+
+  getTax() {
+    return this.http.get("booking/tax").pipe(retry(2));
+  }
+
+  savetax(payload: Partial<TaxModel>) {
+    return this.http.post("booking/tax", payload).pipe(retry(2));
   }
 }

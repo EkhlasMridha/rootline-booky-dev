@@ -1,0 +1,11 @@
+<form [formGroup]="taxForm" (ngSubmit)="onSubmit()" fxLayout="column">
+    <mat-form-field color="accent">
+        <mat-label>Adults Tax</mat-label>
+        <input matInput formControlName="adultsTax" type="number" placeholder="adults tax value">
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <mat-label>Childrens Tax</mat-label>
+        <input matInput formControlName="childrensTax" type="number" placeholder="childrens tax value">
+    </mat-form-field>
+    <button mat-stroked-button type="submit" color="accent">Save</button>
+</form>
