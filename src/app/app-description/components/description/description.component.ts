@@ -183,6 +183,7 @@ export class DescriptionComponent implements OnInit {
       ),
       this.descriptionAPI.getGuestByBooking(this.data.booking.id).pipe(tap(res => {
         this.guestList = res;
+        this.data.booking.guest = cloneDeep(this.guestList);
         this.analyzeGuestList(res);
       }))
     ];

@@ -18,8 +18,8 @@ export class EditBookingComponent implements OnInit {
   error$ = {
     book_From: '',
     leave_At: '',
-    adults: '',
-    children: '',
+    name: '',
+    age: '',
     amount: '',
   };
   constructor(
@@ -41,6 +41,7 @@ export class EditBookingComponent implements OnInit {
       this.error$,
       this.errorGenerator
     );
+    console.log(this.data)
   }
 
   errorGenerator(type: string, owner: string) {
@@ -49,8 +50,10 @@ export class EditBookingComponent implements OnInit {
         return 'Required field';
       case 'leave_At':
         return 'Required field';
-      case 'adults':
-        return 'Invalid input';
+      case 'name':
+        return 'Name required';
+      case 'age':
+        return 'Age is not set';
       case 'amount':
         return 'Invalid amount';
     }
@@ -60,11 +63,8 @@ export class EditBookingComponent implements OnInit {
     return this.formBuilder.group({
       book_From: [this.data.booked.booking.book_From, Validators.required],
       leave_At: [this.data.booked.booking.leave_At, Validators.required],
-      adults: [
-        this.data.booked.booking.adults,
-        Validators.compose([Validators.required, Validators.min(1)]),
-      ],
-      children: [this.data.booked.booking.children],
+      name: [''],
+      age: [0],
       amount: [this.data.booked.booking.amount, Validators.required],
     });
   }
@@ -117,6 +117,12 @@ export class EditBookingComponent implements OnInit {
 
   tryAgain() {
     this.modalService.dispose();
+  }
+
+  removeGuest(guest) {
+    let booking: BookingModel = this.data.booked.booking;
+    let index = booking.guest.indexOf(guest);
+    booking.guest.splice(index, 1);
   }
 
   prepareBookingModel(data: BookingModel) {
