@@ -102,7 +102,12 @@
       fxLayoutGap="5px"
       fxLayoutAlign="start center"
     >
-      <mat-icon>credit_card</mat-icon><span>{{ totalCost }} CHF</span>
+      <mat-icon>credit_card</mat-icon><span>{{ totalCost }} CHF <span style="font-size: 10px;">Exkl.
+          Taxen</span></span>
+      </div>
+      <div *ngIf="data" class="content-fonts" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+        <mat-icon>account_balance</mat-icon><span>{{ data.booking.tax }} CHF <span
+            style="font-size: 10px;">(tax)</span></span>
     </div>
     <div style="padding-top: 20px">
       <mat-radio-group
@@ -139,7 +144,7 @@
     }"
   ></ngx-skeleton-loader>
   <ngx-skeleton-loader
-    count="5"
+    count="6"
     appearance="line"
     [theme]="{
       'border-radius': '2px',

@@ -20,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditBookingComponent } from '../../modals/edit-booking/edit-booking.component';
 import { EditCustomerComponent } from '../../modals/edit-customer/edit-customer.component';
 import { RootlineModalService } from 'rootline-dialog';
+import { GuestModel } from 'src/app/app-calender/models/guest.model';
 @Component({
   selector: 'app-description',
   templateUrl: './description.component.html',
@@ -44,6 +45,7 @@ export class DescriptionComponent implements OnInit {
   timelineData: any;
   editBookingData: any;
   stateColors: any[];
+  guestList: Partial<GuestModel>[];
 
   constructor(
     @Inject(DESCRIPTION_POPUP_CONFIG) token: DescriptionToken,
@@ -121,7 +123,9 @@ export class DescriptionComponent implements OnInit {
     });
   }
 
-  deleteCancel(event: MouseEvent) {}
+  deleteCancel(event: MouseEvent) {
+    this.confirmationModal.dispose();
+  }
 
   executeDelete(event) {
     let booked: BookingModel;
@@ -177,6 +181,10 @@ export class DescriptionComponent implements OnInit {
           this.customer = res;
         })
       ),
+      this.descriptionAPI.getGuestByBooking(this.data.booking.id).pipe(tap(res => {
+        this.guestList = res;
+        this.analyzeGuestList(res);
+      }))
     ];
 
     this.isLoading = true;
@@ -187,6 +195,22 @@ export class DescriptionComponent implements OnInit {
       );
       this.isLoading = false;
     });
+  }
+
+  analyzeGuestList(guestList:Partial<GuestModel>[]) {
+    let adults = 0;
+    let childrens = 0;
+
+    guestList.forEach(guest => {
+      if (guest.age > 15) {
+        adults += 1;
+      } else {
+        childrens += 1;
+      }
+    })
+
+    this.data.booking.adults = adults;
+    this.data.booking.children = childrens;
   }
 
   private verifyBookingState(state: any, stateList: any[]) {

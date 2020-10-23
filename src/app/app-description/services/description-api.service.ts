@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { BookingModel } from 'src/app/app-calender/models/booking.model';
+import { GuestModel } from 'src/app/app-calender/models/guest.model';
 
 @Injectable({
   providedIn: 'root',
@@ -44,5 +45,9 @@ export class DescriptionApiService {
 
   updateBooking(payload: any, id: number) {
     return this.http.put(`booking/${id}`, payload).pipe(retry(3));
+  }
+
+  getGuestByBooking(id: number) {
+    return this.http.get<Partial<GuestModel>[]>(`booking/guest/${id}`).pipe(retry(2));
   }
 }
