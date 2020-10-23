@@ -58,6 +58,20 @@ export class DescriptionService extends CalendarOverlayService {
         overlayY: 'bottom',
         offsetX: config.positionX,
       },
+      {
+        originX: 'start',
+        originY: 'top',
+        overlayX: 'end',
+        overlayY: 'top',
+        offsetX: config.positionX,
+      },
+      {
+        originX: 'end',
+        originY: 'top',
+        overlayX: 'start',
+        overlayY: 'top',
+        offsetX: config.positionX,
+      },
     ];
 
     this.updatePositions(descriptionPosition);
