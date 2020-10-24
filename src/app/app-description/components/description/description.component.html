@@ -95,20 +95,27 @@
       <mat-icon>local_offer</mat-icon><span>{{ amount }} CHF</span>
     </div>
     <div class="dashed"></div>
-    <div
-      *ngIf="data"
-      class="content-fonts"
-      fxLayout="row"
-      fxLayoutGap="5px"
-      fxLayoutAlign="start center"
-    >
-      <mat-icon>credit_card</mat-icon><span>{{ totalCost }} CHF <span style="font-size: 10px;">Exkl.
-          Taxen</span></span>
+    <div fxLayout="row" fxLayoutAlign="space-between end">
+      <div fxLayout="column" fxLayoutGap="5px">
+        <div
+          *ngIf="data"
+          class="content-fonts"
+          fxLayout="row"
+          fxLayoutGap="5px"
+          fxLayoutAlign="start center"
+        >
+          <mat-icon>credit_card</mat-icon><span>{{ totalCost }} CHF <span style="font-size: 10px;">Exkl.
+              Taxen</span></span>
+          </div>
+          <div *ngIf="data" class="content-fonts" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+            <mat-icon>account_balance</mat-icon><span>{{ data.booking.tax }} CHF <span
+                style="font-size: 10px;">(tax)</span></span>
+        </div>
       </div>
-      <div *ngIf="data" class="content-fonts" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
-        <mat-icon>account_balance</mat-icon><span>{{ data.booking.tax }} CHF <span
-            style="font-size: 10px;">(tax)</span></span>
-    </div>
+      <div class="content-fonts text-underline font-italic" fxLayoutAlign="end end">
+        <span>Total: {{totalCost + data.booking.tax}} CHF</span>
+      </div>
+      </div>
     <div style="padding-top: 20px">
       <mat-radio-group
         [(ngModel)]="currentState"
