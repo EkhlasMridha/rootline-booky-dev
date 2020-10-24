@@ -12,5 +12,6 @@ export interface BookingModel {
   children: number;
   booked_Date: any;
   bookedRoom?: any[];
+  info: string;
   guest: Partial<GuestModel>[];
 }

@@ -21,6 +21,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import { EditRoomComponent } from './modals/edit-room/edit-room.component'
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TextFieldModule } from '@angular/cdk/text-field';
 @NgModule({
   declarations: [
     CalendarComponent,
@@ -46,6 +47,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     NgxMatSelectSearchModule,
     MatMenuModule,
     MatTooltipModule,
+    TextFieldModule,
     RootlineDialogModule.forChild(),
   ],
   exports: [CalendarComponent],

@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
+  NgZone,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -20,7 +22,7 @@ import { BookedModel } from '../../models/booked.model';
 import { BookingModel } from '../../models/booking.model';
 import { CustomerModel } from 'src/app/shared-modules/models/customer.model';
 import { RoomApiService } from '../../services/room-api.service';
-import { debounceTime, filter, map, mergeMap, tap } from 'rxjs/operators';
+import { debounceTime, filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { IconService } from 'src/app/shared-services/utilities/icon.service';
 import { CreateCustomerComponent } from '../create-customer/create-customer.component';
@@ -29,6 +31,7 @@ import {cloneDeep, random} from 'lodash-es';
 import { RootlineModalService } from 'rootline-dialog';
 import { SearchCriteria } from '../../models/search-criteria.model';
 import { GuestModel } from '../../models/guest.model';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 @Component({
   selector: 'app-room-book',
@@ -79,6 +82,7 @@ export class RoomBookComponent implements OnInit {
     name: "",
     age:'',
     chf: '',
+    info:''
   };
 
   constructor(
@@ -90,16 +94,19 @@ export class RoomBookComponent implements OnInit {
     private iconService: IconService,
     private dialog: MatDialog,
     private caledarControl: CalendarControlService,
-    private modalService: RootlineModalService
+    private modalService: RootlineModalService,
+    private _ngZone:NgZone
   ) {
     this.data = data;
     this.iconService.loadIcons(['user']);
     this.selectedCriteria = this.searchCriterias[0];
+    console.log(this.data)
   }
 
   ngOnInit(): void {
     this.bookedDates = this.bookedDates.bind(this);
     this.errorDialogEvent = this.errorDialogEvent.bind(this);
+    this.errorTypeGenerator = this.errorTypeGenerator.bind(this);
 
     this.bookedRooms = cloneDeep(this.data.data.bookedRooms);
     this.startDate = new Date(
@@ -121,6 +128,13 @@ export class RoomBookComponent implements OnInit {
         this.searching = false;
       }
     );
+  }
+
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+
+  triggerResize() {
+    this._ngZone.onStable.pipe(take(1))
+        .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
   getCustomerList() {
@@ -160,8 +174,15 @@ export class RoomBookComponent implements OnInit {
       case 'chf':
         return 'Set amount';
       case 'bookingForm':
-        return `This room is for ${this.data.data.capacity} person only`;
+        console.log("Booking " + type);
+        console.log(this.bookingForm)
+        if (type == "overload") {
+          return `This room is for ${this.data.data.capacity} person only`;
+        } else if (type == "noGuest") {
+          return "Please add at least 1 guest";
+        }
       case 'name':
+        console.log("Name " + type);
         return 'Guest name is required';
       case 'age':
         return "Set age";
@@ -173,24 +194,11 @@ export class RoomBookComponent implements OnInit {
       {
         customerId: [null, Validators.required],
         toDate: ['', Validators.required],
-        // adults: [
-        //   0,
-        //   Validators.compose([Validators.required, Validators.min(1)]),
-        // ],
-        // children: [0],
         name: [''],
-        age:[0],
+        age: [0],
+        info:[''],
         chf: ['', Validators.required],
       },
-      // {
-      //   validators: [
-      //     this.validateRoomCapacity(
-      //       'adults',
-      //       'children',
-      //       this.data.data.capacity
-      //     ),
-      //   ],
-      // }
     );
   }
 
@@ -203,10 +211,13 @@ export class RoomBookComponent implements OnInit {
   }
 
   onSubmit() {
-    // if (!this.bookingForm.valid || this.bookingForm.errors != null) {
-    //   this.formService.checkFormStatus(this.bookingForm);
-    //   return;
-    // }
+    if (!this.bookingForm.valid || this.bookingForm.errors != null) {
+      this.formService.checkFormStatus(this.bookingForm);
+      return;
+    } else if (this.guestList.length == 0) {
+      this.bookingForm.setErrors({ noGuest: true });
+      return;
+    }
     const result = cloneDeep(this.bookingForm.value);
     result.customerId = this.bookingForm.value.customerId.id;
 
@@ -304,18 +315,6 @@ export class RoomBookComponent implements OnInit {
     };
   }
 
-  validateRoomCapacity(ctrl1: string, ctrl2: string, roomCapacity: number) {
-    return (formGroup: FormGroup) => {
-      const control1 = formGroup.controls[ctrl1];
-      const control2 = formGroup.controls[ctrl2];
-
-      let totalLoad = control1.value + control2.value;
-      if (totalLoad > roomCapacity) {
-        return { errorCapcity: true };
-      }
-    };
-  }
-
   bookedDates(caledarDate: Date): boolean {
     let enabled: boolean = true;
     if (caledarDate.getTime() <= new Date(this.startDate).getTime()) {
@@ -344,8 +343,11 @@ export class RoomBookComponent implements OnInit {
   addGuest() {
     let guest: Partial<GuestModel> = {};
     let name:string = this.bookingForm.value.name;
-    let age:number = this.bookingForm.value.age;
+    let age: number = this.bookingForm.value.age;
     if (name.length == 0 || age <= 0) {
+      return;
+    }else if (this.data.data.capacity == this.guestList.length) {
+      this.bookingForm.setErrors({ overload: true });
       return;
     }
     console.log("addend" + name);
@@ -361,5 +363,13 @@ export class RoomBookComponent implements OnInit {
   removeGuest(item) {
     let index = this.guestList.indexOf(item);
     this.guestList.splice(index, 1);
+  }
+
+  analyzeGlobalFormError(errorList:any) {
+    let errorMessage: string;
+    Object.keys(errorList).forEach(name => {
+      errorMessage = this.errorTypeGenerator(name, "bookingForm");
+    })
+    return errorMessage;
   }
 }

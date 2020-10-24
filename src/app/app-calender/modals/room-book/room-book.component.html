@@ -122,6 +122,14 @@
       </div>
       <div>
         <mat-form-field class="full-width" color="accent">
+          <mat-label>Information</mat-label>
+          <textarea matInput cdkTextareaAutosize formControlName="info" #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="4"></textarea>
+          <mat-error>{{ errorObservers$.info | async }}</mat-error>
+          </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="full-width" color="accent">
           <mat-label>CHF/Night</mat-label>
           <input
             matInput
@@ -135,7 +143,7 @@
         </mat-form-field>
       </div>
       <span class="form-errors">{{
-        bookingForm.errors ? errorTypeGenerator("error", "bookingForm") : ""
+        bookingForm.errors ? analyzeGlobalFormError(bookingForm.errors) : ""
       }}</span>
       <div
         class="full-width"

@@ -130,6 +130,9 @@ export class EditBookingComponent implements OnInit {
   addGuest() {
     let guestList: Partial<GuestModel>[] = this.data.booked.booking.guest;
     let guest: Partial<GuestModel> = {};
+    if (this.editBooking.value.name == "" || this.editBooking.value.age <= 0) {
+      return;
+    }
     guest.age = this.editBooking.value.age;
     guest.name = this.editBooking.value.name;
     guest.bookingId = this.data.booked.booking.id;
