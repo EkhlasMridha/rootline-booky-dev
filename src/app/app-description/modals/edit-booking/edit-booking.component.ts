@@ -6,6 +6,7 @@ import { RootlineModalService } from 'rootline-dialog';
 import { take } from 'rxjs/operators';
 import { BookingModel } from 'src/app/app-calender/models/booking.model';
 import { GuestModel } from 'src/app/app-calender/models/guest.model';
+import { RoomModel } from 'src/app/app-calender/models/room.model';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
 import { DescriptionApiService } from '../../services/description-api.service';
 
@@ -16,6 +17,7 @@ import { DescriptionApiService } from '../../services/description-api.service';
 })
 export class EditBookingComponent implements OnInit {
   data: any;
+  room: RoomModel;
   booking: BookingModel;
   editBooking: FormGroup;
   error$ = {
@@ -34,7 +36,8 @@ export class EditBookingComponent implements OnInit {
     private modalService: RootlineModalService,
     private _ngZone:NgZone
   ) {
-    this.data = data;
+    this.data = data.booking;
+    this.room = data.room;
   }
 
   ngOnInit(): void {
@@ -92,7 +95,7 @@ export class EditBookingComponent implements OnInit {
     this.booking = result;
     let preparedData = this.prepareBookingModel(this.booking);
 
-    console.log(preparedData);
+    // console.log(preparedData);
     let ref = this.modalService.openConfirmationModal({
       isLoader: true,
       loaderText: 'Updating booking ...',
@@ -134,6 +137,9 @@ export class EditBookingComponent implements OnInit {
 
   removeGuest(guest) {
     let booking: BookingModel = this.data.booked.booking;
+    if (booking.guest.length == 1) {
+      return;
+    }
     let index = booking.guest.indexOf(guest);
     booking.guest.splice(index, 1);
   }
@@ -142,6 +148,8 @@ export class EditBookingComponent implements OnInit {
     let guestList: Partial<GuestModel>[] = this.data.booked.booking.guest;
     let guest: Partial<GuestModel> = {};
     if (this.editBooking.value.name == "" || this.editBooking.value.age <= 0) {
+      return;
+    } else if (guestList.length >= this.room.capacity) {
       return;
     }
     guest.age = this.editBooking.value.age;

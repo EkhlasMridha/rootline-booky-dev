@@ -21,6 +21,7 @@ import { EditBookingComponent } from '../../modals/edit-booking/edit-booking.com
 import { EditCustomerComponent } from '../../modals/edit-customer/edit-customer.component';
 import { RootlineModalService } from 'rootline-dialog';
 import { GuestModel } from 'src/app/app-calender/models/guest.model';
+import { RoomModel } from 'src/app/app-calender/models/room.model';
 @Component({
   selector: 'app-description',
   templateUrl: './description.component.html',
@@ -30,6 +31,7 @@ export class DescriptionComponent implements OnInit {
   popConfig: FilePreviewDialogConfig;
   data: BookedModel;
   bookingModel: BookingModel;
+  room: RoomModel;
   months: string[];
   bookingDate: any;
   nights: any;
@@ -55,9 +57,10 @@ export class DescriptionComponent implements OnInit {
     private confirmationModal: RootlineModalService
   ) {
     this.popConfig = token.config;
-    this.data = token.config.data.booked;
-    this.timelineData = cloneDeep(token.config.data);
-    this.editBookingData = token.config.data;
+    this.data = token.config.data.timeline.booked;
+    this.room = token.config.data.room;
+    this.timelineData = cloneDeep(token.config.data.timeline);
+    this.editBookingData = token.config.data.timeline;
     this.months = DomainService.domains.Months;
     this.stateColors = DomainService.domains.StateColors;
   }
@@ -71,7 +74,7 @@ export class DescriptionComponent implements OnInit {
   editBooking() {
     let dialogRef = this.dialog.open(EditBookingComponent, {
       width: 'auto',
-      data: this.editBookingData,
+      data: {booking: this.editBookingData,room:this.room },
     });
 
     dialogRef.afterClosed().subscribe((res) => {

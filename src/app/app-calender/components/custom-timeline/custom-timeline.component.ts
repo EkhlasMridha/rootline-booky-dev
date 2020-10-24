@@ -11,6 +11,7 @@ import {
 import { Subscription } from 'rxjs';
 import { DescriptionService } from 'src/app/app-description/services/DescriptionService';
 import { TimelineControlService } from 'src/app/shared-services/timeline-control.service';
+import { RoomModel } from '../../models/room.model';
 
 import { TimelineModel } from '../../models/timeline.model';
 
@@ -22,6 +23,7 @@ import { TimelineModel } from '../../models/timeline.model';
 })
 export class CustomTimelineComponent implements OnInit {
   @Input() timelines: TimelineModel[];
+  @Input() room: RoomModel;
   descriptionRef: OverlayRef;
   subscription: Subscription;
   constructor(
@@ -42,7 +44,7 @@ export class CustomTimelineComponent implements OnInit {
       elementRef: eleRef,
       viewContainerRef: this.viewContainer,
       positionX: 0,
-      data: line,
+      data: {timeline:line,room:this.room},
     });
 
     this.subscription = this.descriptionRef.backdropClick().subscribe((res) => {
