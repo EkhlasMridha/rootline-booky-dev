@@ -4,6 +4,7 @@ import { throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { BookingModel } from 'src/app/app-calender/models/booking.model';
 import { GuestModel } from 'src/app/app-calender/models/guest.model';
+import { BookedRoomModel } from '../models/booked-room.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class DescriptionApiService {
     );
   }
 
-  deleteBookedRoom(booking: BookingModel) {
+  deleteBookedRoom(booking: BookedRoomModel) {
     return this.http.post('booking', booking).pipe(
       retry(2),
       catchError((err) => throwError(err))

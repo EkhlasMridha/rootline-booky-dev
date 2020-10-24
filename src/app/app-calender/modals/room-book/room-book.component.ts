@@ -288,6 +288,7 @@ export class RoomBookComponent implements OnInit {
     booking.booked_Date = new Date();
     booking.customerId = data.customerId;
     booking.guest = this.guestList;
+    booking.info = data.info;
     return booking;
   }
 

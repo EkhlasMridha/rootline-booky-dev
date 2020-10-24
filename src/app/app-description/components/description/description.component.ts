@@ -142,7 +142,7 @@ export class DescriptionComponent implements OnInit {
       disableClose: true,
     });
 
-    this.descriptionAPI.deleteBookedRoom(booked).subscribe((res) => {
+    this.descriptionAPI.deleteBookedRoom(bookedRoom).subscribe((res) => {
       this.timelineControler.deleteTimeline(this.timelineData);
       dialogRef.close();
       this.confirmationModal.dispose();
