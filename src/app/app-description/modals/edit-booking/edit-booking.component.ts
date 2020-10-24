@@ -1,7 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { Component, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RootlineModalService } from 'rootline-dialog';
+import { take } from 'rxjs/operators';
 import { BookingModel } from 'src/app/app-calender/models/booking.model';
 import { GuestModel } from 'src/app/app-calender/models/guest.model';
 import { FormService } from 'src/app/shared-services/utilities/form.service';
@@ -29,7 +31,8 @@ export class EditBookingComponent implements OnInit {
     private formBuilder: FormBuilder,
     private formService: FormService,
     private apiService: DescriptionApiService,
-    private modalService: RootlineModalService
+    private modalService: RootlineModalService,
+    private _ngZone:NgZone
   ) {
     this.data = data;
   }
@@ -43,6 +46,13 @@ export class EditBookingComponent implements OnInit {
       this.errorGenerator
     );
     console.log(this.data)
+  }
+
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+
+  triggerResize() {
+    this._ngZone.onStable.pipe(take(1))
+        .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
   errorGenerator(type: string, owner: string) {
@@ -66,6 +76,7 @@ export class EditBookingComponent implements OnInit {
       leave_At: [this.data.booked.booking.leave_At, Validators.required],
       name: [''],
       age: [0],
+      info:[this.data.booked.booking.info],
       amount: [this.data.booked.booking.amount, Validators.required],
     });
   }
@@ -81,7 +92,7 @@ export class EditBookingComponent implements OnInit {
     this.booking = result;
     let preparedData = this.prepareBookingModel(this.booking);
 
-    console.log(preparedData)
+    console.log(preparedData);
     let ref = this.modalService.openConfirmationModal({
       isLoader: true,
       loaderText: 'Updating booking ...',
@@ -137,6 +148,8 @@ export class EditBookingComponent implements OnInit {
     guest.name = this.editBooking.value.name;
     guest.bookingId = this.data.booked.booking.id;
     guestList.push(guest);
+    this.editBooking.get("name").setValue("");
+    this.editBooking.get("age").setValue(0);
   }
 
   prepareBookingModel(data: BookingModel) {
