@@ -106,3 +106,13 @@ body {
 .font-italic{
   font-style: italic;
 }
+
+.info-container{
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.guest-list{
+  max-height: 80px;
+  overflow-y: auto;
+}

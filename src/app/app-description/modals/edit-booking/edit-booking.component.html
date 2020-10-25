@@ -59,7 +59,8 @@
           </button>
         </div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" *ngFor="let guest of data.booked.booking.guest">
+        <div class="guest-list" fxLayout="column" fxLayoutGap="5px">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" *ngFor="let guest of data.booked.booking.guest">
         
           <mat-icon style="height: 14px;width: 14px;font-size: 14px;color: #806e6e;" class="cursor-pointer"
             (click)="removeGuest(guest)">
@@ -69,6 +70,7 @@
             <span class="sub-text">Name: {{guest.name}}</span>
             <span class="sub-text">Age: {{guest.age}}</span>
           </div>
+        </div>
         </div>
     </div>
     <mat-form-field class="full-width" color="accent">

@@ -17,6 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { RootlineDialogModule } from 'rootline-dialog';
 import { DescriptionService } from './services/DescriptionService';
+import { DetailsComponent } from './modals/details/details.component';
 
 export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
   ...DEFAULT_CONFIG,
@@ -27,6 +28,7 @@ export const DefaultComponentConfig: Partial<FilePreviewDialogConfig> = {
     DescriptionComponent,
     EditCustomerComponent,
     EditBookingComponent,
+    DetailsComponent,
   ],
   imports: [
     CommonModule,

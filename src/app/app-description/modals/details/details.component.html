@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div fxLayout="column" fxLayoutGap="5px">
+        <span class="text-underline primary-color" style="font-size: 14px;">Guest Details</span>
+        <div fxLayout="column" fxLayoutGap="5px" class="info-container">
+            <span *ngFor="let guest of bookingData.guest" fxLayout="row" fxLayoutGap="10px">
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <span>Name:</span>
+                    <span class="tag">{{guest.name}}</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <span>Age:</span>
+                    <span class="tag">{{guest.age}}</span>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div fxLayout="column" fxLayoutGap="5px">
+        <span class="text-underline primary-color" style="font-size: 14px;">Information</span>
+        <div class="info-container">
+            <p style="font-size: 12px;">
+                {{bookingData.info}}
+            </p>
+        </div>
+    </div>
+    <div class="full-width" fxLayoutAlign="end end">
+        <button mat-stroked-button color="accent" (click)="close()">Ok</button>
+    </div>
+</div>

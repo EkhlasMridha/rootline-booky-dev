@@ -22,6 +22,7 @@ import { EditCustomerComponent } from '../../modals/edit-customer/edit-customer.
 import { RootlineModalService } from 'rootline-dialog';
 import { GuestModel } from 'src/app/app-calender/models/guest.model';
 import { RoomModel } from 'src/app/app-calender/models/room.model';
+import { DetailsComponent } from '../../modals/details/details.component';
 @Component({
   selector: 'app-description',
   templateUrl: './description.component.html',
@@ -323,5 +324,12 @@ export class DescriptionComponent implements OnInit {
 
   tryAgain(event) {
     this.confirmationModal.dispose();
+  }
+
+  details() {
+    this.dialog.open(DetailsComponent, {
+      width: "350px",
+      data:this.data
+    })
   }
 }
