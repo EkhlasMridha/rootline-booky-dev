@@ -10,6 +10,7 @@ export class DetailsComponent implements OnInit {
   bookingData: any;
   constructor (@Inject(MAT_DIALOG_DATA) data: any, private dialogRef: MatDialogRef<DetailsComponent>) {
     this.bookingData = data.booking;
+    console.log(this.bookingData);
    }
 
   ngOnInit(): void {
@@ -17,6 +18,13 @@ export class DetailsComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
+  }
+
+  isAvailable() {
+    if ((this.bookingData.info == null || this.bookingData.info == "") && this.bookingData.guest.length == 0) {
+      return false;
+    }
+    return true;
   }
 
 }

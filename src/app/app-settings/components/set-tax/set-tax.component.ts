@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserManagerService } from 'src/app/shared-services/user-manager.service';
+import { TokenService } from 'src/app/shared-services/utilities/token.service';
 import { TaxModel } from '../../models/tax.model';
 import { SettignsService } from '../../services/settigns.service';
 
@@ -11,20 +13,22 @@ import { SettignsService } from '../../services/settigns.service';
 export class SetTaxComponent implements OnInit {
   taxForm: FormGroup;
   tax: Partial<TaxModel> = {};
-  constructor (private formBuilder:FormBuilder,private taxApi:SettignsService) { }
+  constructor (private formBuilder:FormBuilder,private taxApi:SettignsService,private tokenService:TokenService) { }
   
   createForm() {
     return this.formBuilder.group({
-      adultsTax: [this.tax.adultsTax?this.tax.adultsTax:0],
-      childrensTax:[this.tax.childrensTax?this.tax.childrensTax:0]
+      adultsTax: [0],
+      childrensTax:[0]
     })
   }
 
   getTaxUnit() {
     this.taxApi.getTax().subscribe(res => {
       this.tax = res;
-      this.taxForm.get("adultsTax").setValue(this.tax.adultsTax);
-      this.taxForm.get("childrensTax").setValue(this.tax.childrensTax);
+      if (this.tax != null) {
+        this.taxForm.get("adultsTax").setValue(this.tax.adultsTax);
+        this.taxForm.get("childrensTax").setValue(this.tax.childrensTax);
+      }
     })
   }
 
@@ -39,11 +43,18 @@ export class SetTaxComponent implements OnInit {
     }
 
     const result = Object.assign({}, this.taxForm.value);
-    this.tax.adultsTax = result.adultsTax;
-    this.tax.childrensTax = result.childrensTax;
-    console.log(this.tax);
+    console.log(result);
+    let tax: Partial<TaxModel> = {};
+    if (this.tax != null) {
+      tax = this.tax;
+    } else {
+      tax.userId = this.tokenService.getTokenInfo().userId;
+    }
+    
+    tax.adultsTax = result.adultsTax;
+    tax.childrensTax = result.childrensTax;
+    console.log(tax);
     this.taxApi.savetax(this.tax).subscribe(res => {
-      console.log(res);
     })
   }
 }

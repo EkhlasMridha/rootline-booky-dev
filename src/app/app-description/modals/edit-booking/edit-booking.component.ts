@@ -170,6 +170,7 @@ export class EditBookingComponent implements OnInit {
     data.leave_At = new Date(data.leave_At).toLocaleDateString('en');
     data.guest = booking.guest;
     data["tax"] = booking["tax"];
+    data.info = data.info.trim();
     return data;
   }
 

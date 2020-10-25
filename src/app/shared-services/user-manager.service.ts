@@ -26,6 +26,10 @@ export class UserManagerService {
     );
   }
 
+  getProfile() {
+    return this.http.get("identity/profile").pipe(retry(2));
+  }
+
   private async getBrowserId() {
     let agent = await fg.load();
     let data = await agent.get();

@@ -1,5 +1,5 @@
-<div fxLayout="column" fxLayoutGap="10px">
-    <div fxLayout="column" fxLayoutGap="5px">
+<div fxLayout="column" fxLayoutGap="10px" *ngIf="isAvailable()">
+    <div fxLayout="column" fxLayoutGap="5px" *ngIf="bookingData.guest.length!=0">
         <span class="text-underline primary-color" style="font-size: 14px;">Guest Details</span>
         <div fxLayout="column" fxLayoutGap="5px" class="info-container">
             <span *ngFor="let guest of bookingData.guest" fxLayout="row" fxLayoutGap="10px">
@@ -14,7 +14,7 @@
             </span>
         </div>
     </div>
-    <div fxLayout="column" fxLayoutGap="5px">
+    <div fxLayout="column" fxLayoutGap="5px" *ngIf="bookingData.info.length!=0">
         <span class="text-underline primary-color" style="font-size: 14px;">Information</span>
         <div class="info-container">
             <p style="font-size: 12px;">
@@ -25,4 +25,8 @@
     <div class="full-width" fxLayoutAlign="end end">
         <button mat-stroked-button color="accent" (click)="close()">Ok</button>
     </div>
+</div>
+<div class="full-width no-data" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="5px" *ngIf="!isAvailable()">
+    <mat-icon>description</mat-icon>
+    <span style="font-size: 18px;">No data available</span>
 </div>

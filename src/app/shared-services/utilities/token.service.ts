@@ -84,4 +84,10 @@ export class TokenService {
   removeBrowserId() {
     localStorage.removeItem(this.bfg);
   }
+
+  getTokenInfo() {
+    let token = this.getToken();
+    let info = this.jwtService.decodeToken(token.accessToken);
+    return info;
+  }
 }
